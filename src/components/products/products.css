@@ -1,0 +1,29 @@
+.rectangle-admin-p{
+    display: flex;
+    /* justify-content: center; */
+    align-items: center;
+    width: inherit;
+height: 92px;
+flex-shrink: 0;
+/* background: #F8F9FA; */
+}
+.btn-position{
+    display: flex;
+    justify-content: end;
+    width: inherit  ;
+    align-items: center;
+}
+.single-btn{
+    padding-left: 20px;
+}
+.heading-style{
+    margin-left: 4%;
+    color: var(--global-01-primary, #007BFF);
+
+/* Heading/H4 */
+font-family: Inter;
+font-size: 24px;
+font-style: normal;
+font-weight: 500;
+line-height: 28.8px; /* 120% */
+}

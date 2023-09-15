@@ -1,0 +1,13 @@
+.dropdown-style{
+    /* margin: 10%; */
+display: flex;
+width: auto;
+padding: 4px 8px;
+justify-content: center;
+align-items: center;
+border-radius: 4px;
+border: 1px solid var(--components-forms-input-border, #CED4DA);
+background: var(--global-09-white, #FFF);
+
+
+}

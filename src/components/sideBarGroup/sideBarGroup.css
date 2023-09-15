@@ -1,0 +1,29 @@
+
+.group-sidebar{
+    width: 301px;
+height: 40px;
+flex-shrink: 0;
+}
+.arrow-text{
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+.sidebar-btn{
+    color: var(--global-01-primary, #007BFF);
+text-align: center;
+
+/* Components/Buttons/Small */
+font-family: Inter;
+font-size: 14px;
+font-style: normal;
+font-weight: 400;
+line-height: 21px; /* 150% */
+cursor: pointer;
+}
+.rectangle-sidebar{
+width: 300px;
+height: 1px;
+flex-shrink: 0;
+background: var(--components-forms-disabled-fill, #E9ECEF);
+}

@@ -1,0 +1,16 @@
+.orders-heading{
+    color: var(--global-01-primary, #007BFF);
+
+/* Heading/H4 */
+font-family: Inter;
+font-size: 24px;
+font-style: normal;
+font-weight: 500;
+line-height: 28.8px; /* 120% */
+}
+.order-searchbar{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}

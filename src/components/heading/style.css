@@ -1,0 +1,10 @@
+.blue-heading{
+    color: var(--global-01-primary, #007BFF);
+    /* Heading/H2 */
+    font-family: Inter;
+    font-size: 32px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 38px; /* 118.75% */
+    text-align: center;
+}

@@ -1,0 +1,36 @@
+.card-style{
+    width: 289px;
+/* height: 100%; */
+height: 418px;
+border-radius: 4px;
+border: 1px solid var(--components-card-border, #DFDFDF);
+background: var(--global-09-white, #FFF);
+}
+.card-text{
+    color: var(--text-01-body, #212529);
+
+    /* Heading/H6 */
+    font-family: Inter;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 19.2px; /* 120% */
+}
+.price-text{
+    color: var(--global-01-primary, #007BFF);
+text-align: center;
+
+/* Components/Buttons/Large */
+font-family: Inter;
+font-size: 20px;
+font-style: normal;
+font-weight: 400;
+line-height: 30px; /* 150% */
+}
+.multiline-ellipsis {
+    display: -webkit-box;
+    -webkit-line-clamp: 3; /* Number of lines to show */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }

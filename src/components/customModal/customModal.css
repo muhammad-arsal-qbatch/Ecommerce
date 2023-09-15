@@ -1,0 +1,37 @@
+.msg-container{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 500px;
+    padding: 20px;
+
+}
+.msg-h4{
+    color: var(--global-01-primary, #007BFF);
+
+/* Heading/H4 */
+font-family: Inter;
+font-size: 24px;
+font-style: normal;
+font-weight: 500;
+line-height: 28.8px; /* 120% */
+}
+
+.msg-h6{
+    color: var(--label-color, #272B41);
+text-align: center;
+
+/* Heading/H6 */
+font-family: Inter;
+font-size: 16px;
+font-style: normal;
+font-weight: 500;
+line-height: 19.2px; /* 120% */
+}
+.msg-btns{
+    display: flex;
+    width: 100%;
+    flex-direction: row;
+    justify-content: center;
+}

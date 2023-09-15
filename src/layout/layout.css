@@ -1,0 +1,18 @@
+.layout-style{
+    display: flex;
+    flex-direction: column;
+    /* background: var(--global-07-light, #F8F9FA);; */
+}
+.layout-box{
+    display: flex;
+    flex-direction: row;
+}
+.main-box{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    padding-right: 0%;
+        background: var(--global-07-light, #F8F9FA);
+        padding-left: 1%;
+
+}

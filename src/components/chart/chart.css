@@ -1,0 +1,35 @@
+.card-heading{
+    color: var(--Heading-Color, #002050);
+
+/* Heading/H6 */
+font-family: Inter;
+font-size: 16px;
+font-style: normal;
+font-weight: 500;
+line-height: 19.2px; /* 120% */
+}
+.chart-box{
+    display: flex;
+    flex-direction: column;
+    width: 295px;
+height: 330px;
+flex-shrink: 0;
+border: 1px solid var(--components-bradcrumb-fill, #E9ECEF);
+background: var(--global-09-white, #FFF);
+}
+.label-style{
+    color: var(--components-forms-input-text, #495057);
+text-align: center;
+
+/* Components/Toasts/Time */
+font-family: Inter;
+font-size: 12px;
+font-style: normal;
+font-weight: 400;
+line-height: 18px; /* 150% */
+}
+.single-label{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}

@@ -1,0 +1,9 @@
+.input-style{
+    display: flex;
+width: 544px;
+height: 91px;
+justify-content: center;
+align-items: center;
+flex-shrink: 0;
+border-radius: 4px;
+}

@@ -1,0 +1,36 @@
+{
+    "env": {
+        "browser": true,
+        "commonjs": true,
+        "es2021": true,
+        "node": true,
+        "jest": true
+    },
+
+    "extends": [
+        "standard",
+        "plugin:react/recommended"
+    ],
+    "settings": {
+        "react":{   
+            "version":"detect"
+        }
+    },
+    "parserOptions": {
+        "ecmaVersion": "latest"
+    },
+    "plugins": [
+        "react"
+    ],
+    "globals": {
+        "react":"writable"
+    },
+    "rules": {
+        "react/react-in-jsx-scope":"off",
+        "quotes":["error","single"],
+        "semi":[0, "never"],        
+        "no-trailing-spaces":"warn",
+        "indent":"warn"
+
+    }
+}

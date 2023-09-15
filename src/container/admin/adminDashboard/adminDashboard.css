@@ -1,0 +1,27 @@
+.cards-box{
+    display: flex;
+    flex-direction: row;
+    /* justify-content: space-around; */
+    flex-wrap: wrap;
+    margin: 2% 0;
+}
+.dashboard-heading{
+    color: var(--Heading-Color, #002050);
+
+/* Heading/H4 */
+font-family: Inter;
+font-size: 24px;
+font-style: normal;
+font-weight: 500;
+line-height: 28.8px; /* 120% */
+}
+.top-products{
+    color: var(--Heading-Color, #002050);
+
+/* Heading/H6 */
+font-family: Inter;
+font-size: 16px;
+font-style: normal;
+font-weight: 500;
+line-height: 19.2px; /* 120% */
+}

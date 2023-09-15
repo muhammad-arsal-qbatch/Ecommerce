@@ -1,0 +1,70 @@
+.card-box{        
+width: 310px;
+height: 144px;
+flex-shrink: 0;
+border: 1px solid var(--components-bradcrumb-fill, #E9ECEF);
+background: var(--global-09-white, #FFF);
+padding: 2% 2%;
+display:  flex;
+flex-direction: column;
+justify-content: space-between;
+margin: 0 1% 0 0
+}
+.heading-box{
+    display: flex;
+}
+.cart-image{
+    width: 23.727px;
+height: 24px;
+flex-shrink: 0;
+}
+.heading5{
+    color: var(--global-08-dark, #343A40);
+
+/* Heading/H5 */
+font-family: Inter;
+font-size: 20px;
+font-style: normal;
+font-weight: 500;
+line-height: 24px; /* 120% */
+margin-left: 5%;
+}
+.row-2{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+.col-1{
+    color: var(--components-forms-input-text, #495057);
+text-align: center;
+width: max-content !important;
+
+/* Components/Popovers/Body */
+font-family: Inter;
+font-size: 14px;
+font-style: normal;
+font-weight: 400;
+line-height: 20px; /* 142.857% */
+}
+.quantity-order{
+    color: var(--global-01-primary, #007BFF);
+
+    /* Heading/H4 */
+    font-family: Inter;
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 28.8px; /* 120% */
+}
+.quantity-dashboard{
+    color: var(--components-forms-input-text, #495057);
+text-align: center;
+
+/* Components/Tooltips */
+font-family: Inter;
+font-size: 14px;
+font-style: normal;
+font-weight: 700;
+line-height: 20px; /* 142.857% */
+}
