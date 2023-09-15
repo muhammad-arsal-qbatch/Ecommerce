@@ -32,7 +32,7 @@ const UserHomepage = () => {
         <FilterRectangle/>
         </div>
         <div className='products-listing'>
-          <div className='lefts-box'>
+          <div className='left-box'>
             {data.map((obj, index) => (
               <UserCards cardData={obj} onClick={() => displayRightCard(obj.id)} key={index} />
 
