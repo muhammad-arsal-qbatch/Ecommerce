@@ -22,11 +22,13 @@ const UserCards = ({ onClick, cardData, showFullDescription = false }) => {
           }
           Price <span className='price-text' >${cardData.price}</span>
         </Card.Text>
+        <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
         {cardData.stock < 50
           ? <CustomButton variant='outline-danger' value='Out of stock' size='sm' onClick={onClick}></CustomButton>
 
           : <CustomButton value='Details' size='sm' onClick={onClick} variant="primary"></CustomButton>
         }
+        </div>
       </Card.Body>
     </Card>
     {/* </div> */}

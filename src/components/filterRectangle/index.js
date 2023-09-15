@@ -26,7 +26,7 @@ const FilterRectangle = () => {
     }
   ]
   return (
-        <div className="main-box-user fixed-top top-30 ">
+        <div className="main-box-user ">
             <div className='heading-style'>
             <h4>Heading</h4>
             </div>

@@ -29,7 +29,9 @@ margin-left: 10px;
 }
 /* styles.css */
 .admin-header {
-    position: fixed;
+    position: fixed !important;
+    width: 100%;
+    z-index: 2;
     display: flex;
     justify-content: space-between;
     align-items: center;

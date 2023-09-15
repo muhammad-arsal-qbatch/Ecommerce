@@ -6,6 +6,7 @@ import CustomInput from '../inputField';
 import CustomButton from '../button';
 
 import './userDetailedCards.css'
+import CustomTooltip from '../../components/tooltip';
 
 const UserDetailedCards = ({
   singleCard
@@ -19,7 +20,10 @@ const UserDetailedCards = ({
             <div className='card-head'>
                 <Image src= {singleCard.thumbnail} className='card-image'></Image>
                 <div className='head-right'>
-                <div className='card-description'>{singleCard.description}</div>
+                <div className='card-description'>
+                  <CustomTooltip text={singleCard.description}>
+                  </CustomTooltip>
+                  </div>
                 <ColorsBox colors={colors} text='Color'></ColorsBox>
                 <ColorsBox colors={sizes} text='Sizes'></ColorsBox>
                 <div className='price-box'>
