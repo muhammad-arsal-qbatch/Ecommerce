@@ -1,8 +1,10 @@
 import { Card, CardImg } from 'react-bootstrap'
-import CustomButton from '../button';
 import PropTypes from 'prop-types'
 
+import CustomButton from '../button';
+
 import './userCards.css'
+
 const UserCards = ({ onClick, cardData, showFullDescription = false }) => {
   return (
       <>
