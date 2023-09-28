@@ -1,14 +1,15 @@
 import PropTypes from 'prop-types';
 import { Offcanvas, Image } from 'react-bootstrap';
+import { useDispatch, useSelector } from 'react-redux';
+import { useState } from 'react';
 
 import CloudArrowUp from '../../assets/images/cloud-arrow-up.svg';
-
-import './offcanvas.css'
 import CustomButton from '../button';
 import CustomInput from '../inputField';
-import { useDispatch, useSelector } from 'react-redux';
 import { addProduct, hideOffcanvas } from '../../redux/slices/adminProduct';
-import { useState } from 'react';
+
+import './offcanvas.css'
+
 const CustomOffcanvas = ({
   title = 'Add new product',
   onClick,

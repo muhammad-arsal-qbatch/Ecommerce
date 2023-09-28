@@ -1,24 +1,19 @@
-import CartItems from '../../../components/cartItems';
-
+import { useSelector } from 'react-redux';
 import { Container, Row, Col, Image } from 'react-bootstrap';
+import { useEffect } from 'react';
 
+import CartItems from '../../../components/cartItems';
 import Bin from '../../../assets/images/delete-btn.svg';
 import Checkbox from '../../../assets/images/Checkbox.svg';
-
-import { useDispatch, useSelector } from 'react-redux';
-import { useEffect } from 'react';
-import { getData } from '../../../redux/slices/adminProduct';
-
-import './cart.css'
 import CustomButton from '../../../components/button';
 
+import './cart.css'
+
 const Cart = () => {
-  const data = useSelector((state) => state.adminProduct.data);
+  const data = useSelector((state) => state.shoppingBag.cart);
   const loader = useSelector((state) => state.adminProduct.loader);
-  const dispatch = useDispatch();
   useEffect(
     () => {
-      dispatch(getData());
       console.log(data);
     }
     , []
@@ -35,7 +30,7 @@ const Cart = () => {
                 <Col sm="11">
                   <div className='items-select-check-box'>
                     <Image src={Checkbox}></Image>
-                    <span>Select 6 items</span>
+                    <span>Select {data.length} items</span>
 
                   </div>
 
@@ -64,7 +59,7 @@ const Cart = () => {
           <div className='order-summary'>
             <Container className='mt-3'>
               <Row className='mb-3'>
-                <Col sm='9'>Sub Total: 6 items</Col>
+                <Col sm='9'>Sub Total: {data.length} items</Col>
                 <Col><b>$00.00</b></Col>
               </Row>
               <Row className='mb-3'>

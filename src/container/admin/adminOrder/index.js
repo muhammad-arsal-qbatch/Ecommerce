@@ -1,11 +1,12 @@
 import { useEffect, useState } from 'react';
-import CustomCards from '../../../components/customCards';
-import CustomTable from '../../../components/customTable';
-import CustomInput from '../../../components/inputField';
-import './adminOrder.css';
-import { getData, getOrder } from '../../../redux/slices/adminProduct';
 import { useDispatch } from 'react-redux';
-// import { useSelector } from 'react-redux';
+
+import { getData, getOrder } from '../../../redux/slices/adminProduct';
+import CustomCards from '../../../components/customCards';
+import CustomInput from '../../../components/inputField';
+import CustomTable from '../../../components/customTable';
+
+import './adminOrder.css';
 
 const AdminOrder = () => {
   const dispatch = useDispatch();

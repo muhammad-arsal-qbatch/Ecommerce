@@ -1,11 +1,13 @@
 import { Image } from 'react-bootstrap';
 import PropTypes from 'prop-types'
-import ColorsBox from '../colorsBox';
+import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 
+import ColorsBox from '../colorsBox';
 import CustomInput from '../inputField';
 import CustomButton from '../button';
-
 import CustomTooltip from '../../components/tooltip';
+import { addToCart } from '../../redux/slices/user/shoppingBag';
 
 import './userDetailedCards.css'
 
@@ -14,6 +16,15 @@ const UserDetailedCards = ({
 }) => {
   const colors = ['#155724', '#AAA', '#1B1E21', '#231579', '#740F0F'];
   const sizes = ['XS', 'S', 'M', 'L', 'XL', '2XL', '3XL'];
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const addToCarts = (singleCard) => {
+    console.log('add to cart is called');
+    dispatch(addToCart(singleCard));
+    navigate('/c')
+
+    // cart.push(singleCard);
+  }
 
   return (
         <>
@@ -61,7 +72,7 @@ const UserDetailedCards = ({
                 <div className='quantity-btn'>-</div>
                 </div>
                 </div>
-                <CustomButton value='Add to Cart' variant='primary' size='lg'></CustomButton>
+                <CustomButton onClick= { () => { addToCarts(singleCard) } } value='Add to Cart' variant='primary' size='lg'></CustomButton>
             </div>
         </div>
         </>

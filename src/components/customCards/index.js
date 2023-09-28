@@ -1,6 +1,7 @@
 import { Image } from 'react-bootstrap';
 
 import './customCards.css';
+
 import PropTypes from 'prop-types'
 const CustomCards = ({
   heading5,

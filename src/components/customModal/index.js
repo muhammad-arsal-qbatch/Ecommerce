@@ -1,10 +1,11 @@
 import { Image } from 'react-bootstrap';
-
 import PropTypes from 'prop-types'
-import CustomButton from '../button';
 import Modal from 'react-bootstrap/Modal';
 
+import CustomButton from '../button';
+
 import './customModal.css';
+
 import { useDispatch, useSelector } from 'react-redux';
 import { deleteProduct, hideModal } from '../../redux/slices/adminProduct';
 

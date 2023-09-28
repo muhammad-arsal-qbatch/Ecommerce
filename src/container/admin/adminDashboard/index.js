@@ -1,9 +1,10 @@
 import CustomTable from '../../../components/customTable';
 import CustomCards from '../../../components/customCards';
 import ShoppingCart from '../../../assets/images/shopping_cart.svg'
+import CustomChart from '../../../components/chart';
+
 import './adminDashboard.css';
 import '../../../layout/layout.css'
-import CustomChart from '../../../components/chart';
 
 const AdminDashboard = () => {
   const headings = [{

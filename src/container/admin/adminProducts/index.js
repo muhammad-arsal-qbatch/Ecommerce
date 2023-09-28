@@ -1,12 +1,7 @@
-// import { useEffect } from 'react';
-// import axios from 'axios';
-
 import Products from '../../../components/products';
 import CustomTable from '../../../components/customTable';
 
 import './adminProducts.css'
-// import { useDispatch, useSelector } from 'react-redux';
-// import { getData } from '../../../redux/slices/adminProduct';
 
 const AdminProducts = () => {
   const headings = [{
@@ -37,14 +32,6 @@ const AdminProducts = () => {
 
         <CustomTable
           headings={headings}
-          // data={data}
-          // loader={loader}
-          // error={error}
-          // handleNext={handleNext}
-          // handlePrevious={handlePrevious}
-          // handleOffset={handleOffset}
-          // offset={offset}
-          // // setData={() => {}}
         />
          </div>
   )

@@ -2,6 +2,7 @@ import CustomDropDown from '../../components/dropdown'
 import CustomInput from '../inputField'
 
 import './filterRectangle.css'
+
 const FilterRectangle = () => {
   const dropdownArray = [
     {

@@ -1,8 +1,8 @@
 import { Routes, Route } from 'react-router-dom';
 import PropTypes from 'prop-types';
-
 import { useSelector, useDispatch } from 'react-redux';
 import { useEffect } from 'react';
+
 import Login from '../container/auth/login'
 import ForgotPassword from '../container/auth/forgotPassword';
 import NewPassword from '../container/auth/newPassword';
@@ -14,7 +14,6 @@ import CustomCards from '../components/customCards';
 import CustomModal from '../components/customModal';
 import UserHomepage from '../container/user/userHomepage';
 import Cart from '../container/user/cart';
-
 import { login } from '../redux/slices/auth';
 
 const CustomRoutes = () => {

@@ -2,6 +2,7 @@ import { Image, Modal, Pagination, Table } from 'react-bootstrap';
 import Spinner from 'react-bootstrap/Spinner';
 import PropTypes from 'prop-types';
 import { useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 
 import Arrow from '../../assets/images/Arrow.svg'
 import DeleteBtn from '../../assets/images/delete-btn.svg';
@@ -9,10 +10,9 @@ import EditBtn from '../../assets/images/edit-btn.svg';
 import Warning from '../../assets/images/warning.svg';
 import CustomModal from '../customModal';
 import CustomOffcanvas from '../../components/offcanvas';
+import { displayModal, getData, handleNext, handleOffset, handlePrevious, showOffcanvas } from '../../redux/slices/adminProduct';
 
 import './customTable.css';
-import { useSelector, useDispatch } from 'react-redux';
-import { displayModal, getData, handleNext, handleOffset, handlePrevious, showOffcanvas } from '../../redux/slices/adminProduct';
 
 const CustomTable = (props) => {
   const {
