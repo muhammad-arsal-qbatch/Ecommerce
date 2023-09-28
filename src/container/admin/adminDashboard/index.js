@@ -44,7 +44,7 @@ const AdminDashboard = () => {
   ]
 
   return (
-        <div className='main-box'>
+        <div className='main-box-admin'>
             <h4 className='dashboard-heading'>Dashboard</h4>
           <div className='cards-box'>
             <CustomCards imageSrc={ShoppingCart} cardHeading='Today' cardsText={today} quantityStyle= 'quantity-dashboard' heading5= 'heading5' ></CustomCards>

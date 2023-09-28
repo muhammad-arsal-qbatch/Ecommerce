@@ -9,13 +9,12 @@ const Layout = ({ children, showSidebar = true }) => {
   return (
       <div className='layout-style' >
         <CustomNavbar name= 'Arsal' />
-        <div className='layout-box' >
           {showSidebar
-            ? <SideBar />
-            : <></>
+            ? <div className='layout-box-admin'> <SideBar />        {children}
+            </div>
+            : <div className='layout-box-user'> <></>        {children}
+            </div>
           }
-        {children}
-        </div>
       </div>
 
   )

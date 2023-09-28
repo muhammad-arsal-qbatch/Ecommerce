@@ -1,0 +1,8 @@
+.items-select-box{
+  width: 814px !important;
+height: 136px;
+flex-shrink: 0;
+border: 1px solid var(--components-bradcrumb-fill, #E9ECEF);
+background: var(--global-09-white, #FFF);
+align-items: center;
+}

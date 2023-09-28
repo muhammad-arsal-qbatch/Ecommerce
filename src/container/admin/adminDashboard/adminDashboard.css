@@ -1,3 +1,14 @@
+.main-box-admin{
+    position: relative;
+    top: 76px;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    padding-right: 0%;
+    background: var(--global-07-light, #F8F9FA);
+    padding-left: 1%;
+
+}
 .cards-box{
     display: flex;
     flex-direction: row;

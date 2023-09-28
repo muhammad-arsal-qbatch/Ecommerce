@@ -9,7 +9,10 @@
     flex-direction: row;
     overflow-y: auto;
     position: relative;
-    top: 100px;
+    background: var(--global-07-light, #F8F9FA);
+    position: relative;
+    top: 58px;
+
 }
 .left-box{
     width: 50%;

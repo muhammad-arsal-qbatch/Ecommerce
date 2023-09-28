@@ -5,8 +5,9 @@ import ColorsBox from '../colorsBox';
 import CustomInput from '../inputField';
 import CustomButton from '../button';
 
-import './userDetailedCards.css'
 import CustomTooltip from '../../components/tooltip';
+
+import './userDetailedCards.css'
 
 const UserDetailedCards = ({
   singleCard

@@ -1,7 +1,8 @@
 .main-container{
+    position: relative;
+    top: 63px;
     display: flex;
 width: 30%;
-height: 100%;
 padding: 20px 24px 996px 24px;
 flex-direction: column;
 align-items: flex-start;

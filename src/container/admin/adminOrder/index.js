@@ -60,7 +60,7 @@ const AdminOrder = () => {
     { TotalAmount: '$100,000' }
   ]
   return (
-        <div className='main-box'>
+        <div className='main-box-admin'>
             <div className='cards-box'>
         <CustomCards cardsText={totalOrders} heading5= 'heading5' quantityStyle = 'quantity-order'></CustomCards>
         <CustomCards cardsText={totalUnits} heading5= 'heading5' quantityStyle = 'quantity-order'></CustomCards>

@@ -1,0 +1,14 @@
+.quantity-btns{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+.quantity-btn{
+  display: flex;
+  padding: 6px 16px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border-radius: 4px;
+background: var(--components-forms-disabled-fill, #E9ECEF);
+}

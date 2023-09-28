@@ -31,6 +31,5 @@
         "semi":[0, "never"],        
         "no-trailing-spaces":"warn",
         "indent":"warn"
-
     }
 }

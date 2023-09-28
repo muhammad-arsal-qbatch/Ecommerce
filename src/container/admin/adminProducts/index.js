@@ -32,7 +32,7 @@ const AdminProducts = () => {
   }];
 
   return (
-        <div className='main-box'>
+        <div className='main-box-admin'>
         <Products/>
 
         <CustomTable
