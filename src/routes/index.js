@@ -15,6 +15,7 @@ import CustomModal from '../components/customModal';
 import UserHomepage from '../container/user/userHomepage';
 import Cart from '../container/user/cart';
 import { login } from '../redux/slices/auth';
+import Checkout from '../container/user/checkout';
 
 const CustomRoutes = () => {
   const token = useSelector((state) => state.authentication.token);
@@ -49,6 +50,9 @@ const CustomRoutes = () => {
 
         <Route path='/' element= {<UserHomepage/>}> </Route>
         <Route path='/c' element= {<Cart/>}> </Route>
+        <Route path='/checkout' element= {<Checkout/>}> </Route>
+        <Route path='/m' element = {<CustomModal/>} ></Route>
+
         </Routes>
 
       </Layout>

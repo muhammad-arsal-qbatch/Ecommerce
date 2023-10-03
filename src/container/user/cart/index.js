@@ -8,8 +8,13 @@ import Checkbox from '../../../assets/images/Checkbox.svg';
 import CustomButton from '../../../components/button';
 
 import './cart.css'
+import { useNavigate } from 'react-router-dom';
 
 const Cart = () => {
+  const navigation = useNavigate();
+  const goToCheckout = () => {
+    navigation('/checkout');
+  }
   const data = useSelector((state) => state.shoppingBag.cart);
   const loader = useSelector((state) => state.adminProduct.loader);
   useEffect(
@@ -74,7 +79,7 @@ const Cart = () => {
               </Row>
               <Row className='mb-3'>
               <Col>
-              <CustomButton variant='primary' value='Proceed to checkout' size='lg'></CustomButton>
+              <CustomButton onClick={goToCheckout} variant='primary' value='Proceed to checkout' size='lg'></CustomButton>
               </Col>
 
               </Row>

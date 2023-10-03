@@ -10,8 +10,10 @@ const CustomInput = (props) => {
     type = 'text',
     placeholder = 'enter name',
     emailText = '',
-    onChange
+    onChange,
+    value
   } = props
+
   return (
     <Form.Group className='mb-4' >
         <Form.Label htmlFor="inputPassword5">{label}</Form.Label>
@@ -21,6 +23,7 @@ const CustomInput = (props) => {
         aria-describedby="passwordHelpBlock"
         placeholder= {placeholder}
         onChange={onChange}
+        value={value}
       />
       <Form.Text>{emailText}</Form.Text>
       </Form.Group>
@@ -32,6 +35,7 @@ CustomInput.propTypes = {
   size: PropTypes.string,
   placeholder: PropTypes.string,
   emailText: PropTypes.string,
+  value: PropTypes.string,
   onChange: PropTypes.func
   // className: PropTypes.string
 }

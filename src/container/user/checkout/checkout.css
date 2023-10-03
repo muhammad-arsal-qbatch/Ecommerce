@@ -1,0 +1,17 @@
+.delivery-address-box{
+  flex-shrink: 0;
+  border: 1px solid var(--components-bradcrumb-fill, #E9ECEF);
+  background: var(--global-09-white, #FFF);
+  align-items: center;}
+  .checkout-box{
+    position: relative;
+    top: 13px;
+    height:900px;
+  }
+  .payment-box{
+    width: 395px;
+height: 98px;
+flex-shrink: 0;
+border: 1px solid var(--components-bradcrumb-fill, #E9ECEF);
+background: var(--global-09-white, #FFF);
+  }

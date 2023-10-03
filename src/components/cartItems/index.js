@@ -9,7 +9,7 @@ import './cartItems.css'
 
 const CartItems = ({ data }) => {
   return (
-    <Container className='mb-2 ms-4  '>
+    <Container className='mb-2'>
       <Row className='items-select-box'>
         <Col style={{ backgroundColor: '' }} xs='1'>
         <Image src={Checkbox}></Image>
