@@ -10,8 +10,14 @@
   }
   .payment-box{
     width: 395px;
-height: 98px;
-flex-shrink: 0;
+    height: max-content;
+    flex-shrink: 0;
 border: 1px solid var(--components-bradcrumb-fill, #E9ECEF);
 background: var(--global-09-white, #FFF);
+  }
+  .payment-card{
+    border-radius: 10px;
+border: 1px solid var(--components-forms-input-border, #CED4DA);
+background: var(--global-09-white, #FFF);
+    min-height: 162px;
   }

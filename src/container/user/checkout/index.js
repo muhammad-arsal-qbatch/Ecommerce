@@ -7,48 +7,18 @@ import CustomButton from '../../../components/button';
 import './checkout.css'
 import DeliveryOffcanvas from '../../../components/deliveryOffcanvas';
 import CustomInput from '../../../components/inputField';
-import { addDeliveryPerson } from '../../../redux/slices/user/checkout'
+import { addDeliveryPerson, addPaymentMethod } from '../../../redux/slices/user/checkout'
 
 const AddPersonRows = (props) => {
   const { deliveryAddressData, setDeliveryAddressData } = props || {};
-
-  const {
-    fullName,
-    mobileNo,
-    country,
-    province,
-    city,
-    address
-  } = deliveryAddressData || {};
-
-  const addPersonMappedRows = [
-    // const deliveryPerson = useSelector((state)=>state.checkout)
-    [{ field: 'fullName', state: fullName }],
-    [{ field: 'mobileNo', state: mobileNo }, { field: 'country', state: country }],
-    [{ field: 'province', state: province }, { field: 'city', state: city }],
-    [{ field: 'address', state: address }]
-  ];
-  // const addPaymentMethodRows = [
-  //   [{ field: 'cardNumber', state }]
-  // ]
+  const { addPersonMappedRows } = props;
+  console.log(addPersonMappedRows);
 
   console.log('ROWS');
 
   const handleUpdate = (e, col) => {
-    console.log({ VAL: e.target.value });
-    if (col.field === 'fullName') {
-      setDeliveryAddressData({ ...deliveryAddressData, fullName: e.target.value });
-    } else if (col.field === 'mobileNo') {
-      setDeliveryAddressData({ ...deliveryAddressData, mobileNo: e.target.value });
-    } else if (col.field === 'country') {
-      setDeliveryAddressData({ ...deliveryAddressData, country: e.target.value });
-    } else if (col.field === 'province') {
-      setDeliveryAddressData({ ...deliveryAddressData, province: e.target.value });
-    } else if (col.field === 'city') {
-      setDeliveryAddressData({ ...deliveryAddressData, city: e.target.value });
-    } else if (col.field === 'address') {
-      setDeliveryAddressData({ ...deliveryAddressData, address: e.target.value });
-    }
+    console.log({ VAL: col.field });
+    setDeliveryAddressData({ ...deliveryAddressData, [`${col.field}`]: e.target.value });
     console.log(deliveryAddressData);
   };
 
@@ -57,7 +27,7 @@ const AddPersonRows = (props) => {
       <div key={index} className='row'>
         {row.map((col, index) => (
           <div key={index} className='col'>
-          <CustomInput key={index} value={col.state} onChange={(e) => handleUpdate(e, col)} label={col.field} placeholder={col.field} ></CustomInput>
+          <CustomInput key={index} defaultValue={col.state} onChange={(e) => handleUpdate(e, col)} label={col.field} placeholder={col.field} ></CustomInput>
           </div>
         ))}
       </div>
@@ -65,37 +35,57 @@ const AddPersonRows = (props) => {
   )
 }
 
-const deliveryAddressInitialState = {
-  fullName: '',
-  mobileNo: '',
-  country: '',
-  province: '',
-  city: '',
-  address: ''
-}
-const addPaymentMethodInitialState = {
-  cardNumber: '',
-  expiryDate: '',
-  cvc: '',
-  country: ''
-}
-
 const Checkout = () => {
+  const deliveryAddressInitialState = {
+    fullName: '',
+    mobileNo: '',
+    country: '',
+    province: '',
+    city: '',
+    address: ''
+  }
+  const paymentInitialState = {
+    cardNumber: '',
+    expiryDate: '',
+    cvc: '',
+    country: ''
+  }
+  const [deliveryAddressData, setDeliveryAddressData] = useState(deliveryAddressInitialState);
+  const [paymentData, setPaymentData] = useState(paymentInitialState);
   const data = useSelector((state) => state.shoppingBag.cart);
   const loader = useSelector((state) => state.adminProduct.loader);
   const [deliveryModal, showDeliveryModal] = useState(false);
-  const [deliveryAddressData, setDeliveryAddressData] = useState(deliveryAddressInitialState);
+  const [paymentModal, showPaymentModal] = useState(false);
   const isDeliveryAddress = useSelector((state) => state.checkout.isDeliveryPerson);
-
   const isPaymentMethod = useSelector((state) => state.checkout.isPaymentMethod);
   const originalDeliveryAddress = useSelector((state) => state.checkout.deliveryPerson);
+  const originalPaymentMethod = useSelector((state) => state.checkout.paymentMethod);
   const dispatch = useDispatch();
+
+  const addPersonMappedRows = [
+    [{ field: 'fullName', state: deliveryAddressData.fullName }],
+    [{ field: 'mobileNo', state: deliveryAddressInitialState.mobileNo }, { field: 'country', state: deliveryAddressInitialState.country }],
+    [{ field: 'province', state: deliveryAddressInitialState.province }, { field: 'city', state: deliveryAddressInitialState.city }],
+    [{ field: 'address', state: deliveryAddressInitialState.address }]
+  ];
+  const addPaymentMappedRows = [
+    [{ field: 'cardNumber', state: paymentData.cardNumber }],
+    [{ field: 'expiryDate', state: paymentData.expiryDate }],
+    [{ field: 'cvc', state: paymentData.cvc }],
+    [{ field: 'country', state: paymentData.country }]
+  ];
 
   const displayDeliveryModal = () => {
     showDeliveryModal(true);
   }
   const hideDeliveryModal = () => {
     showDeliveryModal(false);
+  }
+  const displayPaymentModal = () => {
+    showPaymentModal(true);
+  }
+  const hidePaymentModal = () => {
+    showPaymentModal(false);
   }
 
   useEffect(
@@ -107,12 +97,24 @@ const Checkout = () => {
   const saveThePerson = () => {
     dispatch(addDeliveryPerson(deliveryAddressData))
   }
+  const saveThePaymentMethod = () => {
+    dispatch(addPaymentMethod(paymentData))
+  }
   return (
   <div className='checkout-box container '>
+    {paymentModal
+      ? <DeliveryOffcanvas
+    handleFunc={saveThePaymentMethod}
+    rows={<AddPersonRows addPersonMappedRows={addPaymentMappedRows}
+     deliveryAddressData={paymentData}
+    setDeliveryAddressData={setPaymentData}
+    />} show={paymentModal} handleShow={hidePaymentModal} />
+      : <></>}
   {deliveryModal
     ? <DeliveryOffcanvas
     handleFunc={saveThePerson}
-    rows={<AddPersonRows deliveryAddressData={deliveryAddressData}
+    rows={<AddPersonRows addPersonMappedRows={addPersonMappedRows}
+     deliveryAddressData={deliveryAddressData}
     setDeliveryAddressData={setDeliveryAddressData}
     />} show={deliveryModal} handleShow={hideDeliveryModal} />
     : <></>}
@@ -190,28 +192,53 @@ const Checkout = () => {
             </Container>
           </div>
           <h5>Select payment method</h5>
-          <div className='container payment-box'>
-            <div style={{ width: '100%', height: '100%' }} className='d-flex'>
-                <div className='col-5 d-flex align-items-center'>
-                  {isDeliveryAddress
-                    ? <CustomButton value='+ Add New' className='btn btn-outline-primary'></CustomButton>
-                    : <CustomButton active='true' value='+ Add New' className='btn btn-outline-primary'></CustomButton>
+          <div className=' payment-box container'>
+                  {isPaymentMethod
+                    ? <div className='container'>
+                      <div className='row'>
+                        <div className='col-10'>
+                        <div className=' m-2 payment-card container'>
+                          <div className='row m-2'>
+                            <div className='col-3'><svg xmlns="http://www.w3.org/2000/svg" width="51" height="34" viewBox="0 0 51 34" fill="none">
+  <path d="M46.75 0H4.25C1.90279 0 0 1.90279 0 4.25V29.75C0 32.0972 1.90279 34 4.25 34H46.75C49.0972 34 51 32.0972 51 29.75V4.25C51 1.90279 49.0972 0 46.75 0Z" fill="#252525"/>
+  <path d="M19.125 27.625C24.993 27.625 29.75 22.868 29.75 17C29.75 11.132 24.993 6.375 19.125 6.375C13.257 6.375 8.5 11.132 8.5 17C8.5 22.868 13.257 27.625 19.125 27.625Z" fill="#EB001B"/>
+  <path d="M31.875 27.625C37.743 27.625 42.5 22.868 42.5 17C42.5 11.132 37.743 6.375 31.875 6.375C26.007 6.375 21.25 11.132 21.25 17C21.25 22.868 26.007 27.625 31.875 27.625Z" fill="#F79E1B"/>
+  <path fillRule="evenodd" clipRule="evenodd" d="M25.5 8.49902C28.0807 10.4375 29.75 13.5237 29.75 16.9998C29.75 20.4759 28.0807 23.5621 25.5 25.5006C22.9193 23.5621 21.25 20.4759 21.25 16.9998C21.25 13.5237 22.9193 10.4375 25.5 8.49902Z" fill="#FF5F00"/>
+</svg></div>
+                            <div className='col-9'>Master Card</div>
+                          </div>
+                          <div className='row m-2'>
+                            <div className='col'>{originalPaymentMethod.cardNumber}</div>
+                          </div>
+                          <div className='row m-2'>
+                            <div className='col'>{originalPaymentMethod.expiryDate}</div>
+                          </div>
+                          <div className='row m-2'>
+                            <div className='col'>{originalDeliveryAddress.fullName}</div>
+                          </div>
+                        </div>
+                        </div>
 
-                  }
-                </div>
+                      <div className='col-2'></div>
+                      </div>
 
-            </div>
-            <div className='row'>
-              <div className='col-12'>
-                {isPaymentMethod
-                  ? <CustomButton size='lg' value='Place Order' className='btn btn-primary'></CustomButton>
-                  : <CustomButton active='false' size='lg' value='Place Order' className='btn btn-primary'></CustomButton>
+                  </div>
+                    : isDeliveryAddress
+                      ? <CustomButton onClick={displayPaymentModal} value='+ Add New' className='btn btn-outline-primary'></CustomButton>
+                      : <CustomButton active='true' value='+ Add New' className='btn btn-outline-primary'></CustomButton>
 
                 }
-              </div>
-            </div>
-          </div>
 
+          </div>
+          <div className='container'>
+            <div className='row'>
+          {isPaymentMethod
+            ? <CustomButton value='Place order' active='true' className='btn btn-outline-primary' ></CustomButton>
+            : <CustomButton value='Place order' active='false' className='btn btn-primary' ></CustomButton>
+
+          }
+          </div>
+          </div>
     </div>
   </div>
         </ div>)

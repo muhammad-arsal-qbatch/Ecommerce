@@ -13,7 +13,7 @@ const checkoutSlice = createSlice(
         address: '',
         province: ''
       },
-      paymentMehtod: {
+      paymentMethod: {
         cardNumber: '',
         expiryDate: '',
         cvc: '',
@@ -29,9 +29,13 @@ const checkoutSlice = createSlice(
         state.deliveryPerson = payload;
         console.log(state.deliveryPerson);
         state.isDeliveryPerson = true;
+      },
+      addPaymentMethod: (state, { payload }) => {
+        state.paymentMethod = payload;
+        state.isPaymentMethod = true;
       }
     }
   }
 )
-export const { addDeliveryPerson } = checkoutSlice.actions;
+export const { addDeliveryPerson, addPaymentMethod } = checkoutSlice.actions;
 export default checkoutSlice.reducer;

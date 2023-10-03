@@ -11,7 +11,8 @@ const CustomInput = (props) => {
     placeholder = 'enter name',
     emailText = '',
     onChange,
-    value
+    value,
+    defaultValue
   } = props
 
   return (
@@ -19,6 +20,7 @@ const CustomInput = (props) => {
         <Form.Label htmlFor="inputPassword5">{label}</Form.Label>
       <Form.Control
         type={type}
+        defaultValue={defaultValue}
         id="inputPassword5"
         aria-describedby="passwordHelpBlock"
         placeholder= {placeholder}
@@ -36,6 +38,7 @@ CustomInput.propTypes = {
   placeholder: PropTypes.string,
   emailText: PropTypes.string,
   value: PropTypes.string,
+  defaultValue: PropTypes.string,
   onChange: PropTypes.func
   // className: PropTypes.string
 }
