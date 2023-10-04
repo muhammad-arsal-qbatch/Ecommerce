@@ -7,13 +7,17 @@ import Bin from '../../../assets/images/delete-btn.svg';
 import Checkbox from '../../../assets/images/Checkbox.svg';
 import CustomButton from '../../../components/button';
 
-import './cart.css'
 import { useNavigate } from 'react-router-dom';
+
+import './cart.css'
 
 const Cart = () => {
   const navigation = useNavigate();
   const goToCheckout = () => {
     navigation('/checkout');
+  }
+  const goToHomepage = () => {
+    navigation('/');
   }
   const data = useSelector((state) => state.shoppingBag.cart);
   const loader = useSelector((state) => state.adminProduct.loader);
@@ -25,24 +29,27 @@ const Cart = () => {
   )
 
   return (
-    <div className='cart-box-user'>
-      <div className='left-cart-box'>
+    <div className=' container cart-box-user'>
+      {
+        data.length !== 0
+          ? <div className='row'>
+      <div className=' mt-3 col-8 left-cart-box'>
         <div className='heading-style'>
           <h4>Shopping Bag</h4>
         </div>
-      <Container className='mb-2 ms-4' >
+      <Container className='mb-2' >
             <Row className=' items-select-text' >
-                <Col sm="11">
+                <div className='col-8'>
                   <div className='items-select-check-box'>
                     <Image src={Checkbox}></Image>
                     <span>Select {data.length} items</span>
 
                   </div>
 
-                </Col>
-                <Col>
+                </div>
+                <div className='d-flex justify-content-end pe-5 col-4'>
                 <Image src={Bin}></Image>
-                </Col>
+                </div>
             </Row>
 
         </Container>
@@ -57,11 +64,11 @@ const Cart = () => {
             }
 
         </div>
-        <div className='right-cart-box'>
+        <div className=' mt-5 col-4 right-cart-box'>
           <h5>
             Order Summary
           </h5>
-          <div className='order-summary'>
+          <div className='mt-3 order-summary'>
             <Container className='mt-3'>
               <Row className='mb-3'>
                 <Col sm='9'>Sub Total: {data.length} items</Col>
@@ -78,14 +85,19 @@ const Cart = () => {
 
               </Row>
               <Row className='mb-3'>
-              <Col>
               <CustomButton onClick={goToCheckout} variant='primary' value='Proceed to checkout' size='lg'></CustomButton>
-              </Col>
-
               </Row>
             </Container>
           </div>
         </div>
+        </div>
+          : <div style={{ height: '50%' }} className=' d-flex flex-column justify-content-center align-items-center'>
+            <h5>Your shopping basket is empty</h5>
+            <CustomButton onClick={goToHomepage} className='btn btn-primary' value='Add Product' ></CustomButton>
+
+            </div>
+
+      }
         </ div>
 
   )

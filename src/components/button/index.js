@@ -9,7 +9,8 @@ const CustomButton = (props) => {
     size = 'lg',
     className = '',
     onClick = null,
-    active = false
+    active = false,
+    disabled = false
   } = props
 
   return (
@@ -17,7 +18,7 @@ const CustomButton = (props) => {
     className={className}
       variant= {variant}
       active={active}
-      disabled={active}
+      disabled={disabled}
       size= {size}>
     {value}
     </Button>
@@ -29,6 +30,7 @@ CustomButton.propTypes = {
   size: PropTypes.string,
   className: PropTypes.string,
   onClick: PropTypes.func,
-  active: PropTypes.bool
+  active: PropTypes.bool,
+  disabled: PropTypes.bool
 }
 export default CustomButton

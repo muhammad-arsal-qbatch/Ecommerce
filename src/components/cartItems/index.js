@@ -1,4 +1,4 @@
-import { Col, Container, Image, Row } from 'react-bootstrap';
+import { Image } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 
 import Checkbox from '../../assets/images/Checkbox.svg'
@@ -9,20 +9,21 @@ import './cartItems.css'
 
 const CartItems = ({ data }) => {
   return (
-    <Container className='mb-2'>
-      <Row className='items-select-box'>
-        <Col style={{ backgroundColor: '' }} xs='1'>
+    <div className=' container mb-2'>
+      <div className=' row items-select-box pt-2 pb-2'>
+        <div style={{ backgroundColor: '' }} className='col-1'>
         <Image src={Checkbox}></Image>
-        </Col>
-        <Col style={{ backgroundColor: '' }} xs='2' >
-        <Image src={data.thumbnail} style={{ width: '100px', height: '100px', flexShrink: '0' }}></Image></Col>
-        <Col style={{ backgroundColor: '' }} xs='7'>
-          <Container>
-            <Row>
-              <Col>{data.description}</Col>
-            </Row>
-            <Row>
-              <Col>
+        </div>
+        <div className='image-box col-2' >
+        <Image src={data.thumbnail} style={{ width: '100px', height: '100px', flexShrink: '0' }}></Image>
+        </div>
+        <div style={{ backgroundColor: '' }} className='col-7'>
+          <div className='container'>
+            <div className='row'>
+              <div className='col'>{data.description}</div>
+            </div>
+            <div className='row'>
+              <div className='col'>
               <div style={{ display: 'inline-flex', gap: '10px', alignItems: 'center' }}>
               <svg xmlns="http://www.w3.org/2000/svg" width="22" height="21" viewBox="0 0 22 21" fill="none">
   <g filter="url(#filter0_d_1295_19179)">
@@ -44,29 +45,27 @@ const CartItems = ({ data }) => {
 Brown
 <span>XL</span>
               </div>
-              </Col>
-              <Col></Col>
-            </Row>
-          </Container>
-        </Col>
-        <Col style={{ backgroundColor: '' }} xs='2'>
-          <Container>
-            <Row>
-              <Col xs='7'></Col>
-              <Col>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div style={{ backgroundColor: '' }} className='col-2'>
+          <div className='container-fluid d-flex-column justify-content-end '>
+            <div className='row'>
+              <div className='col d-flex justify-content-end'>
               <Image src={Bin}></Image>
-              </Col>
-            </Row>
-            <Row>
-              <Col>
+              </div>
+            </div>
+            <div className='row'>
+              <div className='col'>
               <IncDecBtns></IncDecBtns>
-              </Col>
-            </Row>
-          </Container>
-        </Col>
-      </Row>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
 
-    </Container>
+    </div>
   )
 }
 

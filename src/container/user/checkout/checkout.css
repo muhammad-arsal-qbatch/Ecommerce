@@ -10,7 +10,8 @@
   }
   .payment-box{
     width: 395px;
-    height: max-content;
+    min-height: 100px;
+    max-height: max-content;
     flex-shrink: 0;
 border: 1px solid var(--components-bradcrumb-fill, #E9ECEF);
 background: var(--global-09-white, #FFF);

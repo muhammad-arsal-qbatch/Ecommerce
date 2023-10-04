@@ -1,13 +1,13 @@
-/* eslint-disable no-unused-vars */
-import { Container, Row, Col, Button } from 'react-bootstrap';
+import { Container, Row, Col } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
 import CartItems from '../../../components/cartItems';
 import CustomButton from '../../../components/button';
-import './checkout.css'
 import DeliveryOffcanvas from '../../../components/deliveryOffcanvas';
 import CustomInput from '../../../components/inputField';
 import { addDeliveryPerson, addPaymentMethod } from '../../../redux/slices/user/checkout'
+
+import './checkout.css'
 
 const AddPersonRows = (props) => {
   const { deliveryAddressData, setDeliveryAddressData } = props || {};
@@ -96,12 +96,14 @@ const Checkout = () => {
   )
   const saveThePerson = () => {
     dispatch(addDeliveryPerson(deliveryAddressData))
+    hideDeliveryModal();
   }
   const saveThePaymentMethod = () => {
     dispatch(addPaymentMethod(paymentData))
+    hidePaymentModal();
   }
   return (
-  <div className='checkout-box container '>
+     <div className='checkout-box container '>
     {paymentModal
       ? <DeliveryOffcanvas
     handleFunc={saveThePaymentMethod}
@@ -119,9 +121,10 @@ const Checkout = () => {
     />} show={deliveryModal} handleShow={hideDeliveryModal} />
     : <></>}
   <div className='row'>
-    <div className='col-8'>
-     <h4>Checkout</h4>
-    <Container className='' >
+    <div className='mt-3 col-8'>
+    <div className='heading-style'>
+          <h4>Checkout</h4>
+        </div>    <Container className='' >
             <Row className='' >
             <div className=' p-1 delivery-address-box mb-2 col-12'>
                   <div className=''>
@@ -166,11 +169,11 @@ const Checkout = () => {
 
         </Container>
 </div>
-    <div className='col-4'>
+    <div className='mt-5 col-4'>
     <h5>
             Order Summary
           </h5>
-          <div className='order-summary'>
+          <div className='mt-3 order-summary'>
             <Container className='mt-3'>
               <Row className='mb-3'>
                 <Col sm='9'>Sub Total: {data.length} items</Col>
@@ -192,7 +195,7 @@ const Checkout = () => {
             </Container>
           </div>
           <h5>Select payment method</h5>
-          <div className=' payment-box container'>
+          <div className=' d-flex align-items-center payment-box container'>
                   {isPaymentMethod
                     ? <div className='container'>
                       <div className='row'>
@@ -225,22 +228,23 @@ const Checkout = () => {
                   </div>
                     : isDeliveryAddress
                       ? <CustomButton onClick={displayPaymentModal} value='+ Add New' className='btn btn-outline-primary'></CustomButton>
-                      : <CustomButton active='true' value='+ Add New' className='btn btn-outline-primary'></CustomButton>
+                      : <CustomButton disabled={true} value='+ Add New' className='btn btn-outline-secondary'></CustomButton>
 
                 }
 
           </div>
-          <div className='container'>
-            <div className='row'>
+          <div className=' mt-2 container'>
+            <div className=' row'>
           {isPaymentMethod
-            ? <CustomButton value='Place order' active='true' className='btn btn-outline-primary' ></CustomButton>
-            : <CustomButton value='Place order' active='false' className='btn btn-primary' ></CustomButton>
+            ? <CustomButton disabled={false} value='Pay Now' className='btn btn-primary' ></CustomButton>
+            : <CustomButton disabled={true} value='Place order' className='btn btn-secondary' ></CustomButton>
 
           }
           </div>
           </div>
     </div>
   </div>
-        </ div>)
+        </ div>
+  )
 }
 export default Checkout;
