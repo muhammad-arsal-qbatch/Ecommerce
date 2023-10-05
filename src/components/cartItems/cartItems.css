@@ -6,7 +6,7 @@ border: 1px solid var(--components-bradcrumb-fill, #E9ECEF);
 background: var(--global-09-white, #FFF);
 align-items: center;
 }
-.image-box{
+.cart-image-box{
   border-radius: 4px;
   border: 1px solid var(--components-card-border, #DFDFDF);
   background: var(--global-09-white, #FFF);

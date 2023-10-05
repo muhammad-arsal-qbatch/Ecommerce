@@ -28,7 +28,7 @@ const authSlice = createSlice(
       token: '',
       error: '',
       isLoading: false,
-      isAdmin: false
+      isAdmin: false 
 
     },
     reducers: {

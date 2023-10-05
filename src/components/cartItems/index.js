@@ -3,21 +3,23 @@ import PropTypes from 'prop-types';
 
 import Checkbox from '../../assets/images/Checkbox.svg'
 import Bin from '../../assets/images/delete-btn.svg';
-import IncDecBtns from '../../components/incDecBtns';
 
 import './cartItems.css'
+import CustomInput from '../inputField';
+import { useState } from 'react';
 
 const CartItems = ({ data }) => {
+  const [selectedQuantity, setSelectedQuantity] = useState(data.stock);
   return (
     <div className=' container mb-2'>
       <div className=' row items-select-box pt-2 pb-2'>
         <div style={{ backgroundColor: '' }} className='col-1'>
         <Image src={Checkbox}></Image>
         </div>
-        <div className='image-box col-2' >
+        <div className='cart-image-box col-2' >
         <Image src={data.thumbnail} style={{ width: '100px', height: '100px', flexShrink: '0' }}></Image>
         </div>
-        <div style={{ backgroundColor: '' }} className='col-7'>
+        <div style={{ backgroundColor: '' }} className='col-6'>
           <div className='container'>
             <div className='row'>
               <div className='col'>{data.description}</div>
@@ -49,17 +51,24 @@ Brown
             </div>
           </div>
         </div>
-        <div style={{ backgroundColor: '' }} className='col-2'>
-          <div className='container-fluid d-flex-column justify-content-end '>
+        <div style={{ backgroundColor: '' }} className='col-3'>
+          <div className='container-fluid justify-content-end '>
             <div className='row'>
               <div className='col d-flex justify-content-end'>
               <Image src={Bin}></Image>
               </div>
             </div>
             <div className='row'>
-              <div className='col'>
-              <IncDecBtns></IncDecBtns>
-              </div>
+              {/* <IncDecBtns></IncDecBtns> */}
+              <div className='container-fluid'>
+                <div className='row d-flex align-items-center justify-content-end'>
+              <div onClick={() => { setSelectedQuantity(selectedQuantity + 1) }} className='col-1 btn btn-secondary '>+</div>
+                <div className='col-5'>
+                <CustomInput value={selectedQuantity} placeholder='02'></CustomInput>
+                </div>
+                <div onClick={() => { setSelectedQuantity(selectedQuantity - 1) }} className=' col-1 btn btn-secondary'>-</div>  
+                </div>  
+                          </div>
             </div>
           </div>
         </div>

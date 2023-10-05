@@ -86,15 +86,23 @@ flex-shrink: 0;
 background: var(--components-forms-disabled-fill, #E9ECEF);
 }
 .quantity-box{
-    display: flex;
+    /* display: flex;
     flex-direction: column;
     width: 30%;
-    justify-content: space-evenly;
+    justify-content: space-evenly; */
+    display: inline-flex;
+    width: 30%;
+flex-direction: column;
+justify-content: center;
+align-items: flex-start;
+/* gap: 12px; */
 }
 .quantity-btns{
-    display: flex;
-    flex-direction: row;
-    align-items: center;
+    display: inline-flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 12px;
 }
 .quantity-btn{
     display: flex;

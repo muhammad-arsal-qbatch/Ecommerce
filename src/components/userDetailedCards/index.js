@@ -10,6 +10,7 @@ import CustomTooltip from '../../components/tooltip';
 import { addToCart } from '../../redux/slices/user/shoppingBag';
 
 import './userDetailedCards.css'
+import { useState } from 'react';
 
 const UserDetailedCards = ({
   singleCard
@@ -25,6 +26,7 @@ const UserDetailedCards = ({
 
     // cart.push(singleCard);
   }
+  const [selectedQuantity, setSelectedQuantity] = useState(singleCard.stock);
 
   return (
         <>
@@ -66,10 +68,14 @@ const UserDetailedCards = ({
                 <span className='line'></span>
                 <div className='quantity-box'>
                     <span className='price-heading'>Quantity</span>
-                    <div className='quantity-btns'>
-                <div className='quantity-btn'>+</div>
-                <CustomInput placeholder='02'></CustomInput>
-                <div className='quantity-btn'>-</div>
+                    <div className='container'>
+                      <div className='row d-flex align-items-center'>
+                <div onClick={() => { setSelectedQuantity(selectedQuantity + 1) }} className='col-1 btn btn-secondary '>+</div>
+                <div className='col-7'>
+                <CustomInput defaultValue={selectedQuantity} value={selectedQuantity} placeholder='02'></CustomInput>
+                </div>
+                <div onClick={() => { setSelectedQuantity(selectedQuantity - 1) }} className=' col-1 btn btn-secondary'>-</div>
+                </div>
                 </div>
                 </div>
                 <CustomButton onClick= { () => { addToCarts(singleCard) } } value='Add to Cart' variant='primary' size='lg'></CustomButton>

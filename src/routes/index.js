@@ -16,6 +16,8 @@ import UserHomepage from '../container/user/userHomepage';
 import Cart from '../container/user/cart';
 import { login } from '../redux/slices/auth';
 import Checkout from '../container/user/checkout';
+import CustomNavbar from '../components/navbar';
+import Orders from '../container/user/orders';
 
 const CustomRoutes = () => {
   const token = useSelector((state) => state.authentication.token);
@@ -37,7 +39,7 @@ const CustomRoutes = () => {
          {/*
          <Route path='/nv' element = {<CustomNavbar/>} ></Route>
          <Route path='/sb' element = {<SideBar/>} ></Route> */}
-         <Route index element = {<AdminDashboard/>} ></Route>
+         <Route path='/' element = {<AdminDashboard/>} ></Route>
          <Route path='/ad-p' element = {<AdminProducts/>} ></Route>
          <Route path='/ad-o' element = {<AdminOrder/>} ></Route>
          <Route path='/m' element = {<CustomModal/>} ></Route>
@@ -52,6 +54,7 @@ const CustomRoutes = () => {
         <Route path='/c' element= {<Cart/>}> </Route>
         <Route path='/checkout' element= {<Checkout/>}> </Route>
         <Route path='/m' element = {<CustomModal/>} ></Route>
+        <Route path='/o' element={<Orders/>} />
 
         </Routes>
 
@@ -65,7 +68,8 @@ const CustomRoutes = () => {
     return (
     <>
     <Routes>
-       <Route index element = {<Login/>} ></Route>
+       <Route path='/' element = {<UserHomepage cn={<CustomNavbar/>} />} ></Route>
+       <Route path='/login' element = {<Login/>} ></Route>
       <Route path='/fg' element = {<ForgotPassword/>} ></Route>
       <Route path='/np' element = {<NewPassword/>} ></Route>
       </Routes>

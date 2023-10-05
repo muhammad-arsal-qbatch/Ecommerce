@@ -5,10 +5,11 @@ import FilterRectangle from '../../../components/filterRectangle'
 import UserCards from '../../../components/userCards'
 import { getData } from '../../../redux/slices/adminProduct'
 import UserDetailedCards from '../../../components/userDetailedCards'
+import PropTypes from 'prop-types';
 
 import './userHomepage.css'
 
-const UserHomepage = () => {
+const UserHomepage = ({ cn }) => {
   const dispatch = useDispatch();
   const data = useSelector((state) => state.adminProduct.data);
   const [rightCard, showRightCard] = useState(false);
@@ -27,6 +28,9 @@ const UserHomepage = () => {
     , []
   )
   return (
+    <>
+    {cn}
+    
         <div className='user-box'>
           <div>
         <FilterRectangle/>
@@ -49,7 +53,11 @@ const UserHomepage = () => {
 
         </div>
         </div>
+        </>
 
   )
+}
+UserHomepage.propTypes = {
+  cn: PropTypes.any
 }
 export default UserHomepage;

@@ -9,17 +9,18 @@ import FormBase from '../../../components/formBase'
 import { loginUser } from '../../../redux/slices/auth'
 
 import './login.css'
+import { useNavigate } from 'react-router-dom'
 
 const Login = () => {
   const loading = useSelector((state) => state.authentication.isLoading);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const dispatch = useDispatch(); 
+  const navigation = useNavigate();
   const handleInput = () => {
     dispatch(loginUser({ username: email, password }));
-    alert('btn clicked of login');
+    navigation('/');
   }
- 
   return (
     <div className="main-container-login">
       <div className="group">

@@ -85,7 +85,11 @@ const Cart = () => {
 
               </Row>
               <Row className='mb-3'>
+                <div className='container '>
+                  <div className='row ps-5 pe-5'>
               <CustomButton onClick={goToCheckout} variant='primary' value='Proceed to checkout' size='lg'></CustomButton>
+              </div>
+              </div>
               </Row>
             </Container>
           </div>
