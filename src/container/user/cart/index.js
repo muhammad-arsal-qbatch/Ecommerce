@@ -1,21 +1,20 @@
-import { useSelector } from 'react-redux';
-import { Container, Row, Col, Image } from 'react-bootstrap';
+import { useDispatch, useSelector } from 'react-redux';
+import { Container, Row, Col, Image, Form } from 'react-bootstrap';
 import { useEffect } from 'react';
 
 import CartItems from '../../../components/cartItems';
 import Bin from '../../../assets/images/delete-btn.svg';
-import Checkbox from '../../../assets/images/Checkbox.svg';
+import LeftArrow from '../../../assets/images/Arrow-left.svg';
 import CustomButton from '../../../components/button';
-
 import { useNavigate } from 'react-router-dom';
 
 import './cart.css'
+import { addOrder } from '../../../redux/slices/user/checkout';
 
 const Cart = () => {
+  const dispatch = useDispatch();
   const navigation = useNavigate();
-  const goToCheckout = () => {
-    navigation('/checkout');
-  }
+  
   const goToHomepage = () => {
     navigation('/');
   }
@@ -27,6 +26,11 @@ const Cart = () => {
     }
     , []
   )
+  const goToCheckout = () => {
+    console.log('dsadds');
+    dispatch(addOrder(data));
+    navigation('/checkout');
+  }
 
   return (
     <div className=' container cart-box-user'>
@@ -34,14 +38,19 @@ const Cart = () => {
         data.length !== 0
           ? <div className='row'>
       <div className=' mt-3 col-8 left-cart-box'>
+
         <div className='heading-style'>
-          <h4>Shopping Bag</h4>
+
+        <h4>
+          <Image style={{ cursor: 'pointer !important' }} onClick={ () => {
+            navigation('/');
+          } } src={LeftArrow}></Image>Shopping Bag</h4>
         </div>
       <Container className='mb-2' >
             <Row className=' items-select-text' >
                 <div className='col-8'>
                   <div className='items-select-check-box'>
-                    <Image src={Checkbox}></Image>
+                    <Form.Check type='checkbox'/>
                     <span>Select {data.length} items</span>
 
                   </div>
@@ -56,7 +65,7 @@ const Cart = () => {
         { loader === false
           ? <>
           {data.map((d, index) => (
-            <CartItems key={index} data = {d}></CartItems>
+            <CartItems showCheckBox={true} key={index} data = {d}></CartItems>
 
           ))}
          </>

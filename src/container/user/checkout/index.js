@@ -1,13 +1,15 @@
-import { Container, Row, Col } from 'react-bootstrap';
+import { Container, Row, Col, Image } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
 import CartItems from '../../../components/cartItems';
 import CustomButton from '../../../components/button';
 import DeliveryOffcanvas from '../../../components/deliveryOffcanvas';
 import CustomInput from '../../../components/inputField';
-import { addDeliveryPerson, addPaymentMethod } from '../../../redux/slices/user/checkout'
+import { addDeliveryPerson, addPaymentMethod } from '../../../redux/slices/user/checkout';
+import LeftArrow from '../../../assets/images/Arrow-left.svg';
 
 import './checkout.css'
+import { useNavigate } from 'react-router-dom';
 
 const AddPersonRows = (props) => {
   const { deliveryAddressData, setDeliveryAddressData } = props || {};
@@ -52,7 +54,7 @@ const Checkout = () => {
   }
   const [deliveryAddressData, setDeliveryAddressData] = useState(deliveryAddressInitialState);
   const [paymentData, setPaymentData] = useState(paymentInitialState);
-  const data = useSelector((state) => state.shoppingBag.cart);
+  const data = useSelector((state) => state.checkout.orders);
   const loader = useSelector((state) => state.adminProduct.loader);
   const [deliveryModal, showDeliveryModal] = useState(false);
   const [paymentModal, showPaymentModal] = useState(false);
@@ -61,6 +63,7 @@ const Checkout = () => {
   const originalDeliveryAddress = useSelector((state) => state.checkout.deliveryPerson);
   const originalPaymentMethod = useSelector((state) => state.checkout.paymentMethod);
   const dispatch = useDispatch();
+  const navigation = useNavigate();
 
   const addPersonMappedRows = [
     [{ field: 'fullName', state: deliveryAddressData.fullName }],
@@ -74,6 +77,10 @@ const Checkout = () => {
     [{ field: 'cvc', state: paymentData.cvc }],
     [{ field: 'country', state: paymentData.country }]
   ];
+  const placeOrder = () => {
+    alert('your order has been placed');
+    navigation('/');
+  }
 
   const displayDeliveryModal = () => {
     showDeliveryModal(true);
@@ -123,8 +130,13 @@ const Checkout = () => {
   <div className='row'>
     <div className='mt-3 col-8'>
     <div className='heading-style'>
-          <h4>Checkout</h4>
-        </div>    <Container className='' >
+
+          <h4>
+          <Image style={{ cursor: 'pointer !important' }} onClick={ () => {
+            navigation('/');
+          } } src={LeftArrow}></Image>Checkout</h4>
+        </div>
+        <Container className='' >
             <Row className='' >
             <div className=' p-1 delivery-address-box mb-2 col-12'>
                   <div className=''>
@@ -160,7 +172,7 @@ const Checkout = () => {
                 { loader === false
                   ? <>
           {data.map((d, index) => (
-            <CartItems key={index} data = {d}></CartItems>
+            <CartItems showCheckBox={false} key={index} data = {d}></CartItems>
 
           ))}
          </>
@@ -236,7 +248,7 @@ const Checkout = () => {
           <div className=' mt-2 container'>
             <div className=' row'>
           {isPaymentMethod
-            ? <CustomButton disabled={false} value='Pay Now' className='btn btn-primary' ></CustomButton>
+            ? <CustomButton onClick= {placeOrder} disabled={false} value='Pay Now' className='btn btn-primary' ></CustomButton>
             : <CustomButton disabled={true} value='Place order' className='btn btn-secondary' ></CustomButton>
 
           }

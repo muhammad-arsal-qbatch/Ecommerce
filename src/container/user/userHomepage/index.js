@@ -30,7 +30,7 @@ const UserHomepage = ({ cn }) => {
   return (
     <>
     {cn}
-    
+
         <div className='user-box'>
           <div>
         <FilterRectangle/>

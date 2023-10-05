@@ -20,6 +20,7 @@ const checkoutSlice = createSlice(
         country: ''
 
       },
+      orders: [],
       isDeliveryPerson: false,
       isPaymentMethod: false
 
@@ -33,9 +34,16 @@ const checkoutSlice = createSlice(
       addPaymentMethod: (state, { payload }) => {
         state.paymentMethod = payload;
         state.isPaymentMethod = true;
+      },
+      addOrder: (state, { payload }) => {
+        console.log(payload);
+        const selectedItems = payload.filter((item) => item.selected === true);
+
+        state.orders = selectedItems;
+        console.log('insdei add orders', selectedItems)
       }
     }
   }
 )
-export const { addDeliveryPerson, addPaymentMethod } = checkoutSlice.actions;
+export const { addDeliveryPerson, addPaymentMethod, addOrder } = checkoutSlice.actions;
 export default checkoutSlice.reducer;

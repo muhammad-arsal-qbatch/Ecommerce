@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import Navbar from 'react-bootstrap/Navbar';
-import { Dropdown, Image } from 'react-bootstrap';
+import { Badge, Dropdown, Image } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import Container from 'react-bootstrap/Container';
 import NavDropdown from 'react-bootstrap/NavDropdown';
@@ -16,6 +16,7 @@ import { useNavigate } from 'react-router-dom';
 const CustomNavbar = (props) => {
   const naviagtion = useNavigate();
   const token = useSelector((state) => state.authentication.token);
+  const cart = useSelector((state) => state.shoppingBag.cart);
 
   const dispatch = useDispatch();
   const logoutIt = () => {
@@ -32,20 +33,36 @@ const CustomNavbar = (props) => {
         <Navbar.Toggle />
         <Navbar.Collapse className="justify-content-end">
           <div style={{ justifyContent: 'space-evenly', width: '90px' }} className='d-flex'>
+            <div className='d-flex'>
         <Image className="cursor-pointer" onClick={() => {
           if (!token) {
             naviagtion('/login')
           } else {
             // show bag here
           }
-        }} src={Bag}></Image>
+        }} src={Bag}>
+        </Image>
+          <Badge
+           style={{ position: 'relative', minHeight: 'fit-content', minWidth: 'fit-content', bottom: '10px', right: '9px', borderRadius: '50%' }}
+            bg='primary'>{cart.length === 0 ? <></> : cart.length}
+            </Badge>
+        </div>
+
+        <div className='d-flex'>
+
         <Image onClick={() => {
           if (!token) {
             naviagtion('/login')
           } else {
             // show Notifications here
           }
-        }} src={Notification} ></Image>
+        }} src={Notification} >
+
+        </Image>
+        <Badge
+           style={{ position: 'relative', bottom: '10px', right: '9px', borderRadius: '50%' }}
+            bg='primary'>{cart.length === 0 ? <></> : cart.length}
+            </Badge>        </div>
         </div>
       {token
         ? <>
