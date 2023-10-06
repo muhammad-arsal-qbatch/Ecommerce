@@ -5,7 +5,7 @@ import CartItems from '../../../components/cartItems';
 import CustomButton from '../../../components/button';
 import DeliveryOffcanvas from '../../../components/deliveryOffcanvas';
 import CustomInput from '../../../components/inputField';
-import { addDeliveryPerson, addPaymentMethod } from '../../../redux/slices/user/checkout';
+import { addDeliveryPerson, addOrder, addPaymentMethod } from '../../../redux/slices/user/checkout';
 import LeftArrow from '../../../assets/images/Arrow-left.svg';
 
 import './checkout.css'
@@ -54,7 +54,7 @@ const Checkout = () => {
   }
   const [deliveryAddressData, setDeliveryAddressData] = useState(deliveryAddressInitialState);
   const [paymentData, setPaymentData] = useState(paymentInitialState);
-  const data = useSelector((state) => state.checkout.orders);
+  const data = useSelector((state) => state.shoppingBag.cart);
   const loader = useSelector((state) => state.adminProduct.loader);
   const [deliveryModal, showDeliveryModal] = useState(false);
   const [paymentModal, showPaymentModal] = useState(false);
@@ -78,7 +78,10 @@ const Checkout = () => {
     [{ field: 'country', state: paymentData.country }]
   ];
   const placeOrder = () => {
+    dispatch(addOrder(data));
+
     alert('your order has been placed');
+
     navigation('/');
   }
 

@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { getData, getOrder } from '../../../redux/slices/adminProduct';
 import CustomCards from '../../../components/customCards';
@@ -10,6 +10,8 @@ import './adminOrder.css';
 
 const AdminOrder = () => {
   const dispatch = useDispatch();
+  const data = useSelector((state) => state.adminProduct.data);
+
   const [value, SetValue] = useState('');
   // useEffect(
   //   getData(),
@@ -37,7 +39,8 @@ const AdminOrder = () => {
     id: 'title',
     label: 'Title',
     image: 'thumbnail',
-    render: (img) => (<img src= {img} className='item-image' ></img>)
+    render: (img) => (<img src= {img} className='item-image' ></img>
+    )
   }, {
     id: 'category',
     label: 'Category'
@@ -73,7 +76,7 @@ const AdminOrder = () => {
         onChange={(e) => SetValue(e.target.value)}
         placeholder='Seach by phone name'></CustomInput>
         </div>
-        <CustomTable headings={headings}></CustomTable>
+        <CustomTable data={data} getData={getData} headings={headings}></CustomTable>
         </div>
 
   )

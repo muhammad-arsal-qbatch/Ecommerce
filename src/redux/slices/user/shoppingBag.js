@@ -27,9 +27,16 @@ const shoppingBagSlice = createSlice(
             return item;
           });
         }
+      },
+      updateCart: (state, { payload }) => {
+        console.log(payload);
+        const selectedItems = payload.filter((item) => item.selected === true);
+
+        state.cart = selectedItems;
+        // console.log('insdei add orders', selectedItems)
       }
     }
   }
 )
-export const { addToCart, updateCartItem } = shoppingBagSlice.actions
+export const { addToCart, updateCartItem, updateCart } = shoppingBagSlice.actions
 export default shoppingBagSlice.reducer;

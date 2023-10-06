@@ -9,7 +9,7 @@ import CustomButton from '../../../components/button';
 import { useNavigate } from 'react-router-dom';
 
 import './cart.css'
-import { addOrder } from '../../../redux/slices/user/checkout';
+import { updateCart } from '../../../redux/slices/user/shoppingBag';
 
 const Cart = () => {
   const dispatch = useDispatch();
@@ -28,7 +28,7 @@ const Cart = () => {
   )
   const goToCheckout = () => {
     console.log('dsadds');
-    dispatch(addOrder(data));
+    dispatch(updateCart(data));
     navigation('/checkout');
   }
 

@@ -29,7 +29,7 @@ const CustomNavbar = (props) => {
   return (
     <Navbar expand="lg" className="admin-header">
     <Container>
-        <h2 className='ecom'>E-Commerce</h2>
+        <h2 onClick={() => { naviagtion('/') } } className='ecom'>E-Commerce</h2>
         <Navbar.Toggle />
         <Navbar.Collapse className="justify-content-end">
           <div style={{ justifyContent: 'space-evenly', width: '90px' }} className='d-flex'>

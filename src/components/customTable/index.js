@@ -10,17 +10,19 @@ import EditBtn from '../../assets/images/edit-btn.svg';
 import Warning from '../../assets/images/warning.svg';
 import CustomModal from '../customModal';
 import CustomOffcanvas from '../../components/offcanvas';
-import { displayModal, getData, handleNext, handleOffset, handlePrevious, showOffcanvas } from '../../redux/slices/adminProduct';
+import { displayModal, handleNext, handleOffset, handlePrevious, showOffcanvas } from '../../redux/slices/adminProduct';
 
 import './customTable.css';
 
 const CustomTable = (props) => {
   const {
+    data,
+    getData,
     headings,
     pagination = true
   } = props;
   const offset = useSelector((state) => state.adminProduct.offset);
-  const data = useSelector((state) => state.adminProduct.data);
+  // const data = useSelector((state) => state.adminProduct.data);
   const status = useSelector((state) => state.adminProduct.status);
   const error = useSelector((state) => state.adminProduct.error);
   const loader = useSelector((state) => state.adminProduct.loader);
@@ -153,6 +155,7 @@ CustomTable.propTypes = {
   handlePrevious: PropTypes.func,
   handleOffset: PropTypes.func,
   offset: PropTypes.any,
-  setData: PropTypes.func
+  setData: PropTypes.func,
+  getData: PropTypes.func
 }
 export default CustomTable;

@@ -41,9 +41,13 @@ const checkoutSlice = createSlice(
 
         state.orders = selectedItems;
         console.log('insdei add orders', selectedItems)
+      },
+      getOrders: (state) => {
+
       }
+
     }
   }
 )
-export const { addDeliveryPerson, addPaymentMethod, addOrder } = checkoutSlice.actions;
+export const { addDeliveryPerson, addPaymentMethod, addOrder, getOrders } = checkoutSlice.actions;
 export default checkoutSlice.reducer;

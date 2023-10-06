@@ -2,11 +2,14 @@ import CustomTable from '../../../components/customTable';
 import CustomCards from '../../../components/customCards';
 import ShoppingCart from '../../../assets/images/shopping_cart.svg'
 import CustomChart from '../../../components/chart';
+import { getData } from '../../../redux/slices/adminProduct';
 
 import './adminDashboard.css';
 import '../../../layout/layout.css'
+import { useSelector } from 'react-redux';
 
 const AdminDashboard = () => {
+  const data = useSelector((state) => state.adminProduct.data);
   const headings = [{
     id: 'title',
     label: 'Title',
@@ -58,10 +61,10 @@ const AdminDashboard = () => {
           <div className='cards-box'>
             <CustomChart type='donut'/>
             <CustomChart type='donut'/>
-            
+
           </div>
           <h6 className='top-products'>Top selling products</h6>
-          <CustomTable pagination= { false } headings= {headings}/>
+          <CustomTable data={data} getData={getData} pagination= { false } headings= {headings}/>
 
         </div>
 

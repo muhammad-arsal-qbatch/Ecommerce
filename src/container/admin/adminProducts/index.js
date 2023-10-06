@@ -1,9 +1,13 @@
 import Products from '../../../components/products';
 import CustomTable from '../../../components/customTable';
+import { getData } from '../../../redux/slices/adminProduct';
 
 import './adminProducts.css'
+import { useSelector } from 'react-redux';
 
 const AdminProducts = () => {
+  const data = useSelector((state) => state.adminProduct.data);
+
   const headings = [{
     id: 'title',
     label: 'Title',
@@ -30,7 +34,7 @@ const AdminProducts = () => {
         <div className='main-box-admin'>
         <Products/>
 
-        <CustomTable
+        <CustomTable data={data} getData={getData}
           headings={headings}
         />
          </div>
