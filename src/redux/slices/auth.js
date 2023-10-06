@@ -4,9 +4,7 @@ import axios from 'axios';
 export const loginUser = createAsyncThunk('user/loginStatus', async (body, thunkApi) => {
   try {
     console.log('body', body);
-    // const response = await axios.post('https://dummyjson.com/auth/login', body)
     const response = await axios.post('http://localhost:5000/users/signIn', body);
-    console.log('inside  login async')
     return response.data;
   } catch (error) {
     if (error.response) { // if response has come, with empty or invalid data
@@ -26,6 +24,13 @@ export const signupUser = createAsyncThunk('user/signup', async (body, thunkApi)
   try {
     const response = await axios.post('http://localhost:5000/users/signup', body);
     console.log('in signup asyn thunk', response.data);
+    if (response.data.message) {
+      // If there is a message in the response data, treat it as an error
+      console.log('inside rejected: ', response.data.message);
+      return thunkApi.rejectWithValue({
+        error: response.data.message
+      });
+    }
     return response.data;
   } catch (error) {
     if (error.response) {
@@ -96,13 +101,14 @@ const authSlice = createSlice(
         state.isLoading = true;
       },
       [signupUser.fulfilled]: (state, { payload }) => {
-
+        state.error = 'signup successful';
       },
       [signupUser.pending]: (state, { payload }) => {
         state.isLoading = true;
       },
       [signupUser.rejected]: (state, { payload }) => {
-        state.error = 'Signup failed, please try again ';
+        console.log('inside rejected', payload.error);
+        state.error = payload.error;
       }
     }
   })
