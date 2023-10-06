@@ -8,12 +8,15 @@ import UserDetailedCards from '../../../components/userDetailedCards'
 import PropTypes from 'prop-types';
 
 import './userHomepage.css'
+import { Modal } from 'react-bootstrap'
 
 const UserHomepage = ({ cn }) => {
   const dispatch = useDispatch();
   const data = useSelector((state) => state.adminProduct.data);
+  const error = useSelector((state) => state.authentication.error);
   const [rightCard, showRightCard] = useState(false);
   const [singleCard, setSingleCard] = useState({});
+  const [modal, setModal] = useState(true);
   const displayRightCard = (id) => {
     console.log({ id });
     showRightCard(true);
@@ -23,6 +26,7 @@ const UserHomepage = ({ cn }) => {
 
   useEffect(
     () => {
+      console.log('error message', error);
       dispatch(getData());
     }
     , []
@@ -32,6 +36,26 @@ const UserHomepage = ({ cn }) => {
     {cn}
 
         <div className='user-box'>
+        {error
+          ? <div
+      className="modal show"
+      style={{ display: 'block', position: 'initial' }}
+    > <Modal
+     show={modal}
+     onHide={() => setModal(false)}
+    
+    >
+        <Modal.Header closeButton = {modal}>
+
+        </Modal.Header>
+        <Modal.Body>
+          <p>{error}</p>
+        </Modal.Body>
+
+      </Modal>
+      </div>
+          : <></>
+    }
           <div>
         <FilterRectangle/>
         </div>

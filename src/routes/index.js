@@ -18,6 +18,7 @@ import { login } from '../redux/slices/auth';
 import Checkout from '../container/user/checkout';
 import CustomNavbar from '../components/navbar';
 import Orders from '../container/user/orders';
+import Signup from '../container/auth/signup';
 
 const CustomRoutes = () => {
   const token = useSelector((state) => state.authentication.token);
@@ -70,8 +71,9 @@ const CustomRoutes = () => {
     <Routes>
        <Route path='/' element = {<UserHomepage cn={<CustomNavbar/>} />} ></Route>
        <Route path='/login' element = {<Login/>} ></Route>
-      <Route path='/fg' element = {<ForgotPassword/>} ></Route>
-      <Route path='/np' element = {<NewPassword/>} ></Route>
+       <Route path='/signup' element={<Signup/>}></Route>
+        <Route path='/fg' element = {<ForgotPassword/>} ></Route>
+        <Route path='/np' element = {<NewPassword/>} ></Route>
       </Routes>
       </>
     )

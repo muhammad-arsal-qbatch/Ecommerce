@@ -27,7 +27,6 @@ const Cart = () => {
     , []
   )
   const goToCheckout = () => {
-    console.log('dsadds');
     dispatch(updateCart(data));
     navigation('/checkout');
   }
