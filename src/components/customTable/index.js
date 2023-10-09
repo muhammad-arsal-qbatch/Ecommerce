@@ -21,6 +21,7 @@ const CustomTable = (props) => {
     headings,
     pagination = true
   } = props;
+  console.log('\n\n', 'data', data)
   const offset = useSelector((state) => state.adminProduct.offset);
   // const data = useSelector((state) => state.adminProduct.data);
   const status = useSelector((state) => state.adminProduct.status);
@@ -29,6 +30,9 @@ const CustomTable = (props) => {
   const offcanvas = useSelector((state) => state.adminProduct.offcanvas);
   const modal = useSelector((state) => state.adminProduct.modal);
   const dispatch = useDispatch();
+  // const returnColorName = (hexCode) => {
+  //   console.log(hexCode);
+  // }
 
   const handleNexts = () => {
     console.log('inisde handle next');
@@ -38,7 +42,6 @@ const CustomTable = (props) => {
   }
   const handlePreviouss = () => {
     console.log('inisde handle previous');
-    // setOffset((offset) => offset - 1);
     dispatch(handlePrevious());
   }
   const handleOffsets = (val) => {
@@ -96,7 +99,11 @@ const CustomTable = (props) => {
                    </span>
                    <span className='item-text'id='title-text' >{doc[col.id]}</span>
                    </div>
-                     : doc[col.id]
+                     : <>{col.id === 'color'
+                       ? <>{doc[col.id]}</>
+                       : doc[col.id]
+                      }</>
+                    //  : doc[col.id]
 
                 }
               </td>

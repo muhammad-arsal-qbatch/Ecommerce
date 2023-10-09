@@ -34,7 +34,7 @@ const CustomModal = (props) => {
       <Modal.Footer>
       <div className='msg-btns'>
             <CustomButton onClick={() => dispatch(hideModal())} value='No' variant='primary' size='lg'/>
-            <CustomButton onClick={() => dispatch(deleteProduct(product.id))} value='yes' variant='primary' size='sm'/>
+            <CustomButton onClick={() => dispatch(deleteProduct({ product }))} value='yes' variant='primary' size='sm'/>
             </div>
       </Modal.Footer>
     </Modal>

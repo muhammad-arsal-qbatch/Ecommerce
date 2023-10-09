@@ -22,32 +22,67 @@ const CustomOffcanvas = ({
   }
 
   const colors = ['#155724', '#AAA', '#1B1E21', '#231579', '#740F0F'];
+  const [selectedColors, setSelectedColors] = useState([]);
   const sizes = ['XS', 'S', 'M', 'L', 'XL', '2XL', '3XL'];
+  const [selectedSize, setSelectedSizes] = useState([]);
+  const [imagesArray, setImagesArray] = useState([]);
+
   const [productTitle, setProductTitle] = useState('');
   const [productStock, setProductStock] = useState('');
   const [productPrice, setProductPrice] = useState('');
   const body = useSelector((state) => state.adminProduct.product);
   const dispatch = useDispatch();
   const addMyProduct = () => {
-    console.log('add product btn is clicked', productTitle, productPrice, productStock);
-    dispatch(addProduct({ title: productTitle, stock: productStock, price: productPrice }))
+    console.log('add product btn is clicked', imagesArray);
+    const newProduct = {
+      productName: productTitle,
+      size: selectedSize,
+      color: selectedColors,
+      price: productPrice,
+      quantity: productStock,
+      images: imagesArray,
+      thumbnail: imagesArray[0]
+
+    }
+    dispatch(addProduct({ newProduct }))
   }
-  // const offcanvas = useSelector((state) => state.adminProduct.offcanvas);
+
+  const toggleSize = (size) => {
+    if (selectedSize.includes(size)) {
+      setSelectedSizes(selectedSize.filter((s) => {
+        return s !== size;
+      }))
+    } else {
+      setSelectedSizes([...selectedSize, size]);
+    }
+  }
+  const toggleColor = (color) => {
+    if (selectedColors.includes(color)) {
+      setSelectedColors(selectedColors.filter((c) => c !== color))
+    } else {
+      setSelectedColors([...selectedColors, color])
+    }
+  }
+  const addFile = (files) => {
+    console.log({ files });
+    setImagesArray([...imagesArray, files[0].name]);
+  }
 
   return (
             <div className='custom-offcanvas'>
         <Offcanvas className='custom-offcanvas' show= {true} placement='end' onHide= {() => dispatch(hideOffcanvas())} >
             <Offcanvas.Header closeButton>
-                <Offcanvas.Title>{title}</Offcanvas.Title>
+                <Offcanvas.Title>{title} </Offcanvas.Title>
             </Offcanvas.Header>
                 <Offcanvas.Body>
-                  {body.title ? body.title : 'Product Name'}
+                  {body.productName ? body.productName : 'Product Name'}
 
                 <div className='canvas-body'>
                   <div className='body-left'>
                     <div className='image-input'>
                       <Image className='cloud-image' src={CloudArrowUp}></Image>
-                      <p className='drag-files-text'>Drag & drop files here Or</p>
+                      {/* <p className='drag-files-text'>Drag & drop files here Or</p> */}
+                      <input onChange={(e) => addFile(e.target.files)} type='file' id='fileInput'></input>
                       <CustomButton value='Browse' variant='primary' size='sm'></CustomButton>
                         </div>
                       <p className='images-text'>multiple images can be upload</p>
@@ -67,7 +102,7 @@ const CustomOffcanvas = ({
                     <CustomInput
                     id= 'productName'
                     label='Product Name'
-                    placeholder={body.title ? body.title : productName}
+                    placeholder={body.productName ? body.productName : productName}
                     size='lg'
                     value = {productTitle}
                     onChange={ (e) => setProductTitle(e.target.value) }
@@ -76,7 +111,9 @@ const CustomOffcanvas = ({
                       <div className='size-box'>
                         {sizes.map((s, index) => {
                           return (
-                            <div key={index} className='sizes'>
+                            <div key={index}
+                            onClick={() => toggleSize(s)}
+                            className={`sizes ${selectedSize.includes(s) ? 'selected' : ''} `}>
                           {s}
 
                         </div>
@@ -88,7 +125,11 @@ const CustomOffcanvas = ({
                       <div className='size-box'>
                           {colors.map((c, index) => {
                             return (
-                              <div key={index} className='sizes'>
+                              <div
+                              className={`sizes ${selectedColors.includes(c) ? 'selected' : ''}`}
+                              onClick={() => toggleColor(c)}
+                               key={index}
+                               >
                               <div key={index} className='color-box' style={{ 'background-color': c }} />
 
                               </div>
@@ -107,7 +148,7 @@ const CustomOffcanvas = ({
                     <CustomInput
                     id='quantity'
                     label='Quantity'
-                    placeholder= {body.stock ? body.stock : quantity}
+                    placeholder= {body.quantity ? body.quantity : quantity}
                     size='lg'
                     value = {productStock}
                     onChange={(e) => setProductStock(e.target.value)}

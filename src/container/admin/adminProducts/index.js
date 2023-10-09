@@ -3,27 +3,32 @@ import CustomTable from '../../../components/customTable';
 import { getData } from '../../../redux/slices/adminProduct';
 
 import './adminProducts.css'
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { useEffect } from 'react';
 
 const AdminProducts = () => {
   const data = useSelector((state) => state.adminProduct.data);
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(getData());
+  }, [])
 
   const headings = [{
-    id: 'title',
+    id: 'productName',
     label: 'Title',
     image: 'thumbnail',
     render: (img) => (<img src= {img} className='item-image' ></img>)
   }, {
-    id: 'category',
-    label: 'Category'
+    id: 'size',
+    label: 'Size'
   }, {
-    id: 'brand',
-    label: 'Brand'
+    id: 'color',
+    label: 'Color'
   }, {
     id: 'price',
-    label: 'Prize'
+    label: 'Price'
   }, {
-    id: 'stock',
+    id: 'quantity',
     label: 'Stock'
   }, {
     id: 'actions',

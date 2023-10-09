@@ -52,7 +52,7 @@ const authSlice = createSlice(
       token: '',
       error: '',
       isLoading: false,
-      isAdmin: false,
+      isAdmin: true,
       currentUser: {}
 
     },

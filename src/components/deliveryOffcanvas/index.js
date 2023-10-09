@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 
 import './deliveryOffcanvas.css';
 import CustomButton from '../button';
+import { useEffect } from 'react';
 // import { useDispatch } from 'react-redux';
 const DeliveryOffcanvas = ({
   onClick,
@@ -11,6 +12,7 @@ const DeliveryOffcanvas = ({
   show, handleShow,
   handleFunc
 }) => {
+  useEffect(() => {}, [])
   // const dispatch= useDispatch();
   return (
     <Offcanvas show={show} onHide={handleShow} placement='end' >

@@ -11,37 +11,31 @@ import { useSelector } from 'react-redux';
 const AdminDashboard = () => {
   const data = useSelector((state) => state.adminProduct.data);
   const headings = [{
-    id: 'title',
+    id: 'productName',
     label: 'Title',
     image: 'thumbnail',
     render: (img) => (<img src= {img} className='item-image' ></img>)
   }, {
-    id: 'stock',
+    id: 'quantity',
     label: 'Stock'
-  }, {
-    id: 'brand',
-    label: 'Brand'
   }, {
     id: 'price',
-    label: 'Prize'
-  }, {
-    id: 'stock',
-    label: 'Stock'
+    label: 'Price'
   }];
   const today = [
-    { TotalProduct: '78' },
+    { TotalProduct: data.length },
     { TotalOrders: '23' },
     { TotalUnits: '728' },
     { TotalSale: '19' }
   ];
   const sevenDays = [
-    { TotalProduct: '78' },
+    { TotalProduct: data.length },
     { TotalOrders: '23' },
     { TotalUnits: '728' },
     { TotalSale: '19' }
   ];
   const thirtyDays = [
-    { TotalProduct: '78' },
+    { TotalProduct: data.length },
     { TotalOrders: '23' },
     { TotalUnits: '728' },
     { TotalSale: '19' }
