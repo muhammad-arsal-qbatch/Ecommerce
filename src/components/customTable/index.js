@@ -23,7 +23,6 @@ const CustomTable = (props) => {
   } = props;
   console.log('\n\n', 'data', data)
   const offset = useSelector((state) => state.adminProduct.offset);
-  // const data = useSelector((state) => state.adminProduct.data);
   const status = useSelector((state) => state.adminProduct.status);
   const error = useSelector((state) => state.adminProduct.error);
   const loader = useSelector((state) => state.adminProduct.loader);
@@ -35,9 +34,6 @@ const CustomTable = (props) => {
   // }
 
   const handleNexts = () => {
-    console.log('inisde handle next');
-    // const newValue = offset + 1;
-    // setOffset((offset) => offset + 1);
     dispatch(handleNext());
   }
   const handlePreviouss = () => {
@@ -45,14 +41,11 @@ const CustomTable = (props) => {
     dispatch(handlePrevious());
   }
   const handleOffsets = (val) => {
-    // setOffset(val);
-    console.log(val);
     dispatch(handleOffset(val));
   }
 
   useEffect(() => {
     console.log(offset);
-    // getData();
     dispatch(getData());
   }, [offset])
 

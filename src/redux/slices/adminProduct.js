@@ -82,6 +82,26 @@ export const getOrder = createAsyncThunk('adminProductSlice/getOrder',
     }
   }
 )
+export const editProduct = createAsyncThunk('adminProductSlice/editProduct',
+  async (body, thunkApi) => {
+    try {
+      console.log(body);
+      const response = await axios.put('http://localhost:5000/products/editProduct', body);
+      console.log('response from api is, ', response);
+      if (response.data.error) {
+        return thunkApi.rejectWithValue({
+          error: response.data.error
+        })
+      }
+      return response.data.response.updatedObject;
+    } catch (error) {
+      console.log(error);
+      return thunkApi.rejectWithValue(
+        { error: 'there is some error while calling the api' }
+      )
+    }
+  }
+)
 
 export const deleteProduct = createAsyncThunk('adminProductSlice/deleteProduct',
   async (body, thunkApi) => {
@@ -115,12 +135,6 @@ const adminProductSlice = createSlice(
       handleOffset: (state, { payload }) => {
         state.offset = payload;
       },
-      // deleteProduct: (state, { payload }) => {
-      //   console.log('inside delete product', payload)
-      //   const filteredProduct = state.data.filter((d) => d._id !== payload._id);
-      //   state.data = filteredProduct;
-      //   state.modal = false
-      // },
       hideOffcanvas: (state) => {
         state.offcanvas = false;
         state.addProductCanvas = false
@@ -223,6 +237,28 @@ const adminProductSlice = createSlice(
       },
       [deleteProduct.rejected]: (state, action) => {
         console.log('inisde rejected', action);
+      },
+      [editProduct.fulfilled]: (state, action) => {
+        state.offcanvas = false;
+        const updatedData = state.data.map(product => {
+          if (product._id === action.payload._id) {
+            return action.payload;
+          } else {
+            return product;
+          }
+        });
+        state.offcanvas = false;
+        state.data = updatedData;
+        state.product = {};
+      },
+      [editProduct.pending]: (state, action) => {
+        console.log('inisde pending', action)
+      },
+      [editProduct.rejected]: (state, action) => {
+        console.log('inisde rejected', action.payload.error);
+        state.error = action.payload.error;
+        state.product = {};
+        state.offcanvas = false;
       }
 
     }
@@ -230,5 +266,5 @@ const adminProductSlice = createSlice(
   }
 )
 
-export const { handleNext, handleOffset, handlePrevious, hideOffcanvas, showOffcanvas, displayModal, hideModal, editProduct, showAddProductCanvas } = adminProductSlice.actions
+export const { handleNext, handleOffset, handlePrevious, hideOffcanvas, showOffcanvas, displayModal, hideModal, showAddProductCanvas } = adminProductSlice.actions
 export default adminProductSlice.reducer;

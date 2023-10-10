@@ -6,7 +6,7 @@ import { useState } from 'react';
 import CloudArrowUp from '../../assets/images/cloud-arrow-up.svg';
 import CustomButton from '../button';
 import CustomInput from '../inputField';
-import { addProduct, hideOffcanvas } from '../../redux/slices/adminProduct';
+import { addProduct, editProduct, hideOffcanvas } from '../../redux/slices/adminProduct';
 
 import './offcanvas.css'
 
@@ -17,10 +17,6 @@ const CustomOffcanvas = ({
   price = 'price',
   quantity = 'Quantity'
 }) => {
-  const handleEdit = () => {
-    console.log('edit btn is clicked');
-  }
-
   const colors = ['#155724', '#AAA', '#1B1E21', '#231579', '#740F0F'];
   const [selectedColors, setSelectedColors] = useState([]);
   const sizes = ['XS', 'S', 'M', 'L', 'XL', '2XL', '3XL'];
@@ -31,6 +27,7 @@ const CustomOffcanvas = ({
   const [productStock, setProductStock] = useState('');
   const [productPrice, setProductPrice] = useState('');
   const body = useSelector((state) => state.adminProduct.product);
+
   const dispatch = useDispatch();
   const addMyProduct = () => {
     console.log('add product btn is clicked', imagesArray);
@@ -45,6 +42,21 @@ const CustomOffcanvas = ({
 
     }
     dispatch(addProduct({ newProduct }))
+  }
+  const editMyProduct = () => {
+    console.log('edit product btn is clicked', imagesArray);
+    const newProduct = {
+      productName: productTitle,
+      size: selectedSize,
+      color: selectedColors,
+      price: productPrice,
+      quantity: productStock,
+      images: imagesArray,
+      thumbnail: imagesArray[0],
+      id: body._id
+
+    }
+    dispatch(editProduct(newProduct))
   }
 
   const toggleSize = (size) => {
@@ -158,7 +170,7 @@ const CustomOffcanvas = ({
                     value={body.id ? 'Update' : 'Add'}
                     variant='primary'
                     size='lg'
-                    onClick={body.id ? (e) => handleEdit() : () => addMyProduct()}
+                    onClick={body._id ? (e) => editMyProduct() : () => addMyProduct()}
                     />
                     </div>
                   </div>
