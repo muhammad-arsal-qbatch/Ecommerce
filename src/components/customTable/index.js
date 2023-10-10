@@ -24,7 +24,7 @@ const CustomTable = (props) => {
   console.log('\n\n', 'data', data)
   const offset = useSelector((state) => state.adminProduct.offset);
   const status = useSelector((state) => state.adminProduct.status);
-  const error = useSelector((state) => state.adminProduct.error);
+  const error = useSelector((state) => state.adminProduct.tableDataError);
   const loader = useSelector((state) => state.adminProduct.loader);
   const offcanvas = useSelector((state) => state.adminProduct.offcanvas);
   const modal = useSelector((state) => state.adminProduct.modal);

@@ -5,10 +5,10 @@ import FilterRectangle from '../../../components/filterRectangle'
 import UserCards from '../../../components/userCards'
 import { getData } from '../../../redux/slices/adminProduct'
 import UserDetailedCards from '../../../components/userDetailedCards'
+import ErrorModal from '../../../components/errorModal';
 import PropTypes from 'prop-types';
 
 import './userHomepage.css'
-import { Modal } from 'react-bootstrap'
 
 const UserHomepage = ({ cn }) => {
   const dispatch = useDispatch();
@@ -16,11 +16,10 @@ const UserHomepage = ({ cn }) => {
   const error = useSelector((state) => state.authentication.error);
   const [rightCard, showRightCard] = useState(false);
   const [singleCard, setSingleCard] = useState({});
-  const [modal, setModal] = useState(true);
   const displayRightCard = (id) => {
     console.log({ id });
     showRightCard(true);
-    const card = data.find((obj) => obj.id === id);
+    const card = data.find((obj) => obj._id === id);
     setSingleCard(card);
   }
 
@@ -37,23 +36,9 @@ const UserHomepage = ({ cn }) => {
 
         <div className='user-box'>
         {error
-          ? <div
-      className="modal show"
-      style={{ display: 'block', position: 'initial' }}
-    > <Modal
-     show={modal}
-     onHide={() => setModal(false)}
-    
-    >
-        <Modal.Header closeButton = {modal}>
-
-        </Modal.Header>
-        <Modal.Body>
-          <p>{error}</p>
-        </Modal.Body>
-
-      </Modal>
-      </div>
+          ? <ErrorModal
+          error={error}
+          />
           : <></>
     }
           <div>
@@ -62,7 +47,7 @@ const UserHomepage = ({ cn }) => {
         <div className='products-listing'>
           <div className='left-box'>
             {data.map((obj, index) => (
-              <UserCards cardData={obj} onClick={() => displayRightCard(obj.id)} key={index} />
+              <UserCards cardData={obj} onClick={() => displayRightCard(obj._id)} key={index} />
 
             ))}
           </div>

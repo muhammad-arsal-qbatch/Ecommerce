@@ -95,7 +95,7 @@ const CustomOffcanvas = ({
                       <Image className='cloud-image' src={CloudArrowUp}></Image>
                       {/* <p className='drag-files-text'>Drag & drop files here Or</p> */}
                       <input onChange={(e) => addFile(e.target.files)} type='file' id='fileInput'></input>
-                      <CustomButton value='Browse' variant='primary' size='sm'></CustomButton>
+                      <CustomButton type='file' value='Browse' variant='primary' size='sm'></CustomButton>
                         </div>
                       <p className='images-text'>multiple images can be upload</p>
                       <div className='images-div'>

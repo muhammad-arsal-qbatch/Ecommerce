@@ -10,15 +10,17 @@ import CustomTooltip from '../../components/tooltip';
 import { addToCart } from '../../redux/slices/user/shoppingBag';
 
 import './userDetailedCards.css'
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 const UserDetailedCards = ({
   singleCard
 }) => {
+  console.log({ singleCard });
   const colors = ['#155724', '#AAA', '#1B1E21', '#231579', '#740F0F'];
   const sizes = ['XS', 'S', 'M', 'L', 'XL', '2XL', '3XL'];
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
   const addToCarts = (singleCard) => {
     console.log('add to cart is called');
     dispatch(addToCart(singleCard));
@@ -26,7 +28,12 @@ const UserDetailedCards = ({
 
     // cart.push(singleCard);
   }
-  const [selectedQuantity, setSelectedQuantity] = useState(singleCard.stock);
+  const [selectedQuantity, setSelectedQuantity] = useState(0);
+  useEffect(
+    () => {
+      setSelectedQuantity(singleCard.quantity)
+    }, [singleCard]
+  )
 
   return (
         <>
@@ -35,7 +42,7 @@ const UserDetailedCards = ({
                 <Image src= {singleCard.thumbnail} className='card-image'></Image>
                 <div className='head-right'>
                 <div className='card-description'>
-                  <CustomTooltip text={singleCard.description}>
+                  <CustomTooltip text={singleCard.productName}>
                   </CustomTooltip>
                   </div>
                 <ColorsBox colors={colors} text='Color'></ColorsBox>
@@ -70,11 +77,15 @@ const UserDetailedCards = ({
                     <span className='price-heading'>Quantity</span>
                     <div className='container'>
                       <div className='row d-flex align-items-center'>
-                <div onClick={() => { setSelectedQuantity(selectedQuantity + 1) }} className='col-1 btn btn-secondary '>+</div>
+                {/* <div onClick= { () => setSelectedQuantity(selectedQuantity + 1)} className='col-1 btn  btn-secondary '>+</div> */}
+                <div onClick= { selectedQuantity < singleCard.quantity ? () => { setSelectedQuantity(selectedQuantity + 1) } : () => { }} className='col-1 btn  btn-secondary '>+</div>
                 <div className='col-7'>
-                <CustomInput defaultValue={selectedQuantity} value={selectedQuantity} placeholder='02'></CustomInput>
+                <CustomInput
+                    value={selectedQuantity}
+                    placeholder='02'></CustomInput>
                 </div>
-                <div onClick={() => { setSelectedQuantity(selectedQuantity - 1) }} className=' col-1 btn btn-secondary'>-</div>
+                {/* <div onClick= {() => setSelectedQuantity(selectedQuantity - 1)} className=' col-1 btn btn-secondary'>-</div> */}
+                <div onClick= { selectedQuantity > 0 ? () => { setSelectedQuantity(selectedQuantity - 1) } : () => { }} className=' col-1 btn btn-secondary'>-</div>
                 </div>
                 </div>
                 </div>

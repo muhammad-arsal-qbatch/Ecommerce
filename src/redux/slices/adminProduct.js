@@ -5,6 +5,7 @@ const initialState = {
   loader: false,
   data: [],
   error: '',
+  tableDataError: '',
   offset: 0,
   status: true,
   offcanvas: false,
@@ -13,10 +14,11 @@ const initialState = {
   product: {}
 
 };
+
 export const getData = createAsyncThunk('adminProductSlice/getProducts',
-  async (body, thunkApi) => {
+  async (body, { rejectWithValue, getState }) => {
     try {
-      const state = thunkApi.getState();
+      const state = getState();
       const response = await axios.get('http://localhost:5000/products/getProducts', {
         params: {
           offset: state.adminProduct.offset * 10,
@@ -26,19 +28,20 @@ export const getData = createAsyncThunk('adminProductSlice/getProducts',
       console.log('respose send from api is, ', response.data.response.myProducts);
       if (response.data.error) { // if api is correct but no data is returned
         console.log('sdsdds');
-        return thunkApi.rejectWithValue(
+        return rejectWithValue(
           { error: 'no data found' }
         )
       }
 
       return response.data.response.myProducts;
     } catch (error) {
-      return thunkApi.rejectWithValue(
+      return rejectWithValue(
         { error: error.message }
       )
     }
   }
 )
+
 export const addProduct = createAsyncThunk(
   'adminProductSlice/addProducts',
   async (body, thunkApi) => {
@@ -64,6 +67,7 @@ export const addProduct = createAsyncThunk(
     }
   }
 )
+
 export const getOrder = createAsyncThunk('adminProductSlice/getOrder',
   async (body, thunkApi) => {
     try {
@@ -82,6 +86,7 @@ export const getOrder = createAsyncThunk('adminProductSlice/getOrder',
     }
   }
 )
+
 export const editProduct = createAsyncThunk('adminProductSlice/editProduct',
   async (body, thunkApi) => {
     try {
@@ -173,14 +178,15 @@ const adminProductSlice = createSlice(
         state.data = updatedData;
         console.log(state.data);
         // console.log('inside edit product', { state: JSON.stringify(state, null, 2), keys: Object.keys(state), value: JSON.stringify(Object.values(state)) }, { payload });
+      },
+      clearError: (state, action) => {
+        state.error = false
       }
 
     },
     extraReducers: {
       [getData.fulfilled]: (state, action) => {
         state.data = action.payload;
-        console.log('in fulfilleed', state.data);
-
         state.loader = false;
         state.status = true;
         state.error = false;
@@ -192,7 +198,7 @@ const adminProductSlice = createSlice(
       },
       [getData.rejected]: (state, action) => {
         console.log(action);
-        state.error = action.payload.error;
+        state.tableDataError = action.payload.error;
         state.status = false;
         state.loader = false;
       },
@@ -211,15 +217,14 @@ const adminProductSlice = createSlice(
         state.loader = false;
         state.status = false;
       },
+      [addProduct.pending]: (state, action) => {
+
+      },
       [addProduct.fulfilled]: (state, action) => {
         console.log('inside fulfiled', action.payload);
         state.data.push(action.payload.product);
         console.log(state.data);
         state.addProductCanvas = false
-      },
-
-      [addProduct.pending]: (state, action) => {
-
       },
       [addProduct.rejected]: (state, action) => {
         console.log('inside rejected ,', action.payload.error);
@@ -237,6 +242,7 @@ const adminProductSlice = createSlice(
       },
       [deleteProduct.rejected]: (state, action) => {
         console.log('inisde rejected', action);
+        state.error = action.payload.error;
       },
       [editProduct.fulfilled]: (state, action) => {
         state.offcanvas = false;
@@ -266,5 +272,5 @@ const adminProductSlice = createSlice(
   }
 )
 
-export const { handleNext, handleOffset, handlePrevious, hideOffcanvas, showOffcanvas, displayModal, hideModal, showAddProductCanvas } = adminProductSlice.actions
+export const { handleNext, handleOffset, handlePrevious, hideOffcanvas, showOffcanvas, displayModal, hideModal, showAddProductCanvas, clearError } = adminProductSlice.actions
 export default adminProductSlice.reducer;

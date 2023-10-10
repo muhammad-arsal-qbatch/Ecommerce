@@ -10,11 +10,12 @@ const CustomButton = (props) => {
     className = '',
     onClick = null,
     active = false,
-    disabled = false
+    disabled = false,
+    type
   } = props
 
   return (
-    <Button onClick={onClick}
+    <Button type={type} onClick={onClick}
     className={className}
       variant= {variant}
       active={active}
@@ -26,6 +27,7 @@ const CustomButton = (props) => {
 }
 CustomButton.propTypes = {
   value: PropTypes.string,
+  type: PropTypes.string,
   variant: PropTypes.string,
   size: PropTypes.string,
   className: PropTypes.string,

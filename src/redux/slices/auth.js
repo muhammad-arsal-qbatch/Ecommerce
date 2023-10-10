@@ -52,7 +52,7 @@ const authSlice = createSlice(
       token: '',
       error: '',
       isLoading: false,
-      isAdmin: true,
+      isAdmin: false,
       currentUser: {}
 
     },
@@ -61,7 +61,6 @@ const authSlice = createSlice(
         state.token = '';
         state.error = '';
         state.isLoading = false;
-        state.isAdmin = false;
         state.currentUser = {};
       },
       login: (state, { payload }) => {

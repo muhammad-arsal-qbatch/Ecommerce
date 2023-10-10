@@ -5,9 +5,11 @@ import { getData } from '../../../redux/slices/adminProduct';
 import './adminProducts.css'
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
+import ErrorModal from '../../../components/errorModal';
 
 const AdminProducts = () => {
   const data = useSelector((state) => state.adminProduct.data);
+  const error = useSelector((state) => state.adminProduct.error);
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getData());
@@ -37,11 +39,19 @@ const AdminProducts = () => {
 
   return (
         <div className='main-box-admin'>
-        <Products/>
+          {error
+            ? <ErrorModal error={error} />
+            : <>
+            <Products/>
 
-        <CustomTable data={data} getData={getData}
-          headings={headings}
-        />
+          <CustomTable 
+              data={data}
+              getData={getData}
+              headings={headings}
+          />
+            </>
+          }
+
          </div>
   )
 }

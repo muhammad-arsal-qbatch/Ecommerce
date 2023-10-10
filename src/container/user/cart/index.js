@@ -14,7 +14,6 @@ import { updateCart } from '../../../redux/slices/user/shoppingBag';
 const Cart = () => {
   const dispatch = useDispatch();
   const navigation = useNavigate();
-  
   const goToHomepage = () => {
     navigation('/');
   }
