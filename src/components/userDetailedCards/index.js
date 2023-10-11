@@ -16,8 +16,8 @@ const UserDetailedCards = ({
   singleCard
 }) => {
   console.log({ singleCard });
-  const colors = ['#155724', '#AAA', '#1B1E21', '#231579', '#740F0F'];
-  const sizes = ['XS', 'S', 'M', 'L', 'XL', '2XL', '3XL'];
+  // const colors = ['#155724', '#AAA', '#1B1E21', '#231579', '#740F0F'];
+  // const sizes = ['XS', 'S', 'M', 'L', 'XL', '2XL', '3XL'];
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -45,8 +45,8 @@ const UserDetailedCards = ({
                   <CustomTooltip text={singleCard.productName}>
                   </CustomTooltip>
                   </div>
-                <ColorsBox colors={colors} text='Color'></ColorsBox>
-                <ColorsBox colors={sizes} text='Sizes'></ColorsBox>
+                <ColorsBox colors={singleCard.color} text='Color'></ColorsBox>
+                <ColorsBox colors={singleCard.size} text='Sizes'></ColorsBox>
                 <div className='price-box'>
                 <span className='price-heading'> Price</span>
                 <h4 className='price-text'>
