@@ -1,28 +1,35 @@
 import { useSelector } from 'react-redux';
 import CustomTable from '../../../components/customTable';
-import { getOrders } from '../../../redux/slices/user/checkout';
+// import { getOrders } from '../../../redux/slices/user/checkout';
+import { GetOrdersByUserId } from '../../../redux/slices/orders';
+// import { useEffect } from 'react';
+import { Badge } from 'react-bootstrap';
 
 const Orders = () => {
-  const orders = useSelector((state) => state.checkout.orders);
+  const orders = useSelector((state) => state.orders.orders);
   const headings = [{
-    id: 'id',
-    label: 'Id'
+    id: 'orderId',
+    label: 'Order#'
   }, {
-    id: 'title',
-    label: 'Title',
-    image: 'thumbnail',
-    render: (img) => (<img src= {img} className='item-image' ></img>)
-
+    id: 'userName',
+    label: 'Name'
   }, {
-    id: 'brand',
-    label: 'Brand'
+    id: 'totalQuantity',
+    label: 'Products'
   }, {
-    id: 'category',
-    label: 'Categoty'
+    id: 'status',
+    label: 'Status',
+    render: (text) => (
+      <Badge bg={text === 'Paid' ? 'success' : 'warning'}>{text}</Badge>
+    )
   }, {
-    id: 'stock',
-    label: 'Stock'
-  }];
+    id: 'totalAmount',
+    label: 'Amount'
+  }, {
+    id: 'date',
+    label: 'Date'
+  }
+];
   console.log('in ordersss page', { orders });
   return (
     <div className='container mt-5 orders-box'>
@@ -32,7 +39,7 @@ const Orders = () => {
       </div>
       <div className="row">
 
-      <CustomTable data={orders} getData={getOrders} headings={headings} pagination={true}></CustomTable>
+      <CustomTable data={orders} getData={GetOrdersByUserId} headings={headings} pagination={true}></CustomTable>
       </div>
 
     </div>

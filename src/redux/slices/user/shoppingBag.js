@@ -9,6 +9,10 @@ const shoppingBagSlice = createSlice(
     name: 'ShoppingBagSlice',
     initialState,
     reducers: {
+      clearCache: (state) => {
+        console.log(' shpping bag cache is called');
+        state.cart = [];
+      },
       addToCart: (state, { payload }) => {
         const payloadCopy = { ...payload, selected: true };
         state.cart.push(payloadCopy);
@@ -38,5 +42,5 @@ const shoppingBagSlice = createSlice(
     }
   }
 )
-export const { addToCart, updateCartItem, updateCart } = shoppingBagSlice.actions
+export const { addToCart, updateCartItem, updateCart, clearCache } = shoppingBagSlice.actions
 export default shoppingBagSlice.reducer;

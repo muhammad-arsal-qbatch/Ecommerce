@@ -4,13 +4,13 @@ import { useDispatch, useSelector } from 'react-redux';
 import Container from 'react-bootstrap/Container';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 
-import { logout } from '../../redux/slices/auth';
 import userImage from '../../assets/images/user-image.png';
 import Bag from '../../assets/images/Bag.svg';
 import Notification from '../../assets/images/Notification.svg';
 
 import './navbar.css';
 import { useNavigate } from 'react-router-dom';
+import { logoutUser } from '../../redux/slices/auth';
 
 const CustomNavbar = (props) => {
   const naviagtion = useNavigate();
@@ -23,7 +23,7 @@ const CustomNavbar = (props) => {
   const dispatch = useDispatch();
   const logoutIt = () => {
     alert('func called');
-    dispatch(logout());
+    dispatch(logoutUser());
   };
   return (
     <Navbar expand="lg" className="admin-header">

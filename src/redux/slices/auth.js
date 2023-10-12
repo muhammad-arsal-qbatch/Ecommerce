@@ -1,10 +1,13 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import { clearCache as clearShoppingBagCache } from './user/shoppingBag';
 import axios from 'axios';
+import { clearCache as clearCheckoutCache, setPaymentMethodAndDeliveryAddress } from './user/checkout';
 
 export const loginUser = createAsyncThunk('user/loginStatus', async (body, thunkApi) => {
   try {
     console.log('body', body);
     const response = await axios.post('http://localhost:5000/users/signIn', body);
+    thunkApi.dispatch(setPaymentMethodAndDeliveryAddress(response))
     return response.data;
   } catch (error) {
     if (error.response) { // if response has come, with empty or invalid data
@@ -20,6 +23,24 @@ export const loginUser = createAsyncThunk('user/loginStatus', async (body, thunk
     }
   }
 })
+export const logoutUser = createAsyncThunk('user/logout', async (_, thunkApi) => {
+  try {
+    // Additional logout logic if needed
+
+    // Dispatch the action from the shopping bag slice
+    thunkApi.dispatch(clearShoppingBagCache());
+    thunkApi.dispatch(clearCheckoutCache())
+
+    // Any other logic you want to perform during logout
+
+    // Return a result if needed
+    return 'Logout successful';
+  } catch (error) {
+    // Handle errors if necessary
+    console.error('Logout error:', error);
+    throw error;
+  }
+});
 export const signupUser = createAsyncThunk('user/signup', async (body, thunkApi) => {
   try {
     const response = await axios.post('http://localhost:5000/users/signup', body);
@@ -69,7 +90,11 @@ const authSlice = createSlice(
       },
       logout: (state) => {
         localStorage.clear();
-        state.token = false;
+        state.token = '';
+        state.error = '';
+        state.isLoading = false;
+        state.currentUser = {};
+        clearShoppingBagCache(state);
       },
       loginAdmin: (state) => {
         state.isAdmin = true;
@@ -86,6 +111,9 @@ const authSlice = createSlice(
         localStorage.setItem('token', payload.message);
         state.currentUser = payload.user;
         console.log('current user is,  ', payload);
+        localStorage.setItem('userId', payload.user._id);
+        localStorage.setItem('userName', payload.user.name);
+
         state.error = '';
       },
       [loginUser.rejected]: (state, action) => {
@@ -107,6 +135,14 @@ const authSlice = createSlice(
       },
       [signupUser.rejected]: (state, { payload }) => {
         console.log('inside rejected', payload.error);
+        state.error = payload.error;
+      },
+      [logoutUser.fulfilled]: (state, { payload }) => {
+        localStorage.clear();
+        state.token = '';
+        state.error = '';
+        state.isLoading = false;
+        state.currentUser = {};
         state.error = payload.error;
       }
     }

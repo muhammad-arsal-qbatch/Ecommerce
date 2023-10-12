@@ -71,10 +71,12 @@ const CustomTable = (props) => {
         </tr>
       </thead>
       <tbody>
-        {status === true
-          ? (
+        {data.length !== 0
+          ? status === true
 
-              data.map((doc, index) => (
+            ? (
+
+                data.map((doc, index) => (
           <tr key={index}>
             {headings.map((col, index) => (
               <td key={index}>
@@ -92,10 +94,20 @@ const CustomTable = (props) => {
                    </span>
                    <span className='item-text'id='title-text' >{doc[col.id]}</span>
                    </div>
-                     : <>{col.id === 'color'
-                       ? <>{doc[col.id]}</>
-                       : doc[col.id]
-                      }</>
+                     : col.id === 'color'
+                       ? (
+                          <>{doc[col.id]}</>
+                         )
+                       : col.id === 'status'
+                         ? (
+                             col.render(doc[col.id])
+                           )
+                         : col.id === 'action'
+                           ? (
+                               col.render(doc)
+                             )
+                           : <>{doc[col.id]}</>
+
                     //  : doc[col.id]
 
                 }
@@ -103,22 +115,24 @@ const CustomTable = (props) => {
 
             ))}
         </tr>
-              ))
+                ))
 
-            )
-          : (
-              loader === true
-                ? (
+              )
+            : (
+                loader === true
+                  ? (
 
           <div><Spinner animation="border" role="status">
           <span className="visually-hidden">Loading...</span>
         </Spinner></div>
-                  )
-                : (
+                    )
+                  : (
               <div>{error}</div>
-                  )
-            )
-        }
+                    )
+              )
+
+          : <>no Data found</>
+      }
 
     </tbody>
     </Table>
