@@ -10,7 +10,7 @@ import CustomTooltip from '../../components/tooltip';
 import { addToCart } from '../../redux/slices/user/shoppingBag';
 
 import './userDetailedCards.css'
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 const UserDetailedCards = ({
   singleCard
@@ -22,18 +22,21 @@ const UserDetailedCards = ({
   const navigate = useNavigate();
 
   const addToCarts = (singleCard) => {
-    console.log('add to cart is called');
-    dispatch(addToCart(singleCard));
+    console.log('add to cart is called', singleCard);
+    const updatedCard = { ...singleCard };
+    updatedCard.quantity = selectedQuantity;
+    dispatch(addToCart(updatedCard));
     navigate('/c')
 
     // cart.push(singleCard);
   }
-  const [selectedQuantity, setSelectedQuantity] = useState(0);
-  useEffect(
-    () => {
-      setSelectedQuantity(singleCard.quantity)
-    }, [singleCard]
-  )
+  const [selectedQuantity, setSelectedQuantity] = useState(singleCard.quantity);
+  // useEffect(
+  //   () => {
+  //     console.log('single card is, ', singleCard);
+  //     setSelectedQuantity(singleCard.quantity)
+  //   }, []
+  // )
 
   return (
         <>
@@ -81,15 +84,20 @@ const UserDetailedCards = ({
                 <div onClick= { selectedQuantity < singleCard.quantity ? () => { setSelectedQuantity(selectedQuantity + 1) } : () => { }} className='col-1 btn  btn-secondary '>+</div>
                 <div className='col-7'>
                 <CustomInput
+                readOnly = {true}
                     value={selectedQuantity}
                     placeholder='02'></CustomInput>
                 </div>
                 {/* <div onClick= {() => setSelectedQuantity(selectedQuantity - 1)} className=' col-1 btn btn-secondary'>-</div> */}
-                <div onClick= { selectedQuantity > 0 ? () => { setSelectedQuantity(selectedQuantity - 1) } : () => { }} className=' col-1 btn btn-secondary'>-</div>
+                <div onClick= { selectedQuantity > 1 ? () => { setSelectedQuantity(selectedQuantity - 1) } : () => { }} className=' col-1 btn btn-secondary'>-</div>
                 </div>
                 </div>
                 </div>
-                <CustomButton onClick= { () => { addToCarts(singleCard) } } value='Add to Cart' variant='primary' size='lg'></CustomButton>
+                {singleCard.quantity < 1
+                  ? <CustomButton disabled= {true} onClick= { () => { addToCarts(singleCard) } } value='Add to Cart' variant='primary' size='lg'></CustomButton>
+                  : <CustomButton onClick= { () => { addToCarts(singleCard) } } value='Add to Cart' variant='primary' size='lg'></CustomButton>
+
+                }
             </div>
         </div>
         </>

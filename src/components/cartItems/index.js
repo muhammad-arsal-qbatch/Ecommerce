@@ -5,13 +5,11 @@ import Bin from '../../assets/images/delete-btn.svg';
 
 import './cartItems.css';
 import CustomInput from '../inputField';
-import { useState } from 'react';
 import { updateCartItem } from '../../redux/slices/user/shoppingBag';
 import { useDispatch } from 'react-redux';
 
 const CartItems = ({ data, showCheckBox }) => {
   const dispatch = useDispatch();
-  const [selectedQuantity, setSelectedQuantity] = useState(data.quantity);
   const handleSelect = () => {
     dispatch(updateCartItem(data));
   };
@@ -121,28 +119,29 @@ const CartItems = ({ data, showCheckBox }) => {
               {/* <IncDecBtns></IncDecBtns> */}
               <div className="container-fluid">
                 <div className="row d-flex align-items-center justify-content-end">
-                  <div
+                  {/* <div
                     onClick={() => {
                       setSelectedQuantity(selectedQuantity + 1);
                     }}
                     className="col-1 btn btn-secondary "
                   >
                     +
-                  </div>
+                  </div> */}
                   <div className="col-5">
                     <CustomInput
-                      value={selectedQuantity}
+                    readOnly = {true}
+                      value={data.quantity}
                       placeholder="02"
                     ></CustomInput>
                   </div>
-                  <div
+                  {/* <div
                     onClick={() => {
                       setSelectedQuantity(selectedQuantity - 1);
                     }}
                     className=" col-1 btn btn-secondary"
                   >
                     -
-                  </div>
+                  </div> */}
                 </div>
               </div>
             </div>

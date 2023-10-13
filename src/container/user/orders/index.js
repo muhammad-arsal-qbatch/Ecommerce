@@ -4,9 +4,14 @@ import CustomTable from '../../../components/customTable';
 import { GetOrdersByUserId } from '../../../redux/slices/orders';
 // import { useEffect } from 'react';
 import { Badge } from 'react-bootstrap';
+import { useState } from 'react';
+import CustomButton from '../../../components/button';
+import OrderDetailsOffcanvas from '../../../components/order-details-offcanvas';
 
 const Orders = () => {
+  const [orderDetailsOffcanvas, setOrderDetailsOffcanvas] = useState(false);
   const orders = useSelector((state) => state.orders.orders);
+  const [singleOrder, setSingleOrder] = useState({});
   const headings = [{
     id: 'orderId',
     label: 'Order#'
@@ -28,8 +33,18 @@ const Orders = () => {
   }, {
     id: 'date',
     label: 'Date'
+  }, {
+    id: 'action',
+    label: 'Actions',
+    render: (order) => (
+      <CustomButton value='View details' onClick={ () => {
+        setSingleOrder(order)
+        setOrderDetailsOffcanvas(true);
+      }
+      } ></CustomButton>
+    )
   }
-];
+  ];
   console.log('in ordersss page', { orders });
   return (
     <div className='container mt-5 orders-box'>
@@ -38,8 +53,14 @@ const Orders = () => {
 
       </div>
       <div className="row">
+        {orderDetailsOffcanvas
+          ? <OrderDetailsOffcanvas
+          handleShow={ () => setOrderDetailsOffcanvas(true) }
+           show={orderDetailsOffcanvas} order={singleOrder}></OrderDetailsOffcanvas>
+          : <></>
+        }
 
-      <CustomTable data={orders} getData={GetOrdersByUserId} headings={headings} pagination={true}></CustomTable>
+      <CustomTable data={orders} getData={GetOrdersByUserId} headings={headings} pagination={false}></CustomTable>
       </div>
 
     </div>

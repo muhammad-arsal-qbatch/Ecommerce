@@ -63,7 +63,7 @@ const CustomTable = (props) => {
         <tr className='table-secondary'>
           {headings.map((heading, index) => {
             return <th key={ index }>{heading.label}
-            {index === 0 || index === 3 || index === 4
+            {index === 0
               ? (<Image src={Arrow}></Image>)
               : null }
             </th>

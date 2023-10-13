@@ -15,8 +15,8 @@ const DeliveryOffcanvas = ({
   useEffect(() => {}, [])
   // const dispatch= useDispatch();
   return (
-    <Offcanvas show={show} onHide={handleShow} placement='end' >
-      <Offcanvas.Header closeButton>Add new Address</Offcanvas.Header>
+    <Offcanvas show={ show } onHide={ handleShow } placement='end' >
+      <Offcanvas.Header closeButton>{ heading }</Offcanvas.Header>
       <Offcanvas.Body>
         <div className='container'>
           {rows}

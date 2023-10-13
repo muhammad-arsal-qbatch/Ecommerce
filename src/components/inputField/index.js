@@ -12,6 +12,7 @@ const CustomInput = (props) => {
     emailText = '',
     onChange,
     value,
+    readOnly = false,
     defaultValue
   } = props
 
@@ -20,6 +21,7 @@ const CustomInput = (props) => {
         <Form.Label htmlFor="inputPassword5">{label}</Form.Label>
       <Form.Control
         type={type}
+        readOnly = {readOnly}
         defaultValue={defaultValue}
         id="inputPassword5"
         aria-describedby="passwordHelpBlock"
@@ -39,7 +41,8 @@ CustomInput.propTypes = {
   emailText: PropTypes.string,
   value: PropTypes.string,
   defaultValue: PropTypes.string,
-  onChange: PropTypes.func
+  onChange: PropTypes.func,
+  readOnly: PropTypes.bool
   // className: PropTypes.string
 }
 

@@ -1,4 +1,4 @@
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { Container, Row, Col, Image, Form } from 'react-bootstrap';
 import { useEffect } from 'react';
 
@@ -9,10 +9,10 @@ import CustomButton from '../../../components/button';
 import { useNavigate } from 'react-router-dom';
 
 import './cart.css'
-import { updateCart } from '../../../redux/slices/user/shoppingBag';
+// import { updateCart } from '../../../redux/slices/user/shoppingBag';
 
 const Cart = () => {
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
   const navigation = useNavigate();
   const goToHomepage = () => {
     navigation('/');
@@ -21,13 +21,20 @@ const Cart = () => {
   const loader = useSelector((state) => state.adminProduct.loader);
   useEffect(
     () => {
-      console.log(data);
+      console.log('updated data is , ', data);
     }
     , []
   )
   const goToCheckout = () => {
-    dispatch(updateCart(data));
-    navigation('/checkout');
+    // dispatch(updateCart(data));
+    const shouldGoToCheckout = data.every(item => item.selected === false);
+    console.log(data);
+    if (shouldGoToCheckout) {
+      alert('please add something to cart first');
+    } else {
+      console.log('data selected is , ', data);
+      navigation('/checkout');
+    }
   }
 
   return (

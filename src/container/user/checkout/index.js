@@ -5,7 +5,7 @@ import CartItems from '../../../components/cartItems';
 import CustomButton from '../../../components/button';
 import DeliveryOffcanvas from '../../../components/deliveryOffcanvas';
 import CustomInput from '../../../components/inputField';
-import { AddDeliveryAddress, GetDeliveryAddress, addPaymentMethod, placeOrder } from '../../../redux/slices/user/checkout';
+import { AddDeliveryAddress, AddPaymentMethod, GetDeliveryAddress, PlaceOrder } from '../../../redux/slices/user/checkout';
 import LeftArrow from '../../../assets/images/Arrow-left.svg';
 import ChangeAddressOffcanvas from '../../../components/change-address-offcanvas';
 
@@ -55,24 +55,25 @@ const Checkout = () => {
   }
   const [deliveryAddressData, setDeliveryAddressData] = useState(deliveryAddressInitialState);
   const [paymentData, setPaymentData] = useState(paymentInitialState);
-  const data = useSelector((state) => state.shoppingBag.cart);
- 
+  const originalData = useSelector((state) => state.shoppingBag.cart);
+  const data = originalData.filter((item, index) => item.selected === true);
+
   const loader = useSelector((state) => state.adminProduct.loader);
   const [deliveryModal, showDeliveryModal] = useState(false);
- 
+
   const [paymentModal, showPaymentModal] = useState(false);
   const [changeAddressOffcanvas, setChangeAddressOffcanvas] = useState(false);
- 
+
   // const isDeliveryAddress = useSelector((state) => state.checkout.isDeliveryPerson);
   // const isPaymentMethod = useSelector((state) => state.checkout.isPaymentMethod);
- 
+
   // const originalDeliveryAddress = useSelector((state) => state.checkout.deliveryPerson);
   // const originalPaymentMethod = useSelector((state) => state.checkout.paymentMethod);
   const deliveryPersons = useSelector((state) => state.checkout.allDeliveryPersons);
-  const paymentMethods = useSelector((state) => state.checkout.allPaymentMethods);
+  const allPaymentMethods = useSelector((state) => state.checkout.allPaymentMethods);
   const selectedPerson = useSelector((state) => state.checkout.selectedPerson);
   const selectedPaymentMethod = useSelector((state) => state.checkout.selectedPaymentMethod);
- 
+
   const dispatch = useDispatch();
   const navigation = useNavigate();
 
@@ -89,7 +90,7 @@ const Checkout = () => {
     [{ field: 'country', state: paymentData.country }]
   ];
   const placeMyOrder = () => {
-    dispatch(placeOrder(data));
+    dispatch(PlaceOrder(data));
 
     alert('your order has been placed');
 
@@ -122,7 +123,8 @@ const Checkout = () => {
     hideDeliveryModal();
   }
   const saveThePaymentMethod = () => {
-    dispatch(addPaymentMethod(paymentData))
+    console.log(' isnide save the payment method func');
+    dispatch(AddPaymentMethod(paymentData))
     hidePaymentModal();
   }
   return (
@@ -130,13 +132,15 @@ const Checkout = () => {
     {paymentModal
       ? <DeliveryOffcanvas
     handleFunc={saveThePaymentMethod}
+    heading= 'Add Payment Method'
     rows={<AddPersonRows addPersonMappedRows={addPaymentMappedRows}
-     deliveryAddressData={paymentData}
+    deliveryAddressData={paymentData}
     setDeliveryAddressData={setPaymentData}
     />} show={paymentModal} handleShow={hidePaymentModal} />
       : <></>}
   {deliveryModal
     ? <DeliveryOffcanvas
+    heading= 'Add Delivery Address'
     handleFunc={saveThePerson}
     rows={<AddPersonRows addPersonMappedRows={addPersonMappedRows}
      deliveryAddressData={deliveryAddressData}
@@ -234,7 +238,7 @@ const Checkout = () => {
           </div>
           <h5>Select payment method</h5>
           <div className=' d-flex align-items-center payment-box container'>
-                  {paymentMethods.length !== 0
+                  {allPaymentMethods.length !== 0
                     ? <div className='container'>
                       <div className='row'>
                         <div className='col-10'>
@@ -249,13 +253,13 @@ const Checkout = () => {
                             <div className='col-9'>Master Card</div>
                           </div>
                           <div className='row m-2'>
-                            <div className='col'>{paymentMethods[selectedPaymentMethod].cardNumber}</div>
+                            <div className='col'>{allPaymentMethods[selectedPaymentMethod].cardNumber}</div>
                           </div>
                           <div className='row m-2'>
-                            <div className='col'>{paymentMethods[selectedPaymentMethod].expiryDate}</div>
+                            <div className='col'>{allPaymentMethods[selectedPaymentMethod].expiryDate}</div>
                           </div>
                           <div className='row m-2'>
-                            <div className='col'>{paymentMethods[selectedPaymentMethod].fullName}</div>
+                            <div className='col'>{allPaymentMethods[selectedPaymentMethod].fullName}</div>
                           </div>
                         </div>
                         </div>
@@ -264,7 +268,7 @@ const Checkout = () => {
                       </div>
 
                   </div>
-                    : deliveryPersons.length === 0
+                    : deliveryPersons.length !== 0
                       ? <CustomButton onClick={displayPaymentModal} value='+ Add New' className='btn btn-outline-primary'></CustomButton>
                       : <CustomButton disabled={true} value='+ Add New' className='btn btn-outline-secondary'></CustomButton>
 
@@ -273,7 +277,7 @@ const Checkout = () => {
           </div>
           <div className=' mt-2 container'>
             <div className=' row'>
-          {paymentMethods.length !== 0
+          {allPaymentMethods.length !== 0
             ? <CustomButton onClick= {placeMyOrder} disabled={false} value='Pay Now' className='btn btn-primary' ></CustomButton>
             : <CustomButton disabled={true} value='Place order' className='btn btn-secondary' ></CustomButton>
 

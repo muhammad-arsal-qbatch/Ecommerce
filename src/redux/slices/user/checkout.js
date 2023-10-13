@@ -1,7 +1,8 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import { updateShoppingBag } from './shoppingBag';
 import axios from 'axios';
 
-export const placeOrder = createAsyncThunk('ordersSlice/placeOrders', async (body, thunkApi) => {
+export const PlaceOrder = createAsyncThunk('ordersSlice/placeOrders', async (body, thunkApi) => {
   try {
     console.log('inside place ordersss', body)
     const selectedItems = body.filter((item) => item.selected === true);
@@ -18,7 +19,9 @@ export const placeOrder = createAsyncThunk('ordersSlice/placeOrders', async (bod
     console.log('finals items is ', finalItems);
 
     const response = await axios.post('http://localhost:5000/orders/placeOrder', finalItems);
-    console.log(response);
+    console.log('response from api iss,,,', response);
+    thunkApi.dispatch(updateShoppingBag(response))
+    return response;
   } catch (error) {
     thunkApi.rejectWithValue({
       error
@@ -32,6 +35,20 @@ export const AddDeliveryAddress = createAsyncThunk('ordersSlice/addDeliveryAddre
     const userId = localStorage.getItem('userId');
     body.userId = userId;
     const response = await axios.post('http://localhost:5000/users/addDeliveryAddress', body);
+    console.log('response is ,', response);
+    return response.data;
+  } catch (error) {
+    thunkApi.rejectWithValue({
+      error
+    })
+  }
+})
+export const AddPaymentMethod = createAsyncThunk('ordersSlice/addPaymentMethod', async (body, thunkApi) => {
+  try {
+    console.log('payment data is,', body)
+    const userId = localStorage.getItem('userId');
+    body.userId = userId;
+    const response = await axios.post('http://localhost:5000/users/addPaymentMethod', body);
     console.log('response is ,', response);
     return response.data;
   } catch (error) {
@@ -68,6 +85,19 @@ export const GetAllDeliveryAddress = createAsyncThunk('ordersSlice/getAllDeliver
   try {
     const userId = localStorage.getItem('userId');
     const response = await axios.get(`http://localhost:5000/users/getAllDeliveryAddress?userId=${userId}`);
+    console.log('response is ,', response);
+    return response.data
+  } catch (error) {
+    thunkApi.rejectWithValue({
+      error
+    })
+  }
+})
+
+export const GetAllPaymentMethods = createAsyncThunk('ordersSlice/getAllPaymentMethods', async (body, thunkApi) => {
+  try {
+    const userId = localStorage.getItem('userId');
+    const response = await axios.get(`http://localhost:5000/users/getAllPaymentMethods?userId=${userId}`);
     console.log('response is ,', response);
     return response.data
   } catch (error) {
@@ -182,13 +212,13 @@ const checkoutSlice = createSlice(
       }
     },
     extraReducers: {
-      [placeOrder.pending]: (state, action) => {
+      [PlaceOrder.pending]: (state, action) => {
         console.log('inside pending');
       },
-      [placeOrder.fulfilled]: (state, { payload }) => {
-        console.log('inside fulfilled', payload);
+      [PlaceOrder.fulfilled]: (state, { payload }) => {
+        console.log('orders that are placed are,  ', payload.data);
       },
-      [placeOrder.rejected]: (state, action) => {
+      [PlaceOrder.rejected]: (state, action) => {
         console.log('inside rejected');
       },
       [AddDeliveryAddress.pending]: (state, action) => {
@@ -201,7 +231,14 @@ const checkoutSlice = createSlice(
       [AddDeliveryAddress.rejected]: (state, action) => {
         console.log('inside rejected');
       },
-      [AddDeliveryAddress.rejected]: (state, action) => {
+      [AddPaymentMethod.pending]: (state, action) => {
+        console.log('inside pending');
+      },
+      [AddPaymentMethod.fulfilled]: (state, { payload }) => {
+        console.log('inside fulfilled');
+        state.allPaymentMethods = payload;
+      },
+      [AddPaymentMethod.rejected]: (state, action) => {
         console.log('inside rejected');
       },
       [GetDeliveryAddress.pending]: (state, action) => {
@@ -225,6 +262,16 @@ const checkoutSlice = createSlice(
       },
       [GetAllDeliveryAddress.rejected]: (state, action) => {
         console.log('inside rejected');
+      },
+      [GetAllPaymentMethods.pending]: (state, action) => {
+        console.log('inside pending');
+      },
+      [GetAllPaymentMethods.fulfilled]: (state, action) => {
+        console.log('inside fulfiled');
+        state.allPaymentMethods = action.payload;
+      },
+      [GetAllPaymentMethods.rejected]: (state, action) => {
+        console.log('inside rejected')
       },
       [UpdateDeliveryPerson.pending]: (state, action) => {
         console.log('inside pendinf');

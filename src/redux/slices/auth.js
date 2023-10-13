@@ -83,6 +83,7 @@ const authSlice = createSlice(
         state.error = '';
         state.isLoading = false;
         state.currentUser = {};
+        state.isAdmin = false;
       },
       login: (state, { payload }) => {
         console.log('action', payload);
