@@ -10,7 +10,7 @@ import CustomTooltip from '../../components/tooltip';
 import { addToCart } from '../../redux/slices/user/shoppingBag';
 
 import './userDetailedCards.css'
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 const UserDetailedCards = ({
   singleCard
@@ -31,6 +31,11 @@ const UserDetailedCards = ({
     // cart.push(singleCard);
   }
   const [selectedQuantity, setSelectedQuantity] = useState(singleCard.quantity);
+  useEffect(
+    () => {
+      setSelectedQuantity(singleCard.quantity)
+    }, [singleCard]
+  )
   // useEffect(
   //   () => {
   //     console.log('single card is, ', singleCard);
