@@ -17,11 +17,11 @@ const initialState = {
 
 export const getData = createAsyncThunk('adminProductSlice/getProducts',
   async (body, { rejectWithValue, getState }) => {
+    console.log('body offset is, ', body);
     try {
-      const state = getState();
       const response = await axios.get('http://localhost:5000/products/getProducts', {
         params: {
-          offset: state.adminProduct.offset * 10,
+          offset: body,
           limit: 10
         }
       });

@@ -24,8 +24,7 @@ const AdminOrder = () => {
       console.log('inside get order use effect')
       dispatch(getOrdersInGroup());
       console.log('orders is ,', data);
-    }
-    , []
+    }, []
   )
   const headings = [{
     id: 'date',
@@ -93,7 +92,7 @@ const AdminOrder = () => {
         onChange={(e) => SetValue(e.target.value)}
         placeholder='Seach by phone name'></CustomInput>
         </div>
-        <CustomTable data={data} getData={getOrdersInGroup} headings={headings}></CustomTable>
+        <CustomTable pagination ={false} data={data} headings={headings}></CustomTable>
         </div>
 
   )

@@ -1,10 +1,9 @@
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import CustomTable from '../../../components/customTable';
-// import { getOrders } from '../../../redux/slices/user/checkout';
 import { GetOrdersByUserId } from '../../../redux/slices/orders';
 // import { useEffect } from 'react';
 import { Badge } from 'react-bootstrap';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import CustomButton from '../../../components/button';
 import OrderDetailsOffcanvas from '../../../components/order-details-offcanvas';
 
@@ -12,6 +11,10 @@ const Orders = () => {
   const [orderDetailsOffcanvas, setOrderDetailsOffcanvas] = useState(false);
   const orders = useSelector((state) => state.orders.orders);
   const [singleOrder, setSingleOrder] = useState({});
+  const dispatch = useDispatch();
+  useEffect(
+    () => dispatch(GetOrdersByUserId()), []
+  )
   const headings = [{
     id: 'orderId',
     label: 'Order#'

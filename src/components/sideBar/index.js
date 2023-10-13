@@ -3,7 +3,7 @@ import SideBarGroup from '../sideBarGroup';
 import './sideBar.css'
 
 const SideBar = () => {
-  const links = ['/', '/ad-p', '/ad-o'];
+  const links = ['', 'ad-p', 'ad-o'];
   const text = ['Dashboard', 'Products', 'Orders'];
   return (
     <div className='main-container'>

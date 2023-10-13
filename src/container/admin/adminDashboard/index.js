@@ -6,7 +6,8 @@ import { getData } from '../../../redux/slices/adminProduct';
 
 import './adminDashboard.css';
 import '../../../layout/layout.css'
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { useEffect } from 'react';
 
 const AdminDashboard = () => {
   const data = useSelector((state) => state.adminProduct.data);
@@ -40,6 +41,13 @@ const AdminDashboard = () => {
     { TotalUnits: '728' },
     { TotalSale: '19' }
   ]
+  const dispatch = useDispatch()
+  useEffect(() => {
+    dispatch(getData()) // mounting
+    return () => {
+      console.log('Clean Up') // unmounting
+    }
+  }, [])
 
   return (
         <div className='main-box-admin'>
@@ -58,7 +66,7 @@ const AdminDashboard = () => {
 
           </div>
           <h6 className='top-products'>Top selling products</h6>
-          <CustomTable data={data} getData={getData} pagination= { false } headings= {headings}/>
+          <CustomTable data={data} headings= {headings}/>
 
         </div>
 

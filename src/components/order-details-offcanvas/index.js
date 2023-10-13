@@ -11,19 +11,19 @@ const OrderDetailsOffcanvas = ({
   console.log('orders in offcanvas is, ', order.products)
 
   const headings = [{
-  //   id: 'productName',
-  //   label: 'Title',
-  //   image: 'thumbnail',
-  //   render: (img) => (<img src= {img} className='item-image' ></img>)
-  // }, {
+    id: 'productName',
+    label: 'Title',
+    image: 'thumbnail',
+    render: (img) => (<img src= {img} className='item-image' ></img>)
+  }, {
     id: 'quantity',
     label: 'Quantity'
-  } 
-  // {
-   // id: 'price',
-  //   label: 'Price'
-  // }
-];
+  },
+  {
+    id: 'price',
+    label: 'Price'
+  }
+  ];
   return (
     <Offcanvas show={ show } onHide={ handleShow } placement='end'>
       <Offcanvas.Header>

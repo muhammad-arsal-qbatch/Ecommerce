@@ -7,6 +7,7 @@ export const loginUser = createAsyncThunk('user/loginStatus', async (body, thunk
   try {
     console.log('body', body);
     const response = await axios.post('http://localhost:5000/users/signIn', body);
+    console.log('rspnse from api is, ', response.data.user.admin);
     thunkApi.dispatch(setPaymentMethodAndDeliveryAddress(response))
     return response.data;
   } catch (error) {
@@ -110,6 +111,9 @@ const authSlice = createSlice(
         console.log('token is, ', payload.message)
         state.token = payload.message
         localStorage.setItem('token', payload.message);
+        if (payload.user.admin === 'present') {
+          state.isAdmin = true;
+        }
         state.currentUser = payload.user;
         console.log('current user is,  ', payload);
         localStorage.setItem('userId', payload.user._id);

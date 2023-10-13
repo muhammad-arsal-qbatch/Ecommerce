@@ -1,4 +1,4 @@
-import { Image, Modal, Pagination, Table } from 'react-bootstrap';
+import { Image, Modal, Table } from 'react-bootstrap';
 import Spinner from 'react-bootstrap/Spinner';
 import PropTypes from 'prop-types';
 import { useEffect } from 'react';
@@ -10,16 +10,15 @@ import EditBtn from '../../assets/images/edit-btn.svg';
 import Warning from '../../assets/images/warning.svg';
 import CustomModal from '../customModal';
 import CustomOffcanvas from '../../components/offcanvas';
-import { displayModal, handleNext, handleOffset, handlePrevious, showOffcanvas } from '../../redux/slices/adminProduct';
+import { displayModal, showOffcanvas } from '../../redux/slices/adminProduct';
 
 import './customTable.css';
 
 const CustomTable = (props) => {
   const {
     data,
-    getData,
-    headings,
-    pagination = true
+    // getData,
+    headings
   } = props;
   console.log('\n\n', 'data', data)
   const offset = useSelector((state) => state.adminProduct.offset);
@@ -33,21 +32,10 @@ const CustomTable = (props) => {
   //   console.log(hexCode);
   // }
 
-  const handleNexts = () => {
-    dispatch(handleNext());
-  }
-  const handlePreviouss = () => {
-    console.log('inisde handle previous');
-    dispatch(handlePrevious());
-  }
-  const handleOffsets = (val) => {
-    dispatch(handleOffset(val));
-  }
-
   useEffect(() => {
     console.log(offset);
-    dispatch(getData());
-  }, [offset])
+    // dispatch(getData());
+  }, [])
 
   const editTheProduct = (product) => {
     console.log('inside edit the produtc', product);
@@ -136,17 +124,7 @@ const CustomTable = (props) => {
 
     </tbody>
     </Table>
-    {pagination
-      ? <div className='pagination'>
-    <Pagination>
-      <Pagination.Item disabled={offset <= 0} onClick={() => { handlePreviouss() }} >{'Previous'}</Pagination.Item>
-      <Pagination.Item onClick= {() => { handleOffsets(offset + 1) }} >{offset + 1}</Pagination.Item>
-      <Pagination.Item onClick= {() => { handleOffsets(offset + 2) }} >{offset + 2}</Pagination.Item>
-      <Pagination.Item onClick= {() => { handleOffsets(offset + 3) }} >{offset + 3}</Pagination.Item>
-      <Pagination.Item disabled = {offset >= 9 } onClick={() => handleNexts()}>{'Next'}</Pagination.Item>
-    </Pagination>
-    </div>
-      : <></>}
+    
     {modal
       ? <CustomModal image={Warning} heading6='are you sure u want to delete' heading4='Remove product' ></CustomModal>
       : <></>
