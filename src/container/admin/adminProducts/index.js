@@ -1,6 +1,6 @@
 import Products from '../../../components/products';
 import CustomTable from '../../../components/customTable';
-import { getData } from '../../../redux/slices/adminProduct';
+import { clearError, getData } from '../../../redux/slices/adminProduct';
 import { Pagination } from 'react-bootstrap';
 import './adminProducts.css'
 import { useDispatch, useSelector } from 'react-redux';
@@ -10,18 +10,6 @@ import ErrorModal from '../../../components/errorModal';
 const AdminProducts = () => {
   const dispatch = useDispatch();
   const [offset, setOffset] = useState(0);
-
-  // const handleNexts = () => {
-  //   dispatch(handleNext());
-  // }
-  // const handlePreviouss = () => {
-  //   console.log('inisde handle previous');
-  //   dispatch(handlePrevious());
-  // }
-  // const handleOffsets = (val) => {
-  //   dispatch(handleOffset(val));
-  // }
-
   const data = useSelector((state) => state.adminProduct.data);
   const error = useSelector((state) => state.adminProduct.error);
   useEffect(() => {
@@ -54,7 +42,7 @@ const AdminProducts = () => {
   return (
         <div className='main-box-admin'>
           {error
-            ? <ErrorModal error={error} />
+            ? <ErrorModal clearError = {clearError} error={error} />
             : <>
             <Products/>
 

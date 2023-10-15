@@ -15,15 +15,18 @@ import { logoutUser } from '../../redux/slices/auth';
 const CustomNavbar = (props) => {
   const naviagtion = useNavigate();
   const token = useSelector((state) => state.authentication.token);
+  const isAdmin = useSelector((state) => state.authentication.isAdmin);
   const userName = useSelector(
     (state) => state.authentication.currentUser.name
   );
   const cart = useSelector((state) => state.shoppingBag.cart);
+  const navigation = useNavigate();
 
   const dispatch = useDispatch();
   const logoutIt = () => {
     alert('func called');
     dispatch(logoutUser());
+    navigation('/');
   };
   return (
     <Navbar expand="lg" className="admin-header">
@@ -44,12 +47,12 @@ const CustomNavbar = (props) => {
           >
             <div className="d-flex">
               <Image
-                className="cursor-pointer"
+                className= 'curson-pointer'
                 onClick={() => {
                   if (!token) {
                     naviagtion('/login');
                   } else {
-                    // show bag here
+                    naviagtion('/c');
                   }
                 }}
                 src={Bag}
@@ -97,14 +100,21 @@ const CustomNavbar = (props) => {
             ? (
             <>
               <NavDropdown title={userName} className="user-name">
-                <NavDropdown.Item
-                  onClick={() => {
-                    naviagtion('/o');
-                  }}
-                >
-                  Orders
-                </NavDropdown.Item>
-                <Dropdown.Divider></Dropdown.Divider>
+                {isAdmin === false
+
+                  ? <> <NavDropdown.Item
+                                onClick={() => {
+                                  naviagtion('/o');
+                                }}
+                              >
+                                Orders
+                              </NavDropdown.Item>
+                                              <Dropdown.Divider></Dropdown.Divider>
+                                              </>
+
+                  : <></>
+              }
+
                 <NavDropdown.Item onClick={logoutIt}>Logout</NavDropdown.Item>
               </NavDropdown>
               <Image

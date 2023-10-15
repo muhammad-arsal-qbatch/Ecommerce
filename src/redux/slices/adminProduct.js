@@ -2,7 +2,7 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import axios from 'axios'
 
 const initialState = {
-  loader: false,
+  loader: true,
   data: [],
   topSellingProducts: [],
   error: '',
@@ -19,13 +19,15 @@ const initialState = {
 export const getData = createAsyncThunk('adminProductSlice/getProducts',
   async (body, { rejectWithValue, getState }) => {
     console.log('body offset is, ', body);
+    const state = getState();
     try {
       const response = await axios.get('http://localhost:5000/products/getProducts', {
         params: {
-          offset: body,
+          offset: body * 10 || 0,
           limit: 10
         }
       });
+      state.offset = body * 10 || 0
       console.log('respose send from api is, ', response.data.response.myProducts);
       if (response.data.error) { // if api is correct but no data is returned
         console.log('sdsdds');
@@ -44,31 +46,32 @@ export const getData = createAsyncThunk('adminProductSlice/getProducts',
 )
 
 export const addProduct = createAsyncThunk(
-  'adminProductSlice/addProducts',
+  'adminProductSlice/addProduct',
   async (body, thunkApi) => {
-    // body.thumbnail = 'https://i.dummyjson.com/data/products/1/thumbnail.jpg'
-    // body.images = 'https://i.dummyjson.com/data/products/1/thumbnail.jpg'
     try {
-      console.log('product in api is,', body);
+      console.log('Product in API:', body.newProduct.images);
 
       const response = await axios.post('http://localhost:5000/products/addProduct', body);
-      console.log('response is, ', response);
-      if (response.data.error) {
-        console.log('inisde error');
+
+      console.log('Response is:', response);
+
+      if (response.data.message) {
+        console.log('Inside error');
         return thunkApi.rejectWithValue({
-          error: response.data.error
-        })
+          error: response.data.message
+        });
       }
-      console.log(response.data);
-      return response.data
+
+      console.log('Data successfully added:', response.data);
+      return response.data;
     } catch (error) {
+      console.error('API call error:', error);
       return thunkApi.rejectWithValue({
-        error: 'Api Not found , please check your api url'
-      })
+        error: 'Api Not found, please check your api url'
+      });
     }
   }
-)
-
+);
 export const getOrder = createAsyncThunk('adminProductSlice/getOrder',
   async (body, thunkApi) => {
     try {
@@ -135,7 +138,7 @@ export const GetTopSellingProducts = createAsyncThunk('adminProductSlice/getTopS
       return response.data;
     } catch (error) {
       return thunkApi.rejectWithValue({
-        error: error
+        error
       })
     }
   }
@@ -159,6 +162,7 @@ const adminProductSlice = createSlice(
       hideOffcanvas: (state) => {
         state.offcanvas = false;
         state.addProductCanvas = false
+        state.product = {};
       },
       hideModal: (state) => {
         state.modal = false
@@ -195,8 +199,9 @@ const adminProductSlice = createSlice(
         console.log(state.data);
         // console.log('inside edit product', { state: JSON.stringify(state, null, 2), keys: Object.keys(state), value: JSON.stringify(Object.values(state)) }, { payload });
       },
-      clearError: (state, action) => {
-        state.error = false
+      clearError: (state, { payload }) => {
+        state.error = '';
+        state.loader = false
       }
 
     },
@@ -234,24 +239,28 @@ const adminProductSlice = createSlice(
         state.status = false;
       },
       [addProduct.pending]: (state, action) => {
-
+        state.loader = true;
       },
       [addProduct.fulfilled]: (state, action) => {
         console.log('inside fulfiled', action.payload);
         state.data.push(action.payload.product);
         console.log(state.data);
         state.addProductCanvas = false
+        state.loader = false;
+        state.error = 'product has been addedd';
       },
       [addProduct.rejected]: (state, action) => {
         console.log('inside rejected ,', action.payload.error);
         state.error = action.payload.error;
-        state.addProductCanvas = false
+        state.addProductCanvas = false;
+        state.loader = false;
       },
       [deleteProduct.fulfilled]: (state, action) => {
         console.log('inisde fulfilled', action.meta.arg.product);
         state.modal = false;
         state.data = state.data.filter((d) => d._id !== action.meta.arg.product._id)
         state.product = {};
+        state.loader = false;
       },
       [deleteProduct.pending]: (state, action) => {
         console.log('inisde pending', action)
@@ -261,6 +270,7 @@ const adminProductSlice = createSlice(
         state.error = action.payload.error;
       },
       [editProduct.fulfilled]: (state, action) => {
+        state.error = 'Product has been updated ';
         state.offcanvas = false;
         const updatedData = state.data.map(product => {
           if (product._id === action.payload._id) {

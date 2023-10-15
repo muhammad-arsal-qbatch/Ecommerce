@@ -77,7 +77,7 @@ const CustomOffcanvas = ({
   }
   const addFile = (files) => {
     console.log({ files });
-    setImagesArray([...imagesArray, files[0].name]);
+    setImagesArray([...imagesArray, files]);
   }
 
   return (
@@ -167,7 +167,7 @@ const CustomOffcanvas = ({
                      />
                     <div className='btn-position'>
                     <CustomButton
-                    value={body.id ? 'Update' : 'Add'}
+                    value={body._id ? 'Update' : 'Add'}
                     variant='primary'
                     size='lg'
                     onClick={body._id ? (e) => editMyProduct() : () => addMyProduct()}

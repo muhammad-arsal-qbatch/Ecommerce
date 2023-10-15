@@ -1,6 +1,6 @@
 import { Routes, Route } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { useEffect } from 'react';
 
 import Login from '../container/auth/login'
@@ -14,7 +14,7 @@ import CustomCards from '../components/customCards';
 import CustomModal from '../components/customModal';
 import UserHomepage from '../container/user/userHomepage';
 import Cart from '../container/user/cart';
-import { login } from '../redux/slices/auth';
+// import { login } from '../redux/slices/auth';
 import Checkout from '../container/user/checkout';
 import CustomNavbar from '../components/navbar';
 import Orders from '../container/user/orders';
@@ -23,11 +23,11 @@ import Signup from '../container/auth/signup';
 const CustomRoutes = () => {
   const token = useSelector((state) => state.authentication.token);
   const isAdmin = useSelector((state) => state.authentication.isAdmin);
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
 
   useEffect( // when this component is loaded this use effect will be called, if i have saved token in local storage then it will get this token and give it to login so that i will directly rerender to home page
     () => {
-      dispatch(login({ field: 'token', value: localStorage.getItem('token') }));
+      // dispatch(login({ field: 'token', value: localStorage.getItem('token') }));
       // dispatch(logoutAdmin());
     }, []
   )

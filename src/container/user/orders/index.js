@@ -13,7 +13,9 @@ const Orders = () => {
   const [singleOrder, setSingleOrder] = useState({});
   const dispatch = useDispatch();
   useEffect(
-    () => dispatch(GetOrdersByUserId()), []
+    () => {
+      dispatch(GetOrdersByUserId())
+    }, []
   )
   const headings = [{
     id: 'orderId',

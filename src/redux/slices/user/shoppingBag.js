@@ -48,9 +48,20 @@ const shoppingBagSlice = createSlice(
         console.log(' orderred product is , ', payload);
         console.log(' cart is , ', state.cart);
         state.cart = state.cart.filter(item => !payload.data.some(p => p._id === item._id));
+      },
+      deleteFromCart: (state, { payload }) => {
+        console.log('aa');
+        state.cart = state.cart.filter((c) => c._id !== payload._id);
+        console.log(state.cart);
       }
     }
   }
 )
-export const { addToCart, updateCartItem, updateCart, clearCache, updateShoppingBag } = shoppingBagSlice.actions
+export const {
+  addToCart,
+  deleteFromCart,
+  updateCartItem,
+  updateCart, clearCache,
+  updateShoppingBag
+} = shoppingBagSlice.actions
 export default shoppingBagSlice.reducer;

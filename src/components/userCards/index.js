@@ -10,9 +10,10 @@ const UserCards = ({ onClick, cardData, showFullDescription = false }) => {
       <>
           {/* <div className='card-style'> */}
       <Card style={{ width: '18rem', minHeight: '418px', maxHeight: '520px', marginLeft: '4%', marginBottom: '2%' }}>
-            <CardImg variant='top' src= {cardData.thumbnail} width='256px' height='222px'></CardImg>
+            {/* <CardImg variant='top' src= {cardData.thumbnail} width='256px' height='222px'></CardImg> */}
+            <CardImg variant='top' width='256px' height='222px'></CardImg>
       <Card.Body>
-        <Card.Title> {cardData.title} </Card.Title>
+        <Card.Title> {cardData.productName} </Card.Title>
         <Card.Text>
           {showFullDescription
             ? <h6 className='card-text '>

@@ -5,7 +5,7 @@ import Bin from '../../assets/images/delete-btn.svg';
 
 import './cartItems.css';
 import CustomInput from '../inputField';
-import { updateCartItem } from '../../redux/slices/user/shoppingBag';
+import { updateCartItem, deleteFromCart } from '../../redux/slices/user/shoppingBag';
 import { useDispatch } from 'react-redux';
 
 const CartItems = ({ data, showCheckBox }) => {
@@ -13,6 +13,9 @@ const CartItems = ({ data, showCheckBox }) => {
   const handleSelect = () => {
     dispatch(updateCartItem(data));
   };
+  const deleteFromTheCart = (item) => {
+    dispatch(deleteFromCart(item));
+  }
   return (
     <div className=" container mb-2">
       <div className=" row items-select-box pt-2 pb-2">
@@ -112,7 +115,7 @@ const CartItems = ({ data, showCheckBox }) => {
           <div className="container-fluid justify-content-end ">
             <div className="row">
               <div className="col d-flex justify-content-end">
-                <Image src={Bin}></Image>
+                <Image onClick ={() => { deleteFromTheCart(data) } } src={Bin}></Image>
               </div>
             </div>
             <div className="row">

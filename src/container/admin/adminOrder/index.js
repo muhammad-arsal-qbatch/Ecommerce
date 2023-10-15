@@ -5,10 +5,11 @@ import CustomCards from '../../../components/customCards';
 import CustomInput from '../../../components/inputField';
 import CustomTable from '../../../components/customTable';
 
-import { DeliverOrder, getOrdersInGroup } from '../../../redux/slices/orders';
+import { DeliverOrder, getOrdersInGroup, clearError } from '../../../redux/slices/orders';
 import './adminOrder.css';
 import { Badge } from 'react-bootstrap';
 import CustomButton from '../../../components/button';
+import ErrorModal from '../../../components/errorModal';
 
 const AdminOrder = () => {
   const dispatch = useDispatch();
@@ -18,12 +19,11 @@ const AdminOrder = () => {
   // useEffect(
   //   getData(),
   //   [])
-  // const data= useSelector((state) => state.adminProduct.data);
+  const error = useSelector((state) => state.orders.error);
   useEffect(
     () => {
       console.log('inside get order use effect')
       dispatch(getOrdersInGroup());
-      console.log('orders is ,', data);
     }, []
   )
   const headings = [{
@@ -82,6 +82,12 @@ const AdminOrder = () => {
   return (
         <div className='main-box-admin'>
             <div className='cards-box'>
+              {error
+                ? <ErrorModal
+              error={error}
+              clearError={clearError}
+              />
+                : <></>}
         <CustomCards cardsText={totalOrders} heading5= 'heading5' quantityStyle = 'quantity-order'></CustomCards>
         <CustomCards cardsText={totalUnits} heading5= 'heading5' quantityStyle = 'quantity-order'></CustomCards>
         <CustomCards cardsText={totalAmount} heading5= 'heading5' quantityStyle = 'quantity-order'></CustomCards>

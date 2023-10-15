@@ -3,16 +3,17 @@ import { clearCache as clearShoppingBagCache } from './user/shoppingBag';
 import axios from 'axios';
 import { clearCache as clearCheckoutCache, setPaymentMethodAndDeliveryAddress } from './user/checkout';
 
-export const loginUser = createAsyncThunk('user/loginStatus', async (body, thunkApi) => {
+export const loginUser = createAsyncThunk('auth/loginStatus', async (body, thunkApi) => {
   try {
     console.log('body', body);
-    const response = await axios.post('http://localhost:5000/users/signIn', body);
-    console.log('rspnse from api is, ', response.data.user.admin);
-    thunkApi.dispatch(setPaymentMethodAndDeliveryAddress(response))
+    const response = await axios.post('http://localhost:5000/auth/signIn', body);
+    console.log('rspnse from api is, ', response.data);
+    if (!response.data.user.admin === 'present') { thunkApi.dispatch(setPaymentMethodAndDeliveryAddress(response)) }
     return response.data;
   } catch (error) {
+    console.log('error in thuk is, ', error);
     if (error.response) { // if response has come, with empty or invalid data
-      console.log('inside rejected', error);
+      console.log('inside rejected', error.response.data);
       return thunkApi.rejectWithValue({
         error: error.response.data
       })
@@ -24,7 +25,7 @@ export const loginUser = createAsyncThunk('user/loginStatus', async (body, thunk
     }
   }
 })
-export const logoutUser = createAsyncThunk('user/logout', async (_, thunkApi) => {
+export const logoutUser = createAsyncThunk('auth/logout', async (_, thunkApi) => {
   try {
     // Additional logout logic if needed
 
@@ -42,10 +43,10 @@ export const logoutUser = createAsyncThunk('user/logout', async (_, thunkApi) =>
     throw error;
   }
 });
-export const signupUser = createAsyncThunk('user/signup', async (body, thunkApi) => {
+export const signupUser = createAsyncThunk('auth/signup', async (body, thunkApi) => {
   try {
-    const response = await axios.post('http://localhost:5000/users/signup', body);
-    console.log('in signup asyn thunk', response.data);
+    const response = await axios.post('http://localhost:5000/auth/signup', body);
+    console.log('in signup asyn thunk', response);
     if (response.data.message) {
       // If there is a message in the response data, treat it as an error
       console.log('inside rejected: ', response.data.message);
@@ -55,9 +56,10 @@ export const signupUser = createAsyncThunk('user/signup', async (body, thunkApi)
     }
     return response.data;
   } catch (error) {
+    console.log('error from api is ,', error)
     if (error.response) {
       return thunkApi.rejectWithValue({
-        error: error.response.data
+        error: error.response.data.error
       })
     } else {
       return thunkApi.rejectWithValue({
@@ -103,6 +105,11 @@ const authSlice = createSlice(
       },
       logoutAdmin: (state) => {
         state.isAdmin = false;
+      },
+      clearError: (state, action) => {
+        console.log('\ninside clear error', state.error);
+        state.error = '';
+        state.isLoading = false
       }
 
     },
@@ -121,11 +128,11 @@ const authSlice = createSlice(
 
         state.error = '';
       },
-      [loginUser.rejected]: (state, action) => {
-        console.log('message is  ', action.payload.error.message);
+      [loginUser.rejected]: (state, { payload }) => {
+        console.log('message is  ', payload.error);
         state.token = false;
         state.isLoading = false;
-        state.error = action.payload.error.message;
+        state.error = payload.error.error;
       },
       [loginUser.pending]: (state, action) => {
         console.log(action.payload);
@@ -153,5 +160,5 @@ const authSlice = createSlice(
     }
   })
 
-export const { login, logout, loginAdmin, logoutAdmin, clearCache } = authSlice.actions;
+export const { login, logout, loginAdmin, logoutAdmin, clearCache, clearError } = authSlice.actions;
 export default authSlice.reducer;

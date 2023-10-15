@@ -16,7 +16,7 @@ const AdminDashboard = () => {
   const loader = useSelector((state) => state.adminProduct.loader);
   const headings = [{
     id: 'productName',
-    label: 'Title',
+    label: 'Product',
     image: 'thumbnail',
     render: (img) => (<img src= {img} className='item-image' ></img>)
   },

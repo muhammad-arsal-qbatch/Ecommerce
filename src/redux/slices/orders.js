@@ -2,7 +2,8 @@ import axios from 'axios';
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 
 const initialState = {
-  orders: []
+  orders: [],
+  error: ''
 }
 
 export const getOrders = createAsyncThunk('ordersSlice/getOrders', async (body, thunkApi) => {
@@ -12,7 +13,7 @@ export const getOrders = createAsyncThunk('ordersSlice/getOrders', async (body, 
     console.log({ response });
     return response.data;
   } catch (error) {
-    thunkApi.rejectWithValue({
+    return thunkApi.rejectWithValue({
       error
     })
   }
@@ -21,23 +22,31 @@ export const getOrdersInGroup = createAsyncThunk('ordersSlice/getOrdersInGroup',
   try {
     console.log(body);
     const response = await axios.get('http://localhost:5000/orders/getOrdersInGroup')
-    console.log({ response });
+    console.log('sdfsdff', response);
+    if (!response) { throw new Error('network error'); }
     return response.data;
   } catch (error) {
-    thunkApi.rejectWithValue({
-      error
+    console.log('cataaacch', error);
+    return thunkApi.rejectWithValue({
+      error: error.message
     })
   }
 })
 export const DeliverOrder = createAsyncThunk('ordersSlice/DeliverOrder', async (body, thunkApi) => {
   try {
     console.log('order is, ', body);
-    const response = await axios.put('http://localhost:5000/orders/deliverOrder', body)
+    const response = await axios.put('http://localhost:5000/orders/deliverOrder', body);
+    if (response.data.error) {
+      return thunkApi.rejectWithValue({
+        error: response.data.error
+      })
+    };
     console.log({ response });
     return response.data;
   } catch (error) {
-    thunkApi.rejectWithValue({
-      error
+    console.log('in errorrorois , ', error)
+    return thunkApi.rejectWithValue({
+      error: error.message
     })
   }
 })
@@ -58,6 +67,12 @@ const ordersSlice = createSlice(
   {
     name: 'ordersSlice',
     initialState,
+    reducers: {
+      clearError: (state) => {
+        console.log('inside clear');
+        state.error = ''
+      }
+    },
     extraReducers: {
       [getOrders.pending]: (state, action) => {
         console.log('inside pendign');
@@ -75,16 +90,21 @@ const ordersSlice = createSlice(
         console.log('in fulfilled', action.payload);
         state.orders = action.payload.orders;
       },
-      [getOrdersInGroup.rejected]: (state, action) => {
+      [getOrdersInGroup.rejected]: (state, { payload }) => {
         console.log('inside rejected');
+        state.error = payload.error
       },
       [DeliverOrder.pending]: (state, action) => {
       },
       [DeliverOrder.fulfilled]: (state, action) => {
         console.log('in fulfilled', action.payload);
+        state.error = 'Order has been delivered successfully';
+
         // state.orders = action.payload.orders;
       },
-      [DeliverOrder.rejected]: (state, action) => {
+      [DeliverOrder.rejected]: (state, { payload }) => {
+        console.log('inside rejected, ', payload);
+        state.error = payload.error;
         console.log('inside rejected');
       },
       [GetOrdersByUserId.pending]: (state, action) => {
@@ -104,4 +124,5 @@ const ordersSlice = createSlice(
 
 )
 
+export const { clearError } = ordersSlice.actions;
 export default ordersSlice.reducer;

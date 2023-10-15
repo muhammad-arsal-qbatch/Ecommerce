@@ -1,6 +1,6 @@
 import { Image } from 'react-bootstrap';
 import PropTypes from 'prop-types'
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
 import ColorsBox from '../colorsBox';
@@ -20,6 +20,7 @@ const UserDetailedCards = ({
   // const sizes = ['XS', 'S', 'M', 'L', 'XL', '2XL', '3XL'];
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const token = useSelector((state) => state.authentication.token);
 
   const addToCarts = (singleCard) => {
     console.log('add to cart is called', singleCard);
@@ -100,7 +101,7 @@ const UserDetailedCards = ({
                 </div>
                 {singleCard.quantity < 1
                   ? <CustomButton disabled= {true} onClick= { () => { addToCarts(singleCard) } } value='Add to Cart' variant='primary' size='lg'></CustomButton>
-                  : <CustomButton onClick= { () => { addToCarts(singleCard) } } value='Add to Cart' variant='primary' size='lg'></CustomButton>
+                  : <CustomButton onClick= { token !== '' ? () => { addToCarts(singleCard) } : () => { navigate('/login') } } value='Add to Cart' variant='primary' size='lg'></CustomButton>
 
                 }
             </div>

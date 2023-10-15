@@ -2,10 +2,10 @@ import { Modal } from 'react-bootstrap'
 import PropTypes from 'prop-types';
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { clearError } from '../../redux/slices/adminProduct';
 
 const ErrorModal = ({
-  error
+  error,
+  clearError
 }) => {
   const dispatch = useDispatch();
   const [modal, setModal] = useState(true);
@@ -35,6 +35,7 @@ const ErrorModal = ({
   )
 }
 ErrorModal.propTypes = {
-  error: PropTypes.string
+  error: PropTypes.string,
+  clearError: PropTypes.func
 }
 export default ErrorModal;
