@@ -4,6 +4,7 @@ import axios from 'axios'
 const initialState = {
   loader: false,
   data: [],
+  topSellingProducts: [],
   error: '',
   tableDataError: '',
   offset: 0,
@@ -123,7 +124,22 @@ export const deleteProduct = createAsyncThunk('adminProductSlice/deleteProduct',
         error: error.message
       })
     }
-  })
+  }
+)
+export const GetTopSellingProducts = createAsyncThunk('adminProductSlice/getTopSellingProducts',
+  async (body, thunkApi) => {
+    console.log('insiisasa');
+    try {
+      console.log('product is, ')
+      const response = await axios.get('http://localhost:5000/products/getTopSellingProducts', body);
+      return response.data;
+    } catch (error) {
+      return thunkApi.rejectWithValue({
+        error: error
+      })
+    }
+  }
+)
 
 const adminProductSlice = createSlice(
   {
@@ -265,6 +281,22 @@ const adminProductSlice = createSlice(
         state.error = action.payload.error;
         state.product = {};
         state.offcanvas = false;
+      },
+      [GetTopSellingProducts.pending]: (state) => {
+        console.log('isnide pending');
+        state.loader = true;
+      },
+      [GetTopSellingProducts.fulfilled]: (state, { payload }) => {
+        state.loader = false;
+        console.log('in fultilled of top selling, ');
+        console.log(payload);
+        state.topSellingProducts = payload
+      },
+      [GetTopSellingProducts.rejected]: (state, { payload }) => {
+        console.log('inside rejected , ', payload.error.message);
+        state.loader = false;
+        state.topSellingProducts = []
+        state.tableDataError = payload.error;
       }
 
     }

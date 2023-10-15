@@ -3,6 +3,8 @@ import { Offcanvas } from 'react-bootstrap';
 
 import CustomTable from '../../components/customTable';
 
+import './order-details-offcanvas.css';
+
 const OrderDetailsOffcanvas = ({
   order,
   show,
@@ -25,12 +27,23 @@ const OrderDetailsOffcanvas = ({
   }
   ];
   return (
-    <Offcanvas show={ show } onHide={ handleShow } placement='end'>
-      <Offcanvas.Header>
+    <Offcanvas className = 'custom-offcanvas' show={ show } onHide={ handleShow } placement='end'>
+      <Offcanvas.Header closeButton>
         <h3>Order Details</h3>
       </Offcanvas.Header>
       <Offcanvas.Body>
         <div className='container'>
+          <div className='row'>
+            <div className='container'>
+              <div className='row'>
+              <div className='col'>OrderId</div>
+                <div className='col'>Name</div>
+                <div className='col'>Products</div>
+                <div className='col'>Status</div>
+                <div className='col'>Total Amount</div>
+                <div className='col'>Date</div>              </div>
+            </div>
+          </div>
           <div className='row'>
             <div className='container'>
               <div className='row'>

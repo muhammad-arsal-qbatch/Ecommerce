@@ -58,7 +58,7 @@ const Orders = () => {
       <div className="row">
         {orderDetailsOffcanvas
           ? <OrderDetailsOffcanvas
-          handleShow={ () => setOrderDetailsOffcanvas(true) }
+          handleShow={ () => { setOrderDetailsOffcanvas(false) } }
            show={orderDetailsOffcanvas} order={singleOrder}></OrderDetailsOffcanvas>
           : <></>
         }

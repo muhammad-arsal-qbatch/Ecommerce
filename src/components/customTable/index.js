@@ -20,7 +20,7 @@ const CustomTable = (props) => {
     // getData,
     headings
   } = props;
-  console.log('\n\n', 'data', data)
+  // console.log('\n\n', 'data', data)
   const offset = useSelector((state) => state.adminProduct.offset);
   const status = useSelector((state) => state.adminProduct.status);
   const error = useSelector((state) => state.adminProduct.tableDataError);
