@@ -49,9 +49,11 @@ export const addProduct = createAsyncThunk(
   'adminProductSlice/addProduct',
   async (body, thunkApi) => {
     try {
-      console.log('Product in API:', body.newProduct.images);
+      console.log('Product in API:', body.newProduct);
 
-      const response = await axios.post('http://localhost:5000/products/addProduct', body);
+      const response = await axios.post('http://localhost:5000/products/addProduct', body, {
+        headers: { 'Content-Type': 'multipart/form-data' }
+      });
 
       console.log('Response is:', response);
 

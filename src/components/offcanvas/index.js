@@ -37,9 +37,7 @@ const CustomOffcanvas = ({
       color: selectedColors,
       price: productPrice,
       quantity: productStock,
-      images: imagesArray,
-      thumbnail: imagesArray[0]
-
+      images: [...imagesArray]
     }
     dispatch(addProduct({ newProduct }))
   }
@@ -77,7 +75,7 @@ const CustomOffcanvas = ({
   }
   const addFile = (files) => {
     console.log({ files });
-    setImagesArray([...imagesArray, files]);
+    setImagesArray([...imagesArray, ...files]);
   }
 
   return (
@@ -94,7 +92,7 @@ const CustomOffcanvas = ({
                     <div className='image-input'>
                       <Image className='cloud-image' src={CloudArrowUp}></Image>
                       {/* <p className='drag-files-text'>Drag & drop files here Or</p> */}
-                      <input onChange={(e) => addFile(e.target.files)} type='file' id='fileInput'></input>
+                      <input onChange={(e) => addFile(e.target.files)} type='file' id='fileInput' multiple />
                       <CustomButton type='file' value='Browse' variant='primary' size='sm'></CustomButton>
                         </div>
                       <p className='images-text'>multiple images can be upload</p>
@@ -102,7 +100,7 @@ const CustomOffcanvas = ({
                         { body.images
                           ? body.images.map((img, index) => {
                             return (
-                          <Image className='product-image' key={index} src={img}></Image>
+                          <Image className='product-image' key={index} src={`http://localhost:5000/${img}`}></Image>
                             )
                           })
                           : <p>add an image</p> }

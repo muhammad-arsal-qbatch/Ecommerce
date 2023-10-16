@@ -1,13 +1,15 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { Badge } from 'react-bootstrap';
 
 import CustomTable from '../../../components/customTable';
+
 import {
   DeliverOrder,
   getOrdersInGroup,
   clearError
 } from '../../../redux/slices/orders';
-import { Badge } from 'react-bootstrap';
+
 import CustomButton from '../../../components/button';
 import ErrorModal from '../../../components/errorModal';
 
@@ -102,14 +104,6 @@ const AdminOrder = () => {
           </div>
         ))}
       </div>
-      {/* <div className="order-searchbar">
-        <h4 className="orders-heading">Orders</h4>
-        <CustomInput
-          value={value}
-          onChange={(e) => SetValue(e.target.value)}
-          placeholder="Seach by phone name"
-        ></CustomInput>
-      </div> */}
       <CustomTable
         pagination={false}
         data={data}
@@ -118,4 +112,5 @@ const AdminOrder = () => {
     </div>
   );
 };
+
 export default AdminOrder;

@@ -6,12 +6,13 @@ import CustomButton from '../button';
 import './userCards.css'
 
 const UserCards = ({ onClick, cardData, showFullDescription = false }) => {
+  console.log({ cardData })
   return (
       <>
           {/* <div className='card-style'> */}
       <Card style={{ width: '18rem', minHeight: '418px', maxHeight: '520px', marginLeft: '4%', marginBottom: '2%' }}>
             {/* <CardImg variant='top' src= {cardData.thumbnail} width='256px' height='222px'></CardImg> */}
-            <CardImg variant='top' width='256px' height='222px'></CardImg>
+            <CardImg variant='top' src= {`http://localhost:5000/${cardData.images[0]}`} width='256px' height='222px'></CardImg>
       <Card.Body>
         <Card.Title> {cardData.productName} </Card.Title>
         <Card.Text>

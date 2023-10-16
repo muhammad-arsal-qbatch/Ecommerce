@@ -17,10 +17,8 @@ import './customTable.css';
 const CustomTable = (props) => {
   const {
     data,
-    // getData,
     headings
   } = props;
-  // console.log('\n\n', 'data', data)
   const offset = useSelector((state) => state.adminProduct.offset);
   const status = useSelector((state) => state.adminProduct.status);
   const error = useSelector((state) => state.adminProduct.tableDataError);
@@ -28,13 +26,9 @@ const CustomTable = (props) => {
   const offcanvas = useSelector((state) => state.adminProduct.offcanvas);
   const modal = useSelector((state) => state.adminProduct.modal);
   const dispatch = useDispatch();
-  // const returnColorName = (hexCode) => {
-  //   console.log(hexCode);
-  // }
 
   useEffect(() => {
     console.log(offset);
-    // dispatch(getData());
   }, [])
 
   const editTheProduct = (product) => {
@@ -46,7 +40,7 @@ const CustomTable = (props) => {
     <Modal>
 
     </Modal>
-        <Table borderless dark>
+        <Table borderless dark = 'true'>
       <thead className='thead-dark'>
         <tr className='table-secondary'>
           {headings.map((heading, index) => {
@@ -78,9 +72,9 @@ const CustomTable = (props) => {
                    : col.id === 'title'
                      ? <div className='box-text'>
                    <span className='image-box'>
-                   {col.render(doc[col.image])}
+                   {col.render(doc)}
                    </span>
-                   <span className='item-text'id='title-text' >{doc[col.id]}</span>
+                   <span className='item-text'id='title-text' >{doc.productName}</span>
                    </div>
                      : col.id === 'color'
                        ? (
@@ -124,7 +118,6 @@ const CustomTable = (props) => {
 
     </tbody>
     </Table>
-    
     {modal
       ? <CustomModal image={Warning} heading6='are you sure u want to delete' heading4='Remove product' ></CustomModal>
       : <></>

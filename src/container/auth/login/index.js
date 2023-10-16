@@ -1,21 +1,20 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import Form from 'react-bootstrap/Form';
 
-import Form from 'react-bootstrap/Form'
-import { useDispatch, useSelector } from 'react-redux'
+import CustomButton from '../../../components/button';
+import CustomInput from '../../../components/inputField';
+import CustomHeading from '../../../components/heading';
+import FormBase from '../../../components/formBase';
+import { clearCache, loginUser } from '../../../redux/slices/auth';
 
-import CustomButton from '../../../components/button'
-import CustomInput from '../../../components/inputField' // why {Myimport not working}
-import CustomHeading from '../../../components/heading'
-import FormBase from '../../../components/formBase'
-import { clearCache, loginUser } from '../../../redux/slices/auth'
-import { useNavigate } from 'react-router-dom'
-
-import './login.css'
+import './login.css';
 
 const Login = () => {
   useEffect(() => {
-    dispatch(clearCache())
-  }, [])
+    dispatch(clearCache());
+  }, []);
   const loading = useSelector((state) => state.authentication.isLoading);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -24,7 +23,7 @@ const Login = () => {
   const handleInput = () => {
     dispatch(loginUser({ email, password }));
     navigation('/');
-  }
+  };
   return (
     <div className="main-container-login">
       <div className="group">
@@ -37,16 +36,15 @@ const Login = () => {
               type="email"
               label="Enter Email adress"
               emailText="Enter a valid email address"
-              value = {email}
+              value={email}
               onChange={(e) => setEmail(e.target.value)}
-
             ></CustomInput>
 
             <CustomInput
               placeholder="Please Enter your password"
               type="password"
               label="Password"
-              value= {password}
+              value={password}
               onChange={(e) => setPassword(e.target.value)}
             ></CustomInput>
             <div className="check-box">
@@ -55,7 +53,12 @@ const Login = () => {
               </Form.Group>
             </div>
 
-            <CustomButton onClick= {handleInput} className="btn-style" value= {(loading) ? 'LOADING' : 'LOGIN'} variant="primary" />
+            <CustomButton
+              onClick={handleInput}
+              className="btn-style"
+              value={loading ? 'LOADING' : 'LOGIN'}
+              variant="primary"
+            />
 
             <div className="form-base">
               <div className="form-base-2">
@@ -67,7 +70,7 @@ const Login = () => {
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Login
+export default Login;
