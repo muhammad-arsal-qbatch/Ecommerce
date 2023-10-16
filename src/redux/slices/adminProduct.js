@@ -20,15 +20,22 @@ export const getData = createAsyncThunk('adminProductSlice/getProducts',
   async (body, { rejectWithValue, getState }) => {
     console.log('body offset is, ', body);
     const state = getState();
+    console.log('token is, ', state.authentication.token);
     try {
-      const response = await axios.get('http://localhost:5000/products/getProducts', {
-        params: {
-          offset: body * 10 || 0,
-          limit: 10
-        }
-      });
-      state.offset = body * 10 || 0
-      console.log('respose send from api is, ', response.data.response.myProducts);
+      let response;
+      if (!body) {
+        console.log('dasdasdad');
+        response = await axios.get('http://localhost:5000/products/getProducts')
+      } else {
+        response = await axios.get('http://localhost:5000/products/getProducts', {
+          params: {
+            offset: body * 10 || 0,
+            limit: 10
+          }
+        });
+        state.offset = body * 10 || 0
+        console.log('respose send from api is, ', response.data.response.myProducts);
+      }
       if (response.data.error) { // if api is correct but no data is returned
         console.log('sdsdds');
         return rejectWithValue(
@@ -49,12 +56,15 @@ export const addProduct = createAsyncThunk(
   'adminProductSlice/addProduct',
   async (body, thunkApi) => {
     try {
-      console.log('Product in API:', body.newProduct);
+      console.log('INSIDE BODY', body);
 
+      const state = thunkApi.getState();
       const response = await axios.post('http://localhost:5000/products/addProduct', body, {
-        headers: { 'Content-Type': 'multipart/form-data' }
+        headers: {
+          'Content-Type': 'multipart/form-data',
+          Authorization: `Bearer ${state.authentication.token}` // Assuming your JWT token is stored in authentication.token
+        }
       });
-
       console.log('Response is:', response);
 
       if (response.data.message) {
@@ -96,15 +106,22 @@ export const getOrder = createAsyncThunk('adminProductSlice/getOrder',
 export const editProduct = createAsyncThunk('adminProductSlice/editProduct',
   async (body, thunkApi) => {
     try {
-      console.log(body);
-      const response = await axios.put('http://localhost:5000/products/editProduct', body);
+      console.log('INSIDE BODY', body);
+      const state = thunkApi.getState();
+      const response = await axios.put('http://localhost:5000/products/editProduct', body,
+        {
+
+          headers: {
+            'Content-Type': 'multipart/form-data',
+
+            Authorization: `Bearer ${state.authentication.token}` // Assuming your JWT token is stored in authentication.token
+          }
+        }
+
+      );
       console.log('response from api is, ', response);
-      if (response.data.error) {
-        return thunkApi.rejectWithValue({
-          error: response.data.error
-        })
-      }
-      return response.data.response.updatedObject;
+
+      return response.data.updatedObject;
     } catch (error) {
       console.log(error);
       return thunkApi.rejectWithValue(
@@ -117,8 +134,15 @@ export const editProduct = createAsyncThunk('adminProductSlice/editProduct',
 export const deleteProduct = createAsyncThunk('adminProductSlice/deleteProduct',
   async (body, thunkApi) => {
     try {
-      console.log('product is, ', body)
-      const response = await axios.delete('http://localhost:5000/products/deleteProduct', { data: body });
+      console.log('body is ', body);
+      const state = thunkApi.getState();
+      const response = await axios.delete('http://localhost:5000/products/deleteProduct', {
+        data: body,
+        headers: {
+          Authorization: `Bearer ${state.authentication.token}` // Assuming your JWT token is stored in authentication.token
+        }
+      });
+
       if (response.data.error) {
         return thunkApi.rejectWithValue({
           error: response.data.error
@@ -135,8 +159,13 @@ export const GetTopSellingProducts = createAsyncThunk('adminProductSlice/getTopS
   async (body, thunkApi) => {
     console.log('insiisasa');
     try {
-      console.log('product is, ')
-      const response = await axios.get('http://localhost:5000/products/getTopSellingProducts', body);
+      const state = thunkApi.getState();
+      const response = await axios.get('http://localhost:5000/products/getTopSellingProducts',
+        {
+          headers: {
+            Authorization: `Bearer ${state.authentication.token}` // Assuming your JWT token is stored in authentication.token
+          }
+        });
       return response.data;
     } catch (error) {
       return thunkApi.rejectWithValue({
@@ -220,7 +249,8 @@ const adminProductSlice = createSlice(
         state.error = false
       },
       [getData.rejected]: (state, action) => {
-        console.log(action);
+        console.log('rejected; ', action.payload.error);
+        state.error = action.payload.error;
         state.tableDataError = action.payload.error;
         state.status = false;
         state.loader = false;

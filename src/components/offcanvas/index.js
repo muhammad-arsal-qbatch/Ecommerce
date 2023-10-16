@@ -49,12 +49,11 @@ const CustomOffcanvas = ({
       color: selectedColors,
       price: productPrice,
       quantity: productStock,
-      images: imagesArray,
-      thumbnail: imagesArray[0],
+      images: [...imagesArray],
       id: body._id
 
     }
-    dispatch(editProduct(newProduct))
+    dispatch(editProduct({ newProduct }))
   }
 
   const toggleSize = (size) => {

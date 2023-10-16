@@ -17,8 +17,14 @@ export const PlaceOrder = createAsyncThunk('ordersSlice/placeOrders', async (bod
     finalItems.totalQuantity = finalItems.products.length;
 
     console.log('finals items is ', finalItems);
+    const state = thunkApi.getState();
 
-    const response = await axios.post('http://localhost:5000/orders/placeOrder', finalItems);
+    const response = await axios.post('http://localhost:5000/orders/placeOrder', finalItems,
+      {
+        headers: {
+          Authorization: `Bearer ${state.authentication.token}` // Assuming your JWT token is stored in authentication.token
+        }
+      });
     console.log('response from api iss,,,', response);
     thunkApi.dispatch(updateShoppingBag(response))
     return response;

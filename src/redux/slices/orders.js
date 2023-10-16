@@ -12,8 +12,13 @@ const initialState = {
 
 export const getOrders = createAsyncThunk('ordersSlice/getOrders', async (body, thunkApi) => {
   try {
+    const state = thunkApi.getState();
     console.log(body);
-    const response = await axios.get('http://localhost:5000/orders/getOrders')
+    const response = await axios.get('http://localhost:5000/orders/getOrders', {
+      headers: {
+        Authorization: `Bearer ${state.authentication.token}` // Assuming your JWT token is stored in authentication.token
+      }
+    })
     console.log({ response });
     return response.data;
   } catch (error) {
@@ -25,10 +30,15 @@ export const getOrders = createAsyncThunk('ordersSlice/getOrders', async (body, 
 
 export const GetStats = createAsyncThunk('orders/getStats',
   async (body, thunkApi) => {
-    console.log('insiisasa');
     try {
       console.log('product is, ')
-      const response = await axios.get('http://localhost:5000/orders/getStats', body);
+      const state = thunkApi.getState();
+      const response = await axios.get('http://localhost:5000/orders/getStats',
+        {
+          headers: {
+            Authorization: `Bearer ${state.authentication.token}` // Assuming your JWT token is stored in authentication.token
+          }
+        });
       console.log('response stats is, ', response.data);
       return response.data;
     } catch (error) {
@@ -41,7 +51,12 @@ export const GetStats = createAsyncThunk('orders/getStats',
 export const getOrdersInGroup = createAsyncThunk('ordersSlice/getOrdersInGroup', async (body, thunkApi) => {
   try {
     console.log(body);
-    const response = await axios.get('http://localhost:5000/orders/getOrdersInGroup')
+    const state = thunkApi.getState();
+    const response = await axios.get('http://localhost:5000/orders/getOrdersInGroup', {
+      headers: {
+        Authorization: `Bearer ${state.authentication.token}` // Assuming your JWT token is stored in authentication.token
+      }
+    })
     console.log('sdfsdff', response);
     if (!response) { throw new Error('network error'); }
     return response.data;
@@ -54,8 +69,13 @@ export const getOrdersInGroup = createAsyncThunk('ordersSlice/getOrdersInGroup',
 })
 export const DeliverOrder = createAsyncThunk('ordersSlice/DeliverOrder', async (body, thunkApi) => {
   try {
+    const state = thunkApi.getState();
     console.log('order is, ', body);
-    const response = await axios.put('http://localhost:5000/orders/deliverOrder', body);
+    const response = await axios.put('http://localhost:5000/orders/deliverOrder', body, {
+      headers: {
+        Authorization: `Bearer ${state.authentication.token}` // Assuming your JWT token is stored in authentication.token
+      }
+    });
     if (response.data.error) {
       return thunkApi.rejectWithValue({
         error: response.data.error
@@ -73,8 +93,14 @@ export const DeliverOrder = createAsyncThunk('ordersSlice/DeliverOrder', async (
 export const GetOrdersByUserId = createAsyncThunk('ordersSlice/GetOrders', async (body, thunkApi) => {
   try {
     body = localStorage.getItem('userId');
+    const state = thunkApi.getState();
     console.log('huihiuh', body);
-    const response = await axios.get(`http://localhost:5000/orders/getOrders?userId=${body}`)
+    const response = await axios.get(`http://localhost:5000/orders/getOrders?userId=${body}`,
+      {
+        headers: {
+          Authorization: `Bearer ${state.authentication.token}` // Assuming your JWT token is stored in authentication.token
+        }
+      })
     console.log({ response });
     return response.data;
   } catch (error) {
