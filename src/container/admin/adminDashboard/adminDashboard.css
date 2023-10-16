@@ -16,6 +16,17 @@
     flex-wrap: wrap;
     margin: 2% 0;
 }
+.charts-box{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items:flex-start;
+    flex-wrap: wrap;
+    margin: 2% 0;
+    /* max-width:'inherit'; */
+    height: '400px';
+    /* max-width: fit-content; */
+}
 .dashboard-heading{
     color: var(--Heading-Color, #002050);
 

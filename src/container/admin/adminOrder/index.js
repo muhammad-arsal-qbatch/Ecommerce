@@ -1,106 +1,121 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import CustomCards from '../../../components/customCards';
-import CustomInput from '../../../components/inputField';
 import CustomTable from '../../../components/customTable';
-
-import { DeliverOrder, getOrdersInGroup, clearError } from '../../../redux/slices/orders';
-import './adminOrder.css';
+import {
+  DeliverOrder,
+  getOrdersInGroup,
+  clearError
+} from '../../../redux/slices/orders';
 import { Badge } from 'react-bootstrap';
 import CustomButton from '../../../components/button';
 import ErrorModal from '../../../components/errorModal';
+
+import './adminOrder.css';
 
 const AdminOrder = () => {
   const dispatch = useDispatch();
   const data = useSelector((state) => state.orders.orders);
 
-  const [value, SetValue] = useState('');
-  // useEffect(
-  //   getData(),
-  //   [])
   const error = useSelector((state) => state.orders.error);
-  useEffect(
-    () => {
-      console.log('inside get order use effect')
-      dispatch(getOrdersInGroup());
-    }, []
-  )
-  const headings = [{
-    id: 'date',
-    label: 'Date',
-    image: 'thumbnail',
-    render: (img) => (<img src= {img} className='item-image' ></img>
-    )
-  },
-  {
-    id: 'orderId',
-    label: 'Order#Id'
-  }, {
-    id: 'userName',
-    label: 'User'
-  }, {
-    id: 'totalQuantity',
-    label: 'Products'
-  }, {
-    id: 'totalAmount',
-    label: 'Amount'
-  }, {
-    id: 'status',
-    label: 'Status',
-    render: (text) => (
-      <Badge bg={text[0] === 'Paid' ? 'primary' : 'danger'}>{text}</Badge>
-    )
-  }, {
-    id: 'action',
-    label: 'Action',
-    render: (order) => (
-      order.delivered[0] === 'Delivered'
-        ? <CustomButton
-        size='sm'
-      value='Ordered is Delivered'
-      disabled={true}
-      className='btn btn-outline-success' />
-        : <CustomButton
-        size='sm'
-      value='Mark as Delivered'
-      onClick={() => dispatch(DeliverOrder(order))}
-      disabled={false}
-      className='btn btn-outline-primary' />
-    )
-  }
+  useEffect(() => {
+    dispatch(getOrdersInGroup());
+  }, []);
+  let totalUnits = 0;
+  let totalAmount = 0;
+  data.forEach((singleData, index) => {
+    totalUnits += singleData.totalQuantity;
+    totalAmount += singleData.totalAmount[0];
+  });
+  const ordersStats = [
+    { TotalOrders: data.length },
+    { TotalUnits: totalUnits },
+    { TotalAmount: totalAmount }
   ];
-  const totalOrders = [
-    { TotalOrders: '78' }
-  ]
-  const totalUnits = [
-    { TotalUnits: '45' }
-  ]
-  const totalAmount = [
-    { TotalAmount: '$100,000' }
-  ]
-  return (
-        <div className='main-box-admin'>
-            <div className='cards-box'>
-              {error
-                ? <ErrorModal
-              error={error}
-              clearError={clearError}
-              />
-                : <></>}
-        <CustomCards cardsText={totalOrders} heading5= 'heading5' quantityStyle = 'quantity-order'></CustomCards>
-        <CustomCards cardsText={totalUnits} heading5= 'heading5' quantityStyle = 'quantity-order'></CustomCards>
-        <CustomCards cardsText={totalAmount} heading5= 'heading5' quantityStyle = 'quantity-order'></CustomCards>
-        </div>
-        <div className='order-searchbar'>
-        <h4 className='orders-heading'>Orders</h4>
-        <CustomInput value = {value}
-        onChange={(e) => SetValue(e.target.value)}
-        placeholder='Seach by phone name'></CustomInput>
-        </div>
-        <CustomTable pagination ={false} data={data} headings={headings}></CustomTable>
-        </div>
+  const headings = [
+    {
+      id: 'date',
+      label: 'Date',
+      image: 'thumbnail',
+      render: (img) => <img src={img} className="item-image"></img>
+    },
+    {
+      id: 'orderId',
+      label: 'Order#Id'
+    },
+    {
+      id: 'userName',
+      label: 'User'
+    },
+    {
+      id: 'totalQuantity',
+      label: 'Products'
+    },
+    {
+      id: 'totalAmount',
+      label: 'Amount'
+    },
+    {
+      id: 'status',
+      label: 'Status',
+      render: (text) => (
+        <Badge bg={text[0] === 'Paid' ? 'primary' : 'danger'}>{text}</Badge>
+      )
+    },
+    {
+      id: 'action',
+      label: 'Action',
+      render: (order) =>
+        order.delivered[0] === 'Delivered'
+          ? (
+          <CustomButton
+            size="sm"
+            value="Ordered is Delivered"
+            disabled={true}
+            className="btn btn-outline-success"
+          />
+            )
+          : (
+          <CustomButton
+            size="sm"
+            value="Mark as Delivered"
+            onClick={() => dispatch(DeliverOrder(order))}
+            disabled={false}
+            className="btn btn-outline-primary"
+          />
+            )
+    }
+  ];
 
-  )
-}
+  return (
+    <div className="main-box-admin">
+      <div className="cards-box">
+        {error ? <ErrorModal error={error} clearError={clearError} /> : <></>}
+        {ordersStats.map((box, index) => (
+          <div key={index} className="orders-box">
+            {Object.keys(box).map((key) => (
+              <div key={key}>
+                <p>{key}</p>
+                <h4 className="orders-text">{box[key]}</h4>
+              </div>
+            ))}
+          </div>
+        ))}
+      </div>
+      {/* <div className="order-searchbar">
+        <h4 className="orders-heading">Orders</h4>
+        <CustomInput
+          value={value}
+          onChange={(e) => SetValue(e.target.value)}
+          placeholder="Seach by phone name"
+        ></CustomInput>
+      </div> */}
+      <CustomTable
+        pagination={false}
+        data={data}
+        headings={headings}
+      ></CustomTable>
+    </div>
+  );
+};
 export default AdminOrder;

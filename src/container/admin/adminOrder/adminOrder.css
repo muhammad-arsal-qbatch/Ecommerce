@@ -14,3 +14,26 @@ line-height: 28.8px; /* 120% */
     justify-content: space-between;
     align-items: center;
 }
+.orders-box{
+    margin-right: 5px;
+    padding: 5px;
+    width: 289px;
+height: 84px;
+flex-shrink: 0;
+border: 1px solid var(--components-image-border, #DEE2E6);
+background: var(--global-09-white, #FFF);
+display: flex;
+flex-direction: column;
+justify-content: start;
+}
+
+.orders-text{
+    color: var(--global-01-primary, #007BFF);
+
+/* Heading/H4 */
+font-family: Inter;
+font-size: 24px;
+font-style: normal;
+font-weight: 500;
+line-height: 28.8px; /* 120% */
+}

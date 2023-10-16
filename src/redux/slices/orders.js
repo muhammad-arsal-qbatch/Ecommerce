@@ -3,7 +3,11 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 
 const initialState = {
   orders: [],
-  error: ''
+  error: '',
+  stats: {},
+  statsLoader: true,
+  statsError: ''
+
 }
 
 export const getOrders = createAsyncThunk('ordersSlice/getOrders', async (body, thunkApi) => {
@@ -18,6 +22,22 @@ export const getOrders = createAsyncThunk('ordersSlice/getOrders', async (body, 
     })
   }
 })
+
+export const GetStats = createAsyncThunk('orders/getStats',
+  async (body, thunkApi) => {
+    console.log('insiisasa');
+    try {
+      console.log('product is, ')
+      const response = await axios.get('http://localhost:5000/orders/getStats', body);
+      console.log('response stats is, ', response.data);
+      return response.data;
+    } catch (error) {
+      return thunkApi.rejectWithValue({
+        error
+      })
+    }
+  }
+)
 export const getOrdersInGroup = createAsyncThunk('ordersSlice/getOrdersInGroup', async (body, thunkApi) => {
   try {
     console.log(body);
@@ -117,6 +137,19 @@ const ordersSlice = createSlice(
       },
       [GetOrdersByUserId.rejected]: (state, action) => {
         console.log('inside rejected');
+      },
+      [GetStats.pending]: (state, { payload }) => {
+        state.statsLoader = true;
+      },
+      [GetStats.fulfilled]: (state, { payload }) => {
+        console.log('in fulfilled , ', payload);
+        state.statsLoader = false;
+        state.stats = payload[0];
+      },
+      [GetStats.rejected]: (state, { payload }) => {
+        console.log('inside rejected , ', payload.error.message);
+        state.statsLoader = false;
+        state.statsError = 'Error fetching stats';
       }
 
     }
