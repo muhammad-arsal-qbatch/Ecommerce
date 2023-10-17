@@ -18,7 +18,7 @@ const initialState = {
 
 export const getData = createAsyncThunk('adminProductSlice/getProducts',
   async (body, { rejectWithValue, getState }) => {
-    console.log('body offset is, ', body);
+    console.log('body offset is, ', body.filterCode);
     const state = getState();
     console.log('token is, ', state.authentication.token);
     try {
@@ -27,7 +27,7 @@ export const getData = createAsyncThunk('adminProductSlice/getProducts',
           offset: body * 10 || 0,
           limit: body.limit ? body.limit : 10,
           search: body.search ? body.search : '',
-          filterCode: body.filterCode ? body.filterCode : -1
+          filterCode: body.filterCode > -1 ? body.filterCode : -1
         }
       });
       state.offset = body * 10 || 0

@@ -9,6 +9,7 @@ import { updateCartItem, deleteFromCart } from '../../redux/slices/user/shopping
 import { useDispatch } from 'react-redux';
 
 const CartItems = ({ data, showCheckBox }) => {
+  console.log('my data is, ', data);
   const dispatch = useDispatch();
   const handleSelect = () => {
     dispatch(updateCartItem(data));
@@ -35,7 +36,7 @@ const CartItems = ({ data, showCheckBox }) => {
         </div>
         <div className="cart-image-box col-2">
           <Image
-            src={data.thumbnail}
+            src={data.images.length === 0 ? '' : `http://localhost:5000/${data.images[0]}` }
             style={{ width: '100px', height: '100px', flexShrink: '0' }}
           ></Image>
         </div>
@@ -62,7 +63,7 @@ const CartItems = ({ data, showCheckBox }) => {
                     fill="none"
                   >
                     <g filter="url(#filter0_d_1295_19179)">
-                      <circle cx="11" cy="8.5" r="6" fill="#BA885B" />
+                      <circle cx="11" cy="8.5" r="6" fill={data.color} />
                       <circle cx="11" cy="8.5" r="6" stroke="white" />
                     </g>
                     <defs>
@@ -102,10 +103,8 @@ const CartItems = ({ data, showCheckBox }) => {
                       </filter>
                     </defs>
                   </svg>
-                  Brown
-                  {data.size.map((d, index) => (
-                    <span key={index}>{d}</span>
-                  ))}
+                  {data.color}
+                  {data.size}
                 </div>
               </div>
             </div>

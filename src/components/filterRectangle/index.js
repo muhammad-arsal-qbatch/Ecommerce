@@ -15,11 +15,11 @@ const FilterRectangle = () => {
     },
     {
       heading: 'Color',
-      items: ['Black', 'red', 'green']
+      items: ['black', 'darkred', 'darkgreen', 'grey', 'darkblue']
     },
     {
       heading: 'Price',
-      items: ['$0 - $20', '$20 - $40', '$40 - $60']
+      items: ['$0 - $20', '$20 - $40', '$40 - $10,000']
     }
   ]
   const dropdownArray2 = [
@@ -35,6 +35,13 @@ const FilterRectangle = () => {
     console.log(filterName);
     const filterCode = filter[filterName];
     console.log(filter[filterName]);
+    if (filterName === 'Color') {
+      dispatch(getData({ filterCode: filterCode + 10 }))
+    }
+    if (filterName === 'Size') {
+      console.log('filter code is, ', filterCode);
+      dispatch(getData({ filterCode: filterCode + 0 }))
+    }
     if (filterName === 'Price') {
       dispatch(getData({ filterCode: filterCode + 4 }))
     }

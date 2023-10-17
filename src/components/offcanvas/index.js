@@ -18,9 +18,16 @@ const CustomOffcanvas = ({
   quantity = 'Quantity'
 }) => {
   const colors = ['#155724', '#AAA', '#1B1E21', '#231579', '#740F0F'];
-  const [selectedColors, setSelectedColors] = useState([]);
+  const colorsName = [
+    { '#155724': 'darkgreen' },
+    { '#AAA': 'grey' },
+    { '#1B1E21': 'black' },
+    { '#231579': 'blue' },
+    { '#740F0F': 'darkred' }
+  ]
+  const [selectedColors, setSelectedColors] = useState('');
   const sizes = ['XS', 'S', 'M', 'L', 'XL', '2XL', '3XL'];
-  const [selectedSize, setSelectedSizes] = useState([]);
+  const [selectedSize, setSelectedSizes] = useState('');
   const [imagesArray, setImagesArray] = useState([]);
 
   const [productTitle, setProductTitle] = useState('');
@@ -31,45 +38,52 @@ const CustomOffcanvas = ({
   const dispatch = useDispatch();
   const addMyProduct = () => {
     console.log('add product btn is clicked', imagesArray);
+    const matchingEntry = colorsName.find(entry => Object.keys(entry)[0] === selectedColors);
+    const actualColor = Object.values(matchingEntry)[0];
     const newProduct = {
       productName: productTitle,
       size: selectedSize,
-      color: selectedColors,
+      color: actualColor,
       price: productPrice,
       quantity: productStock,
       images: [...imagesArray]
     }
+    console.log('new product is, ', newProduct);
     dispatch(addProduct({ newProduct }))
   }
   const editMyProduct = () => {
     console.log('edit product btn is clicked', imagesArray);
+    const matchingEntry = colorsName.find(entry => Object.keys(entry)[0] === selectedColors) || '';
+    const actualColor = Object.values(matchingEntry)[0] || '';
     const newProduct = {
       productName: productTitle,
       size: selectedSize,
-      color: selectedColors,
+      color: actualColor,
       price: productPrice,
       quantity: productStock,
       images: [...imagesArray],
       id: body._id
 
     }
+    console.log('updated product is, ', newProduct);
     dispatch(editProduct({ newProduct }))
   }
 
   const toggleSize = (size) => {
-    if (selectedSize.includes(size)) {
-      setSelectedSizes(selectedSize.filter((s) => {
-        return s !== size;
-      }))
+    if (selectedSize === size) {
+      setSelectedSizes('')
     } else {
-      setSelectedSizes([...selectedSize, size]);
+      setSelectedSizes(size);
     }
   }
   const toggleColor = (color) => {
-    if (selectedColors.includes(color)) {
-      setSelectedColors(selectedColors.filter((c) => c !== color))
+    if (selectedColors === color) {
+      // setSelectedColors(selectedColors.filter((c) => c !== color))
+      setSelectedColors('')
     } else {
-      setSelectedColors([...selectedColors, color])
+      // setSelectedColors([...selectedColors, color])
+      setSelectedColors(color)
+      console.log('selected color is, ', color);
     }
   }
   const addFile = (files) => {
@@ -122,7 +136,7 @@ const CustomOffcanvas = ({
                           return (
                             <div key={index}
                             onClick={() => toggleSize(s)}
-                            className={`sizes ${selectedSize.includes(s) ? 'selected' : ''} `}>
+                            className={`sizes ${selectedSize === s ? 'selected' : ''} `}>
                           {s}
 
                         </div>
@@ -135,7 +149,7 @@ const CustomOffcanvas = ({
                           {colors.map((c, index) => {
                             return (
                               <div
-                              className={`sizes ${selectedColors.includes(c) ? 'selected' : ''}`}
+                              className={`sizes ${selectedColors === c ? 'selected' : ''}`}
                               onClick={() => toggleColor(c)}
                                key={index}
                                >

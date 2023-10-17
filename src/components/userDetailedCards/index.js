@@ -28,12 +28,12 @@ const UserDetailedCards = ({
   };
 
   const handlePrevious = () => {
-    setSmallImagesShow((prev) => Math.max(prev - 3, 0));
+    setSmallImagesShow((prev) => Math.max(prev - 2, 0));
     // setLargeImagesShow((prev) => prev - 2);
   };
 
   const handleNext = () => {
-    setSmallImagesShow((prev) => Math.min(prev + 3, singleCard.images.length - 3));
+    setSmallImagesShow((prev) => Math.min(prev + 2, singleCard.images.length - 2));
     // setLargeImagesShow((prev) => prev + 2);
   };
   const addToCarts = (singleCard) => {
@@ -76,7 +76,7 @@ const UserDetailedCards = ({
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" onClick={handlePrevious}>
         <path d="M8.96158 12.0005L14.6154 17.6543L15.4308 16.8389L10.5769 12.0005L15.4154 7.16202L14.6 6.34665L8.96158 12.0005Z" fill="black"/>
       </svg>
-      {singleCard.images.slice(smallImagesShow, smallImagesShow + 3).map((s, index) => (
+      {singleCard.images.slice(smallImagesShow, smallImagesShow + 2).map((s, index) => (
         <div key={index} className='image-box-user-detailed-cards'>
  <img
                 key={index}

@@ -1,35 +1,48 @@
-import PropTypes from 'prop-types'
+import PropTypes from 'prop-types';
 
 import './colorsBox.css';
 
 const ColorsBox = ({
   text, colors
 }) => {
+  console.log('color or size', colors);
   return (
         <>
         {text}
         {text === 'Color'
           ? <div className='size-box'>
-       {colors.map((c, index) => {
-         return (
-           <div key={index} className='sizes'>
-           <div key={index} className='color-box' style={{ 'background-color': c }} />
+            {
+            typeof colors === 'string'
+              ? <div className='sizes'>
+              <div className='color-box' style={{ 'background-color': colors }} />
 
-           </div>
+              </div>
+              : colors.map((c, index) =>
+                  <div key={index} className='sizes'>
+                  <div key={index} className='color-box' style={{ 'background-color': c }} />
 
-         )
-       })}
+                  </div>
+              )
+
+          }
 
    </div>
           : <div className='size-box'>
-   {colors.map((s, index) => {
-     return (
-       <div key={index} className='sizes'>
-     {s}
+            {typeof colors === 'string'
+              ? <div className='sizes'>
+            <div className='color-box'>
+            {colors}
+            </div>
 
-   </div>
-     )
-   })}
+            </div>
+              : colors.map((c, index) =>
+            <div key={index} className='sizes'>
+            <div key={index} className='color-box' />
+            {c}
+
+            </div>
+              )
+            }
 
  </div>
       }

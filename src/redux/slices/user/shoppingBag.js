@@ -15,8 +15,14 @@ const shoppingBagSlice = createSlice(
       },
       addToCart: (state, { payload }) => {
         const payloadCopy = { ...payload, selected: true };
-        state.cart.push(payloadCopy);
-        console.log(state.cart);
+        const existingItem = state.cart.find(item => item._id === payload._id);
+
+        if (existingItem) {
+          console.log('Item is already in the cart:', existingItem);
+        } else {
+          state.cart.push(payloadCopy);
+          console.log(state.cart);
+        }
       },
       updateCartItem: (state, { payload }) => {
         const { _id } = payload;
