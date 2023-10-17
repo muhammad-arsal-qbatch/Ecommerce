@@ -19,7 +19,7 @@ const CustomDropDown = ({
 
       <Dropdown.Menu>
         {items.map((item, index) => (
-          <Dropdown.Item key={index} onClick={() => handleClick({ [heading]: index })}>{item}</Dropdown.Item>
+          <Dropdown.Item key={index} onClick={() => handleClick({ [heading]: index, filterAction: item })}>{item}</Dropdown.Item>
 
         ))}
       </Dropdown.Menu>

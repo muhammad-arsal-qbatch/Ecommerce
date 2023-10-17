@@ -1,10 +1,10 @@
 import { useSelector } from 'react-redux';
-import { Container, Row, Col, Image, Form } from 'react-bootstrap';
-import { useEffect } from 'react';
+import { Container, Row, Col, Image } from 'react-bootstrap';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import CartItems from '../../../components/cartItems';
-import Bin from '../../../assets/images/delete-btn.svg';
+// import Bin from '../../../assets/images/delete-btn.svg';
 import LeftArrow from '../../../assets/images/Arrow-left.svg';
 import CustomButton from '../../../components/button';
 
@@ -18,9 +18,17 @@ const Cart = () => {
 
   const data = useSelector((state) => state.shoppingBag.cart);
   const loader = useSelector((state) => state.adminProduct.loader);
+  const [selectedItems, setSelectedItems] = useState(data);
+  const [totalQuantity, setTotalQuantity] = useState(0);
   useEffect(() => {
-    console.log('updated data is , ', data);
-  }, []);
+    const newSelectedItems = data.filter(item => item.selected);
+    const total = newSelectedItems.reduce((accumulator, singleItem) => accumulator + (singleItem.quantity * singleItem.price), 0);
+
+    setTotalQuantity(total)
+
+    // Update the state with the filtered items
+    setSelectedItems(newSelectedItems)
+  }, [data]);
   const goToCheckout = () => {
     const shouldGoToCheckout = data.every((item) => item.selected === false);
     console.log(data);
@@ -50,19 +58,19 @@ const Cart = () => {
                 Shopping Bag
               </h4>
             </div>
-            <Container className="mb-2">
+            {/* <Container className="mb-2">
               <Row className=" items-select-text">
                 <div className="col-8">
                   <div className="items-select-check-box">
                     <Form.Check type="checkbox" />
-                    <span>Select {data.length} items</span>
+                    <span>Select {selectedItems.length} items</span>
                   </div>
                 </div>
                 <div className="d-flex justify-content-end pe-5 col-4">
                   <Image src={Bin}></Image>
                 </div>
               </Row>
-            </Container>
+            </Container> */}
             {loader === false
               ? (
               <>
@@ -84,9 +92,9 @@ const Cart = () => {
             <div className="mt-3 order-summary">
               <Container className="mt-3">
                 <Row className="mb-3">
-                  <Col sm="9">Sub Total: {data.length} items</Col>
+                  <Col sm="9">Sub Total: {selectedItems.length} items</Col>
                   <Col>
-                    <b>$00.00</b>
+                    <b>${totalQuantity}</b>
                   </Col>
                 </Row>
                 <Row className="mb-3">
@@ -98,7 +106,7 @@ const Cart = () => {
                 <Row className="mb-3">
                   <Col sm="9">Total:</Col>
                   <Col>
-                    <b>$00.00</b>
+                    <b>${totalQuantity}</b>
                   </Col>
                 </Row>
                 <Row className="mb-3">

@@ -31,22 +31,34 @@ const FilterRectangle = () => {
   ]
   const dispatch = useDispatch();
   const handleFilters = (filter) => {
+    console.log('my filter', filter)
     const filterName = Object.keys(filter)[0];
+    const filterAction = filter.filterAction;
     console.log(filterName);
+    console.log(filterAction);
     const filterCode = filter[filterName];
     console.log(filter[filterName]);
     if (filterName === 'Color') {
-      dispatch(getData({ filterCode: filterCode + 10 }))
+      const filterObj = { filterCode: 1, filterAction }
+      dispatch(getData({ filterObj }))
     }
     if (filterName === 'Size') {
       console.log('filter code is, ', filterCode);
-      dispatch(getData({ filterCode: filterCode + 0 }))
+      const filterObj = { filterCode: 0, filterAction }
+      dispatch(getData({ filterObj }))
     }
     if (filterName === 'Price') {
-      dispatch(getData({ filterCode: filterCode + 4 }))
+      const filterObj = {
+        filterCode: 2, filterAction: filterCode
+
+      }
+      dispatch(getData({ filterObj }))
     }
     if (filterName === 'Default Sorting') {
-      dispatch(getData({ filterCode: filterCode + 7 }))
+      const filterObj = {
+        filterCode: 3, filterAction: filterCode
+      }
+      dispatch(getData({ filterObj }))
     }
     // console.log('filterss are, ', filterName[0]);
   }
