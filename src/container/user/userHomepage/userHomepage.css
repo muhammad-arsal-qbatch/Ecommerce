@@ -34,3 +34,11 @@
     padding: 3% 2%;
     /* flex: 0 0; */
 }
+
+.error-container,
+.loader-container {
+  position: relative;
+  top: 200px;
+  z-index: 2px;
+  color: black;
+}

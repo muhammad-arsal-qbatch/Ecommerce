@@ -22,20 +22,22 @@ export const getData = createAsyncThunk('adminProductSlice/getProducts',
     const state = getState();
     console.log('token is, ', state.authentication.token);
     try {
-      let response;
-      if (!body) {
-        console.log('dasdasdad');
-        response = await axios.get('http://localhost:5000/products/getProducts')
-      } else {
-        response = await axios.get('http://localhost:5000/products/getProducts', {
-          params: {
-            offset: body * 10 || 0,
-            limit: 10
-          }
-        });
-        state.offset = body * 10 || 0
-        console.log('respose send from api is, ', response.data.response.myProducts);
+      const response = await axios.get('http://localhost:5000/products/getProducts', {
+        params: {
+          offset: body * 10 || 0,
+          limit: body.limit ? body.limit : 10,
+          search: body.search ? body.search : '',
+          filterCode: body.filterCode ? body.filterCode : -1
+        }
+      });
+      state.offset = body * 10 || 0
+      console.log('respose send from api is, ', response.data.response.myProducts);
+      if (response.data.response.myProducts.length === 0) {
+        return rejectWithValue({
+          error: 'no data found'
+        })
       }
+
       if (response.data.error) { // if api is correct but no data is returned
         console.log('sdsdds');
         return rejectWithValue(

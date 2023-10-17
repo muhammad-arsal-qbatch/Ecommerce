@@ -17,6 +17,7 @@ const UserHomepage = ({ cn }) => {
   const data = useSelector((state) => state.adminProduct.data);
   const loader = useSelector((state) => state.adminProduct.loader);
   const error = useSelector((state) => state.authentication.error);
+  const dataError = useSelector((state) => state.adminProduct.error);
   const [rightCard, showRightCard] = useState(false);
   const [singleCard, setSingleCard] = useState({});
 
@@ -27,47 +28,50 @@ const UserHomepage = ({ cn }) => {
   };
 
   useEffect(() => {
-    dispatch(getData());
+    dispatch(getData({ limit: 100 }));
   }, []);
   return (
     <>
       {cn}
-      {loader
-        ? (
-        <div>
-          <Spinner animation="border" role="status">
-            <span className="visually-hidden">Loading...</span>
-          </Spinner>
-        </div>
-          )
-        : (
         <div className="user-box">
-          {error ? <ErrorModal clearError={clearError} error={error} /> : <></>}
           <div>
             <FilterRectangle />
           </div>
           <div className="products-listing">
-            <div className="left-box">
-              {data.map((obj, index) => (
-                <UserCards
-                  cardData={obj}
-                  onClick={() => displayRightCard(obj._id)}
-                  key={index}
-                />
-              ))}
-            </div>
-            <div className="right-box">
-              {rightCard
-                ? (
-                <UserDetailedCards singleCard={singleCard}></UserDetailedCards>
-                  )
+          {error ? <ErrorModal clearError={clearError} error={error} className="error-container" /> : <></>}
+            {loader
+              ? (
+        <div style={{ margin: '400px' }}>
+          <Spinner animation="border" role="status">
+            <span className="visually-hidden">Loading...</span>
+          </Spinner>
+        </div>
+                )
+              : <></>}
+              {dataError
+                ? (<p style={{ margin: '400px' }}>{dataError}</p>)
+
                 : (
-                <></>
-                  )}
-            </div>
+            <><div className="left-box">
+                    {data.map((obj, index) => (
+                      <UserCards
+                        cardData={obj}
+                        onClick={() => displayRightCard(obj._id)}
+                        key={index} />
+                    ))}
+                  </div><div className="right-box">
+                      {rightCard
+                        ? (
+                          <UserDetailedCards singleCard={singleCard}></UserDetailedCards>
+                          )
+                        : (
+                          <></>
+                          )}
+                    </div></>
+                  )
+}
           </div>
         </div>
-          )}
     </>
   );
 };

@@ -1,7 +1,10 @@
+import { debounce } from 'lodash';
 import CustomDropDown from '../../components/dropdown'
 import CustomInput from '../inputField'
 
 import './filterRectangle.css'
+import { useDispatch } from 'react-redux';
+import { getData } from '../../redux/slices/adminProduct';
 
 const FilterRectangle = () => {
   const dropdownArray = [
@@ -26,6 +29,23 @@ const FilterRectangle = () => {
 
     }
   ]
+  const dispatch = useDispatch();
+  const handleFilters = (filter) => {
+    const filterName = Object.keys(filter)[0];
+    console.log(filterName);
+    const filterCode = filter[filterName];
+    console.log(filter[filterName]);
+    if (filterName === 'Price') {
+      dispatch(getData({ filterCode: filterCode + 4 }))
+    }
+    if (filterName === 'Default Sorting') {
+      dispatch(getData({ filterCode: filterCode + 7 }))
+    }
+    // console.log('filterss are, ', filterName[0]);
+  }
+  const handleSearch = debounce((e) => {
+    dispatch(getData({ search: e.target.value }));
+  }, 500);
   return (
         <div className="main-box-user ">
             <div className='heading-style'>
@@ -35,21 +55,23 @@ const FilterRectangle = () => {
               <div className='single-filter-box'>
                 <div> <b>filteres: </b></div>
                 {dropdownArray.map((singleDropdown, index) => (
-                    <CustomDropDown key={index} heading = {singleDropdown.heading} items= {singleDropdown.items}/>
+                    <CustomDropDown handleClick={handleFilters} key={index} heading = {singleDropdown.heading} items= {singleDropdown.items}/>
 
                 ))}
                 </div>
                 <div className='single-filter-box'>
                   <div> <b>Sorting: </b></div>
                 {dropdownArray2.map((singleDropdown, index) => (
-                    <CustomDropDown key={index} heading = {singleDropdown.heading} items= {singleDropdown.items}/>
+                    <CustomDropDown handleClick={handleFilters} key={index} heading = {singleDropdown.heading} items= {singleDropdown.items}/>
 
                 ))}
                 </div>
                 <div className='single-filter-box'>
                                 <div> <b>Search: </b></div>
 
-                <CustomInput placeholder='Search by Name'></CustomInput>
+                <CustomInput
+                onChange={handleSearch}
+                placeholder='Search by Name'></CustomInput>
                 </div>
                 </div>
         </div>

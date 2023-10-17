@@ -5,7 +5,8 @@ import './dropdown.css'
 
 const CustomDropDown = ({
   heading,
-  items
+  items,
+  handleClick
 }) => {
   return (
     <Dropdown >
@@ -18,7 +19,7 @@ const CustomDropDown = ({
 
       <Dropdown.Menu>
         {items.map((item, index) => (
-          <Dropdown.Item key={index} href="#/action-1">{item}</Dropdown.Item>
+          <Dropdown.Item key={index} onClick={() => handleClick({ [heading]: index })}>{item}</Dropdown.Item>
 
         ))}
       </Dropdown.Menu>
@@ -29,6 +30,7 @@ const CustomDropDown = ({
 }
 CustomDropDown.propTypes = {
   heading: PropTypes.string,
+  handleClick: PropTypes.func,
   items: PropTypes.array
 }
 
