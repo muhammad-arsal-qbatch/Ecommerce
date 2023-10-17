@@ -29,6 +29,8 @@ const CustomRoutes = () => {
               <Route path="/" element={<AdminDashboard />}></Route>
               <Route path="/ad-p" element={<AdminProducts />}></Route>
               <Route path="/ad-o" element={<AdminOrder />}></Route>
+              <Route path="*" element={<AdminDashboard/>}/>
+
             </Routes>
           </Layout>
             )
@@ -45,7 +47,10 @@ const CustomRoutes = () => {
                 {' '}
               </Route>
               <Route path="/o" element={<Orders />} />
+              <Route path="*" element={<UserHomepage/>}/>
+
             </Routes>
+
           </Layout>
             )}
       </>
@@ -60,8 +65,10 @@ const CustomRoutes = () => {
           ></Route>
           <Route path="/login" element={<Login />}></Route>
           <Route path="/signup" element={<Signup />}></Route>
-          <Route path="/fg" element={<ForgotPassword />}></Route>
+          <Route path="/forgotPassword" element={<ForgotPassword />}></Route>
           <Route path="/np" element={<NewPassword />}></Route>
+          <Route path="*" element={<Login/>}/>
+
         </Routes>
       </>
     );

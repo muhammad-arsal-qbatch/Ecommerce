@@ -5,8 +5,38 @@ import CustomInput from '../../../components/inputField';
 import CustomButton from '../../../components/button';
 
 import '../login/login.css'
+import { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { ResetPassword, clearError } from '../../../redux/slices/auth';
+import { useNavigate } from 'react-router-dom';
 
 const NewPassword = () => {
+  const dispatch = useDispatch();
+  const navigation = useNavigate();
+  const [newPassword, setNewPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const loading = useSelector((state) => state.authentication.isLoading);
+  const emailSentStatus = useSelector((state) => state.authentication.emailSentStatus);
+
+  const handleInput = () => {
+    if (newPassword !== confirmPassword) {
+      alert('Password not match');
+    } else {
+      const query = new URLSearchParams(window.location.search);
+      const token = query.get('token');
+      const body = {
+        token,
+        newPassword
+      }
+      console.log('token is, ', token);
+      dispatch(ResetPassword(body));
+    }
+  }
+  if (emailSentStatus) {
+    alert('password reset successful');
+    dispatch(clearError());
+    navigation('/login')
+  }
   return (
     <div className="main-container-login">
 <div className="group">
@@ -14,20 +44,30 @@ const NewPassword = () => {
         <div className="rectangle">
           <Form>
             <CustomInput
-              className="input-style"
+            value={newPassword}
+            onChange={(e) => setNewPassword(e.target.value)}
+            className="input-style"
               placeholder="enter password"
               type="password"
               label="Enter new Password"
               emailText="Password must contain Capital, small letter, number and symbols"
             ></CustomInput>
-
             <CustomInput
-              placeholder="confirm password"
+            value={confirmPassword}
+            onChange={(e) => setConfirmPassword(e.target.value)}
+            className="input-style"
+              placeholder="enter password"
               type="password"
               label="Confirm Password"
+              emailText="Password must contain Capital, small letter, number and symbols"
             ></CustomInput>
 
-            <CustomButton className="btn-style" value="Reset Password" variant="primary" />
+            <CustomButton
+            onClick={handleInput}
+            type= 'button'
+            className="btn-style"
+            value= {loading ? 'Loading' : 'Reset Password'}
+            variant="primary" />
 
           </Form>
         </div>

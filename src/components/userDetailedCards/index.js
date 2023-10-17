@@ -55,7 +55,7 @@ const UserDetailedCards = ({
         <>
         <div className="user-detailed-card-body">
             <div className='card-head'>
-                <Image src= {`http://localhost:5000/${singleCard.images[largeImagesShow]}`} className='card-image'></Image>
+                <Image src= {`http://localhost:5000/${singleCard.images[largeImagesShow] || singleCard.images[0]}`} className='card-image'></Image>
                 <div className='head-right'>
                 <div className='card-description'>
                   <CustomTooltip text={singleCard.productName}>

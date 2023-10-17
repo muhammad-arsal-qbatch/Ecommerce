@@ -62,7 +62,7 @@ const Login = () => {
 
             <div className="form-base">
               <div className="form-base-2">
-                <FormBase text="Forgot password" route="reset" />
+                <FormBase text="Forgot password" route="forgotPassword" />
                 <FormBase text="I dont have an account" route="signup" />
               </div>
             </div>

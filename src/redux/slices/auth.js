@@ -25,6 +25,37 @@ export const loginUser = createAsyncThunk('auth/loginStatus', async (body, thunk
     }
   }
 })
+export const UserForgotPassword = createAsyncThunk('auth/userForgotPassword', async (body, thunkApi) => {
+  try {
+    console.log('body', body);
+    const response = await axios.post('http://localhost:5000/auth/forgotPassword', body);
+    console.log(response);
+    return response.data;
+  } catch (error) {
+    console.log('error in thuk is, ', error.response.data.error);
+    return thunkApi.rejectWithValue({
+      error: error.response.data.error
+    })
+  }
+})
+
+export const ResetPassword = createAsyncThunk('auth/resetPassword', async (body, thunkApi) => {
+  try {
+    console.log('body', body);
+    const response = await axios.post('http://localhost:5000/auth/resetPassword', body, {
+      headers: {
+        Authorization: `Bearer ${body.token}` // Assuming your JWT token is stored in authentication.token
+      }
+    });
+    console.log(response);
+    return response.data;
+  } catch (error) {
+    console.log('error in thuk is, ', error.response.data.error);
+    return thunkApi.rejectWithValue({
+      error: error.response.data.error
+    })
+  }
+})
 export const logoutUser = createAsyncThunk('auth/logout', async (_, thunkApi) => {
   try {
     // Additional logout logic if needed
@@ -51,7 +82,7 @@ export const signupUser = createAsyncThunk('auth/signup', async (body, thunkApi)
       // If there is a message in the response data, treat it as an error
       console.log('inside rejected: ', response.data.message);
       return thunkApi.rejectWithValue({
-        error: response.data.message
+        error: response.data.error
       });
     }
     return response.data;
@@ -77,7 +108,9 @@ const authSlice = createSlice(
       error: '',
       isLoading: false,
       isAdmin: false,
-      currentUser: {}
+      currentUser: {},
+      passwordResetStatus: false,
+      emailSentStatus: false
 
     },
     reducers: {
@@ -109,12 +142,16 @@ const authSlice = createSlice(
       clearError: (state, action) => {
         console.log('\ninside clear error', state.error);
         state.error = '';
-        state.isLoading = false
+        state.isLoading = false;
+        state.emailSentStatus = false;
+        state.passwordResetStatus = false
       }
 
     },
     extraReducers: {
       [loginUser.fulfilled]: (state, { payload }) => {
+        state.passwordResetStatus = false;
+        state.emailSentStatus = false;
         console.log('token is, ', payload.message)
         state.token = payload.message
         localStorage.setItem('token', payload.message);
@@ -130,6 +167,9 @@ const authSlice = createSlice(
       },
       [loginUser.rejected]: (state, { payload }) => {
         console.log('message is  ', payload.error);
+        state.passwordResetStatus = false;
+        state.emailSentStatus = false;
+
         state.token = false;
         state.isLoading = false;
         state.error = payload.error.error;
@@ -156,6 +196,38 @@ const authSlice = createSlice(
         state.isLoading = false;
         state.currentUser = {};
         state.error = payload.error;
+      },
+      [UserForgotPassword.pending]: (state, { payload }) => {
+        state.isLoading = true;
+        console.log('inside pemding');
+      },
+      [UserForgotPassword.fulfilled]: (state, { payload }) => {
+        console.log('inside fulfilled');
+        state.passwordResetStatus = true;
+        state.isLoading = false;
+        state.error = 'email has sent to you for verification';
+      },
+      [UserForgotPassword.rejected]: (state, { payload }) => {
+        console.log('inside rejected', payload);
+        state.isLoading = false;
+        state.passwordResetStatus = false;
+        state.error = payload.error;
+      },
+      [ResetPassword.pending]: (state, { payload }) => {
+        state.isLoading = true;
+        console.log('inside pemding');
+      },
+      [ResetPassword.fulfilled]: (state, { payload }) => {
+        console.log('inside fulfilled');
+        state.isLoading = false;
+        state.error = '';
+        state.emailSentStatus = true;
+      },
+      [ResetPassword.rejected]: (state, { payload }) => {
+        console.log('inside rejected', payload);
+        state.isLoading = false;
+        state.error = payload.error;
+        state.emailSentStatus = false;
       }
     }
   })

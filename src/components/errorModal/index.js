@@ -27,7 +27,11 @@ const ErrorModal = ({
 
         </Modal.Header>
         <Modal.Body>
-          <p>{error}</p>
+          {typeof error === 'object'
+            ? <p>Internal server error</p>
+            : <p>{error}</p>
+
+        }
         </Modal.Body>
 
       </Modal>
