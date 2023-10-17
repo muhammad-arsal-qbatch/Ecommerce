@@ -8,7 +8,7 @@ import CustomInput from '../inputField';
 import { updateCartItem, deleteFromCart } from '../../redux/slices/user/shoppingBag';
 import { useDispatch } from 'react-redux';
 
-const CartItems = ({ data, showCheckBox }) => {
+const CartItems = ({ data, showCheckBox, showBin = true }) => {
   console.log('my data is, ', data);
   const dispatch = useDispatch();
   const handleSelect = () => {
@@ -114,7 +114,10 @@ const CartItems = ({ data, showCheckBox }) => {
           <div className="container-fluid justify-content-end ">
             <div className="row">
               <div className="col d-flex justify-content-end">
-                <Image onClick ={() => { deleteFromTheCart(data) } } src={Bin}></Image>
+                {showBin
+                  ? <Image onClick ={() => { deleteFromTheCart(data) } } src={Bin}></Image>
+                  : <></>
+                }
               </div>
             </div>
             <div className="row">
@@ -156,7 +159,8 @@ const CartItems = ({ data, showCheckBox }) => {
 
 CartItems.propTypes = {
   data: PropTypes.any,
-  showCheckBox: PropTypes.bool
+  showCheckBox: PropTypes.bool,
+  showBin: PropTypes.bool
 };
 
 export default CartItems;

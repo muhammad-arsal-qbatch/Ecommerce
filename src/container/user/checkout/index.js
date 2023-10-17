@@ -143,6 +143,9 @@ const Checkout = () => {
     dispatch(AddPaymentMethod(paymentData));
     hidePaymentModal();
   };
+  const newSelectedItems = data.filter(item => item.selected);
+  const total = newSelectedItems.reduce((accumulator, singleItem) => accumulator + (singleItem.quantity * singleItem.price), 0);
+
   return (
     <div className="checkout-box container ">
       {paymentModal
@@ -263,6 +266,7 @@ const Checkout = () => {
                 <>
                   {data.map((d, index) => (
                     <CartItems
+                    showBin = {false}
                       showCheckBox={false}
                       key={index}
                       data={d}
@@ -281,9 +285,9 @@ const Checkout = () => {
           <div className="mt-3 order-summary">
             <Container className="mt-3">
               <Row className="mb-3">
-                <Col sm="9">Sub Total: {data.length} items</Col>
+                <Col sm="9">Sub Total: {newSelectedItems.length} items</Col>
                 <Col>
-                  <b>$00.00</b>
+                  <b>${total}</b>
                 </Col>
               </Row>
               <Row className="mb-3">
@@ -295,7 +299,7 @@ const Checkout = () => {
               <Row className="mb-3">
                 <Col sm="9">Total:</Col>
                 <Col>
-                  <b>$00.00</b>
+                  <b>${total}</b>
                 </Col>
               </Row>
               <Row className="mb-3"></Row>
