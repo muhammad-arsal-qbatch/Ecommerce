@@ -27,7 +27,8 @@ export const getData = createAsyncThunk('adminProductSlice/getProducts',
           offset: body * 10 || 0,
           limit: body.limit ? body.limit : 10,
           search: body.search ? body.search : '',
-          filterObj: body.filterObj !== {} ? body.filterObj : {}
+          filterObj: body.filterObj || {},
+          sortingObj: body.sortingObj || {}
         }
       });
       state.offset = body * 10 || 0

@@ -3,6 +3,7 @@ import Spinner from 'react-bootstrap/Spinner';
 import PropTypes from 'prop-types';
 import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import moment from 'moment';
 
 import Arrow from '../../assets/images/Arrow.svg'
 import DeleteBtn from '../../assets/images/delete-btn.svg';
@@ -16,7 +17,7 @@ import './customTable.css';
 
 const CustomTable = (props) => {
   const {
-    data,
+    data = [],
     headings
   } = props;
   const offset = useSelector((state) => state.adminProduct.offset);
@@ -58,7 +59,7 @@ const CustomTable = (props) => {
 
             ? (
 
-                data.map((doc, index) => (
+                data?.map((doc, index) => (
           <tr key={index}>
             {headings.map((col, index) => (
               <td key={index}>
@@ -88,9 +89,9 @@ const CustomTable = (props) => {
                            ? (
                                col.render(doc)
                              )
-                           : <>{doc[col.id]}</>
+                           : col.id === 'date' ? (<> {moment(doc[col.id]).format('ll')}</>) : <>{doc[col.id]}</>
 
-                    //  : doc[col.id]
+                    //  : doc[col.id
 
                 }
               </td>

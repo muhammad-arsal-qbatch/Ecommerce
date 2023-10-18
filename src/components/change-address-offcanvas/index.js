@@ -3,9 +3,9 @@ import PropTypes from 'prop-types';
 
 // import './deliveryOffcanvas.css';
 import CustomButton from '../button';
-import { useEffect } from 'react';
+// import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { GetAllDeliveryAddress, UpdateDeliveryPerson } from '../../redux/slices/user/checkout';
+import { UpdateDeliveryPerson } from '../../redux/slices/user/checkout';
 // import { useDispatch } from 'react-redux';
 const ChangeAddressOffcanvas = ({
   onClick,
@@ -14,14 +14,16 @@ const ChangeAddressOffcanvas = ({
   show, handleShow,
   handleFunc
 }) => {
-  const allDeliveryAddress = useSelector((state) => state.checkout.allDeliveryPersons);
-  const selectedPerson = useSelector((state) => state.checkout.selectedPerson);
+  const currentUser = useSelector((state) => state.authentication.currentUser);
+  const deliveryAddress = currentUser.deliveryAddress;
+  console.log('\n\nall delivery persons are,  ', deliveryAddress);
+  const selectedPerson = currentUser.selectedPerson;
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    dispatch(GetAllDeliveryAddress())
-    console.log({ allDeliveryAddress });
-  }, [])
+  // useEffect(() => {
+  //   dispatch(GetAllDeliveryAddress())
+  //   console.log({ allDeliveryAddress });
+  // }, [])
   // const dispatch= useDispatch();
   return (
     <Offcanvas show={show} onHide={handleShow} placement='end' >
@@ -31,7 +33,7 @@ const ChangeAddressOffcanvas = ({
             <div className='row'>
               <CustomButton className=' mb-2 btn btn-primary' value= 'Add New' onClick={onClick} />
             </div>
-            {allDeliveryAddress.map((singleAddress, index) => {
+            {deliveryAddress.map((singleAddress, index) => {
               return (
                 <div key={ index } className=' p-1 delivery-address-box mb-2 col-12'>
                 <div key={index} className='container'>

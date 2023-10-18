@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { updateShoppingBag } from './shoppingBag';
+import { updateCurrentUserDetails } from '../auth';
 import axios from 'axios';
 
 export const PlaceOrder = createAsyncThunk('ordersSlice/placeOrders', async (body, thunkApi) => {
@@ -42,6 +43,8 @@ export const AddDeliveryAddress = createAsyncThunk('ordersSlice/addDeliveryAddre
     body.userId = userId;
     const response = await axios.post('http://localhost:5000/users/addDeliveryAddress', body);
     console.log('response is ,', response);
+    thunkApi.dispatch(updateCurrentUserDetails(response.data));
+
     return response.data;
   } catch (error) {
     thunkApi.rejectWithValue({
@@ -56,6 +59,7 @@ export const AddPaymentMethod = createAsyncThunk('ordersSlice/addPaymentMethod',
     body.userId = userId;
     const response = await axios.post('http://localhost:5000/users/addPaymentMethod', body);
     console.log('response is ,', response);
+    thunkApi.dispatch(updateCurrentUserDetails(response.data));
     return response.data;
   } catch (error) {
     thunkApi.rejectWithValue({
@@ -118,10 +122,27 @@ export const UpdateDeliveryPerson = createAsyncThunk('ordersSlice/updateDelivery
     console.log('iniseeee', body);
     console.log('my body is, ', body);
     const userId = localStorage.getItem('userId');
-    // body.userId = userId;
-    // console.log('body is ', body);
     const response = await axios.put('http://localhost:5000/users/updateDeliveryPerson', { userId, body });
     console.log('response is ,', response.data);
+    thunkApi.dispatch(updateCurrentUserDetails(response.data));
+
+    return response.data
+  } catch (error) {
+    thunkApi.rejectWithValue({
+      error
+    })
+  }
+})
+
+export const UpdatePaymentMethod = createAsyncThunk('ordersSlice/updatePaymentMethod', async (body, thunkApi) => {
+  try {
+    console.log('iniseeee', body);
+    console.log('my body is, ', body);
+    const userId = localStorage.getItem('userId');
+    const response = await axios.put('http://localhost:5000/users/updatePaymentMethod', { userId, body });
+    console.log('response is ,', response.data);
+    thunkApi.dispatch(updateCurrentUserDetails(response.data));
+
     return response.data
   } catch (error) {
     thunkApi.rejectWithValue({
@@ -284,10 +305,22 @@ const checkoutSlice = createSlice(
       },
       [UpdateDeliveryPerson.fulfilled]: (state, action) => {
         console.log('in fulfilled, ', action.payload);
+        state.currentUser = action.payload;
         state.allDeliveryPersons = action.payload.deliveryAddress;
         state.selectedPerson = action.payload.selectedPerson;
       },
       [UpdateDeliveryPerson.rejected]: (state, action) => {
+        console.log('inside pendinf');
+      },
+      [UpdatePaymentMethod.pending]: (state, action) => {
+        console.log('inside pendinf');
+      },
+      [UpdatePaymentMethod.fulfilled]: (state, action) => {
+        console.log('in fulfilled, ', action.payload);
+        state.allPaymentMethods = action.payload.paymentMethods;
+        state.selectedPaymentMethod = action.payload.selectedPaymentMethod;
+      },
+      [UpdatePaymentMethod.rejected]: (state, action) => {
         console.log('inside pendinf');
       }
 

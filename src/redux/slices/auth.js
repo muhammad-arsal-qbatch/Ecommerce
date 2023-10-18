@@ -145,6 +145,10 @@ const authSlice = createSlice(
         state.isLoading = false;
         state.emailSentStatus = false;
         state.passwordResetStatus = false
+      },
+      updateCurrentUserDetails: (state, { payload }) => {
+        console.log('user isssss,', payload);
+        state.currentUser = payload;
       }
 
     },
@@ -232,5 +236,9 @@ const authSlice = createSlice(
     }
   })
 
-export const { login, logout, loginAdmin, logoutAdmin, clearCache, clearError } = authSlice.actions;
+export const {
+  login,
+  updateCurrentUserDetails,
+  logout, loginAdmin, logoutAdmin, clearCache, clearError
+} = authSlice.actions;
 export default authSlice.reducer;

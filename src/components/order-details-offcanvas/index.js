@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types';
+import moment from 'moment';
 import { Offcanvas } from 'react-bootstrap';
 
 import CustomTable from '../../components/customTable';
@@ -52,7 +53,7 @@ const OrderDetailsOffcanvas = ({
                 <div className='col'>{order.totalQuantity}</div>
                 <div className='col'>{order.status}</div>
                 <div className='col'>{order.totalAmount}</div>
-                <div className='col'>{order.date}</div>
+                <div className='col'>{moment(order.date).format('ll')}</div>
               </div>
             </div>
           </div>

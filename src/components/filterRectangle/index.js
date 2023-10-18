@@ -5,8 +5,14 @@ import CustomInput from '../inputField'
 import './filterRectangle.css'
 import { useDispatch } from 'react-redux';
 import { getData } from '../../redux/slices/adminProduct';
+import { useEffect, useState } from 'react';
 
 const FilterRectangle = () => {
+  const dispatch = useDispatch();
+
+  const [filterObject, setFilterObject] = useState({});
+  const [sortingObject, setSortingObject] = useState({});
+  const [searchKeyword, setSearchKeyword] = useState('');
   const dropdownArray = [
     {
       heading: 'Size',
@@ -19,9 +25,10 @@ const FilterRectangle = () => {
     },
     {
       heading: 'Price',
-      items: ['$0 - $20', '$20 - $40', '$40 - $10,000']
+      items: ['$0 - $20', '$20 - $40', '$40 - $10000']
     }
   ]
+
   const dropdownArray2 = [
     {
       heading: 'Default Sorting',
@@ -29,71 +36,101 @@ const FilterRectangle = () => {
 
     }
   ]
-  const dispatch = useDispatch();
+
   const handleFilters = (filter) => {
-    console.log('my filter', filter)
-    const filterName = Object.keys(filter)[0];
-    const filterAction = filter.filterAction;
-    console.log(filterName);
-    console.log(filterAction);
-    const filterCode = filter[filterName];
-    console.log(filter[filterName]);
-    if (filterName === 'Color') {
-      const filterObj = { filterCode: 1, filterAction }
-      dispatch(getData({ filterObj }))
-    }
-    if (filterName === 'Size') {
-      console.log('filter code is, ', filterCode);
-      const filterObj = { filterCode: 0, filterAction }
-      dispatch(getData({ filterObj }))
-    }
-    if (filterName === 'Price') {
-      const filterObj = {
-        filterCode: 2, filterAction: filterCode
+    let filterName = Object.keys(filter)[0];
+    const { filterAction } = filter;
+    filterName = filterName.toLowerCase()
+    console.log('filter name is, ', filterName);
 
-      }
-      dispatch(getData({ filterObj }))
+    if (filterName === 'price') {
+      const splittedValue = filterAction.split('-');
+      const startValue = splittedValue[0].split('$')[1];
+      const endValue = splittedValue[1].split('$')[1];
+      setFilterObject({
+        ...filterObject,
+        [filterName]: [startValue, endValue]
+      });
+    } else {
+      setFilterObject({
+        ...filterObject,
+        [filterName]: filterAction
+      });
     }
-    if (filterName === 'Default Sorting') {
-      const filterObj = {
-        filterCode: 3, filterAction: filterCode
-      }
-      dispatch(getData({ filterObj }))
-    }
-    // console.log('filterss are, ', filterName[0]);
   }
+
+  const handleSort = (sort) => {
+    const defaultSorting = Object.values(sort);
+    let sortingObj = {};
+    if (defaultSorting[0] === 2) {
+      sortingObj = {
+        date: -1
+      }
+    } else {
+      if (defaultSorting[0] === 0) {
+        sortingObj = {
+          price: 1
+        }
+      } else {
+        sortingObj = {
+          price: -1
+        }
+      }
+    }
+    setSortingObject({ ...sortingObj });
+  }
+
   const handleSearch = debounce((e) => {
-    dispatch(getData({ search: e.target.value }));
+    setSearchKeyword({ search: e.target.value })
   }, 500);
+
+  useEffect(() => {
+    dispatch(getData({
+      filterObj: filterObject,
+      sortingObj: sortingObject,
+      ...searchKeyword
+    }))
+  }, [filterObject, searchKeyword, sortingObject])
+
   return (
-        <div className="main-box-user ">
-            <div className='heading-style'>
-            <h4>Heading</h4>
+    <div className="main-box-user ">
+      <div className='heading-style'>
+      <h4>Heading</h4>
+      </div>
+      <div className='filter-box'>
+        <div className='single-filter-box'>
+          <div> <b>filteres: </b></div>
+          {dropdownArray.map((singleDropdown, index) => (
+            <CustomDropDown
+              handleClick={handleFilters}
+              key={index}
+              heading = {singleDropdown.heading}
+              items= {singleDropdown.items}
+            />
+          ))}
+          </div>
+          <div className='single-filter-box'>
+            <div>
+              <b>Sorting: </b>
             </div>
-            <div className='filter-box'>
-              <div className='single-filter-box'>
-                <div> <b>filteres: </b></div>
-                {dropdownArray.map((singleDropdown, index) => (
-                    <CustomDropDown handleClick={handleFilters} key={index} heading = {singleDropdown.heading} items= {singleDropdown.items}/>
-
-                ))}
-                </div>
-                <div className='single-filter-box'>
-                  <div> <b>Sorting: </b></div>
-                {dropdownArray2.map((singleDropdown, index) => (
-                    <CustomDropDown handleClick={handleFilters} key={index} heading = {singleDropdown.heading} items= {singleDropdown.items}/>
-
-                ))}
-                </div>
-                <div className='single-filter-box'>
-                                <div> <b>Search: </b></div>
-
-                <CustomInput
-                onChange={handleSearch}
-                placeholder='Search by Name'></CustomInput>
-                </div>
-                </div>
-        </div>
+          {dropdownArray2.map((singleDropdown, index) => (
+            <CustomDropDown
+              handleClick={handleSort}
+              key={index}
+              heading = {singleDropdown.heading}
+              items= {singleDropdown.items}
+            />
+          ))}
+          </div>
+          <div className='single-filter-box'>
+          <div> <b>Search: </b></div>
+            <CustomInput
+              onChange={handleSearch}
+              placeholder='Search by Name'>
+            </CustomInput>
+          </div>
+      </div>
+    </div>
 
   )
 }

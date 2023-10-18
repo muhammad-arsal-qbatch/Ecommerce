@@ -1,13 +1,28 @@
 import React, { useState } from 'react';
 import ReactApexChart from 'react-apexcharts';
 import PropTypes from 'prop-types';
+// import { getOrdersInGroup } from '../../redux/slices/orders';
 
 import './chart.css';
-const CustomChart = ({ type }) => {
+// import { useDispatch } from 'react-redux';
+const CustomChart = ({ type, currentOrders }) => {
+  // const dispatch = useDispatch();
+  // useEffect(
+  //   () => {
+  //     dispatch(getOrdersInGroup());
+  //   }, []
+  // )
+  console.log('current ordersss, ', currentOrders);
+  const ordersDelivered = currentOrders.filter(order => order.delivered === 'Delivered');
+  const deliveredOrdersCount = ordersDelivered.length;
+  const ordersNotDelivered = currentOrders.filter(order => order.delivered === 'Not Delivered');
+  const notDeliveredOrdersCount = ordersNotDelivered.length;
+  console.log('orders delivered, ', notDeliveredOrdersCount);
+  console.log('orders Not, ', ordersNotDelivered);
   const [chartData] = useState({
-    series: [25, 35],
+    series: [deliveredOrdersCount, notDeliveredOrdersCount],
     options: {
-      labels: ['Orders Paid', 'Orders Unpaid'],
+      labels: ['Orders Delivered', 'Orders Not Delivered'],
       legend: {
         show: false
       },
@@ -77,7 +92,7 @@ const CustomChart = ({ type }) => {
             </filter>
           </defs>
         </svg>
-        <p className="label-style">Orders paid</p>
+        <p className="label-style">Orders Not Delivered</p>
         </div>
         <div>
         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
@@ -97,7 +112,7 @@ const CustomChart = ({ type }) => {
     </filter>
   </defs>
 </svg>
-        <p className="label-style">Orders Unpaid</p>
+        <p className="label-style">Orders Delivered </p>
         </div>
         </div>
       </div>
@@ -105,6 +120,7 @@ const CustomChart = ({ type }) => {
   );
 };
 CustomChart.propTypes = {
-  type: PropTypes.string
+  type: PropTypes.string,
+  currentOrders: PropTypes.any
 };
 export default CustomChart;

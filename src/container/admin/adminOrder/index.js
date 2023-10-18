@@ -6,8 +6,8 @@ import CustomTable from '../../../components/customTable';
 
 import {
   DeliverOrder,
-  getOrdersInGroup,
-  clearError
+  clearError,
+  getOrders
 } from '../../../redux/slices/orders';
 
 import CustomButton from '../../../components/button';
@@ -18,19 +18,20 @@ import './adminOrder.css';
 const AdminOrder = () => {
   const dispatch = useDispatch();
   const data = useSelector((state) => state.orders.orders);
+  console.log('now all data isss, ', data);
 
   const error = useSelector((state) => state.orders.error);
   useEffect(() => {
-    dispatch(getOrdersInGroup());
+    dispatch(getOrders({ sortingObj: { orderId: -1 } }));
   }, []);
   let totalUnits = 0;
   let totalAmount = 0;
-  data.forEach((singleData, index) => {
+  data?.forEach((singleData, index) => {
     totalUnits += singleData.totalQuantity;
-    totalAmount += singleData.totalAmount[0];
+    totalAmount += singleData.totalAmount;
   });
   const ordersStats = [
-    { TotalOrders: data.length },
+    { TotalOrders: data?.length },
     { TotalUnits: totalUnits },
     { TotalAmount: totalAmount }
   ];
@@ -61,14 +62,14 @@ const AdminOrder = () => {
       id: 'status',
       label: 'Status',
       render: (text) => (
-        <Badge bg={text[0] === 'Paid' ? 'primary' : 'danger'}>{text}</Badge>
+        <Badge bg={text === 'Paid' ? 'primary' : 'danger'}>{text}</Badge>
       )
     },
     {
       id: 'action',
       label: 'Action',
       render: (order) =>
-        order.delivered[0] === 'Delivered'
+        order.delivered === 'Delivered'
           ? (
           <CustomButton
             size="sm"

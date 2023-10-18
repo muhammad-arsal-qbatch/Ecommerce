@@ -3,6 +3,7 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 
 const initialState = {
   orders: [],
+  allOrders: [],
   error: '',
   stats: {},
   statsLoader: true,
@@ -12,11 +13,18 @@ const initialState = {
 
 export const getOrders = createAsyncThunk('ordersSlice/getOrders', async (body, thunkApi) => {
   try {
+    console.log('insid4 get ordersss of thunk apiii');
     const state = thunkApi.getState();
     console.log(body);
+    const userIdObject = { userId: body.userId || null }
+
     const response = await axios.get('http://localhost:5000/orders/getOrders', {
       headers: {
         Authorization: `Bearer ${state.authentication.token}` // Assuming your JWT token is stored in authentication.token
+      },
+      params: {
+        userId: userIdObject || null,
+        sortingObj: body.sortingObj || {}
       }
     })
     console.log({ response });
@@ -101,7 +109,7 @@ export const GetOrdersByUserId = createAsyncThunk('ordersSlice/GetOrders', async
           Authorization: `Bearer ${state.authentication.token}` // Assuming your JWT token is stored in authentication.token
         }
       })
-    console.log({ response });
+    console.log('orders by user id is, ', { response });
     return response.data;
   } catch (error) {
     thunkApi.rejectWithValue({
@@ -133,7 +141,7 @@ const ordersSlice = createSlice(
       [getOrdersInGroup.pending]: (state, action) => {
       },
       [getOrdersInGroup.fulfilled]: (state, action) => {
-        console.log('in fulfilled', action.payload);
+        console.log('in fulfilled of getOrdersssssss', action.payload.orders);
         state.orders = action.payload.orders;
       },
       [getOrdersInGroup.rejected]: (state, { payload }) => {

@@ -2,7 +2,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
 
 import CustomTable from '../../../components/customTable';
-import { GetOrdersByUserId } from '../../../redux/slices/orders';
+import { GetOrdersByUserId, getOrders } from '../../../redux/slices/orders';
 import { Badge } from 'react-bootstrap';
 import CustomButton from '../../../components/button';
 import OrderDetailsOffcanvas from '../../../components/order-details-offcanvas';
@@ -10,10 +10,11 @@ import OrderDetailsOffcanvas from '../../../components/order-details-offcanvas';
 const Orders = () => {
   const [orderDetailsOffcanvas, setOrderDetailsOffcanvas] = useState(false);
   const orders = useSelector((state) => state.orders.orders);
+  const currentUser = useSelector((state) => state.authentication.currentUser);
   const [singleOrder, setSingleOrder] = useState({});
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(GetOrdersByUserId());
+    dispatch(getOrders({ userId: currentUser._id }));
   }, []);
   const headings = [
     {

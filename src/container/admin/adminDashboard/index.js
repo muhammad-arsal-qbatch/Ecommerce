@@ -7,8 +7,7 @@ import CustomCards from '../../../components/customCards';
 import ShoppingCart from '../../../assets/images/shopping_cart.svg';
 import CustomChart from '../../../components/chart';
 import { GetTopSellingProducts } from '../../../redux/slices/adminProduct';
-import { GetStats } from '../../../redux/slices/orders';
-import DashboardChart from '../../../components/line-chart';
+import { GetStats, getOrders } from '../../../redux/slices/orders';
 
 import '../../../layout/layout.css';
 import './adminDashboard.css';
@@ -42,11 +41,13 @@ const AdminDashboard = () => {
       label: 'Amount'
     }
   ];
+  const currentOrders = useSelector((state) => state.orders.orders);
   const dispatch = useDispatch();
   useEffect(() => {
     console.log('asdsaasdasdsada');
     dispatch(GetStats());
     dispatch(GetTopSellingProducts());
+    dispatch(getOrders());
   }, []);
 
   return (
@@ -90,8 +91,11 @@ const AdminDashboard = () => {
             )}
       </div>
       <div className="charts-box">
-        <CustomChart type="donut" />
-        <DashboardChart />
+        {currentOrders
+          ? <CustomChart currentOrders={currentOrders} type="donut" />
+          : <></>
+        }
+        {/* <DashboardChart /> */}
       </div>
       <h6 className="top-products">Top selling products</h6>
       {loader === true

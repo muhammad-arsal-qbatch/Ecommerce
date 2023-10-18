@@ -4,8 +4,10 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import CartItems from '../../../components/cartItems';
+import PaymentCard from '../../../components/payment-card';
 import CustomButton from '../../../components/button';
 import DeliveryOffcanvas from '../../../components/deliveryOffcanvas';
+import UpdatePaymentOffcanvas from '../../../components/update-payment-offcavas'
 import CustomInput from '../../../components/inputField';
 import {
   AddDeliveryAddress,
@@ -15,6 +17,7 @@ import {
 } from '../../../redux/slices/user/checkout';
 import LeftArrow from '../../../assets/images/Arrow-left.svg';
 import ChangeAddressOffcanvas from '../../../components/change-address-offcanvas';
+import PaymentEdit from '../../../assets/images/payment-edit.svg';
 
 import './checkout.css';
 
@@ -69,24 +72,24 @@ const Checkout = () => {
   );
   const [paymentData, setPaymentData] = useState(paymentInitialState);
   const originalData = useSelector((state) => state.shoppingBag.cart);
+  const currentUser = useSelector((state) => state.authentication.currentUser);
+  console.log('\n\ncurrent user is, ', currentUser);
   const data = originalData.filter((item, index) => item.selected === true);
 
   const loader = useSelector((state) => state.adminProduct.loader);
   const [deliveryModal, showDeliveryModal] = useState(false);
 
   const [paymentModal, showPaymentModal] = useState(false);
+  const [updatePaymentOffcanvas, setUpdatePaymentOffcanvas] = useState(false);
   const [changeAddressOffcanvas, setChangeAddressOffcanvas] = useState(false);
 
-  const deliveryPersons = useSelector(
-    (state) => state.checkout.allDeliveryPersons
-  );
-  const allPaymentMethods = useSelector(
-    (state) => state.checkout.allPaymentMethods
-  );
-  const selectedPerson = useSelector((state) => state.checkout.selectedPerson);
-  const selectedPaymentMethod = useSelector(
-    (state) => state.checkout.selectedPaymentMethod
-  );
+  const deliveryPersons = currentUser.deliveryAddress;
+  console.log('\n\nall delivery persons are,  ', deliveryPersons);
+  const allPaymentMethods = currentUser.paymentMethods
+  const selectedPerson = currentUser.selectedPerson
+  const selectedPaymentMethod = currentUser.selectedPaymentMethod;
+
+  console.log('\n\nall payment methods aree', allPaymentMethods);
 
   const dispatch = useDispatch();
   const navigation = useNavigate();
@@ -129,18 +132,35 @@ const Checkout = () => {
   const hidePaymentModal = () => {
     showPaymentModal(false);
   };
+  const displayUpdatePaymentOffcanvas = () => {
+    setUpdatePaymentOffcanvas(true);
+  };
+  const hideUpdatePaymentOffcanvas = () => {
+    setUpdatePaymentOffcanvas(false);
+  };
 
   useEffect(() => {
     console.log(data);
     dispatch(GetDeliveryAddress());
   }, []);
   const saveThePerson = () => {
-    dispatch(AddDeliveryAddress(deliveryAddressData));
+    console.log('delivery address data is, ', deliveryAddressData);
+    const { address, city, country, mobileNo, fullName, province } = deliveryAddressData;
+    if (address === '' || city === '' || country === '' || mobileNo === '' || fullName === '' || province === '') {
+      alert('Please provide all details');
+    } else {
+      dispatch(AddDeliveryAddress(deliveryAddressData));
+    }
     hideDeliveryModal();
   };
   const saveThePaymentMethod = () => {
-    console.log(' isnide save the payment method func');
-    dispatch(AddPaymentMethod(paymentData));
+    console.log(' isnide save the payment method func', paymentData);
+    const { cardNumber, country, cvc, expiryDate } = paymentData;
+    if (cardNumber === '' || country === '' || cvc === '' || expiryDate === '') {
+      alert('please provide all details');
+    } else {
+      dispatch(AddPaymentMethod(paymentData));
+    }
     hidePaymentModal();
   };
   const newSelectedItems = data.filter(item => item.selected);
@@ -158,15 +178,30 @@ const Checkout = () => {
               addPersonMappedRows={addPaymentMappedRows}
               deliveryAddressData={paymentData}
               setDeliveryAddressData={setPaymentData}
-            />
-          }
+            /> }
           show={paymentModal}
-          handleShow={hidePaymentModal}
-        />
+          handleShow={() => hidePaymentModal}
+          />
           )
         : (
         <></>
-          )}
+          )
+        }
+          {updatePaymentOffcanvas
+            ? (
+            <UpdatePaymentOffcanvas
+            handleFunc= {saveThePaymentMethod}
+            handleShow={hideUpdatePaymentOffcanvas}
+            rows = {<AddPersonRows
+              addPersonMappedRows={addPaymentMappedRows}
+              deliveryAddressData={paymentData}
+              setDeliveryAddressData={setPaymentData}
+            />}
+            show = {updatePaymentOffcanvas}
+            />
+
+              )
+            : <></>}
       {deliveryModal
         ? (
         <DeliveryOffcanvas
@@ -191,7 +226,7 @@ const Checkout = () => {
         <ChangeAddressOffcanvas
           onClick={displayDeliveryModal}
           show={changeAddressOffcanvas}
-          handleShow={() => setChangeAddressOffcanvas(false)}
+          handleShow={() => { setChangeAddressOffcanvas(false) }}
         />
           )
         : (
@@ -204,7 +239,7 @@ const Checkout = () => {
               <Image
                 style={{ cursor: 'pointer !important' }}
                 onClick={() => {
-                  navigation('/');
+                  navigation('/c');
                 }}
                 src={LeftArrow}
               ></Image>
@@ -311,7 +346,7 @@ const Checkout = () => {
               ? (
               <div className="container">
                 <div className="row">
-                  <div className="col-10">
+                  {/* <div className="col-10">
                     <div className=" m-2 payment-card container">
                       <div className="row m-2">
                         <div className="col-3">
@@ -360,9 +395,12 @@ const Checkout = () => {
                         </div>
                       </div>
                     </div>
-                  </div>
+                  </div> */}
+                  <PaymentCard cardDetails={allPaymentMethods[selectedPaymentMethod]} />
 
-                  <div className="col-2"></div>
+                  <div className="col-2">
+                    <Image onClick={() => { displayUpdatePaymentOffcanvas() }} src={PaymentEdit}/>
+                  </div>
                 </div>
               </div>
                 )
