@@ -15,7 +15,7 @@ const initialState = {
   product: {}
 };
 
-export const getData = createAsyncThunk(
+export const GetData = createAsyncThunk(
   'adminProductSlice/getProducts',
   async (body, { rejectWithValue, getState }) => {
     const state = getState();
@@ -52,7 +52,7 @@ export const getData = createAsyncThunk(
   }
 );
 
-export const addProduct = createAsyncThunk(
+export const AddProduct = createAsyncThunk(
   'adminProductSlice/addProduct',
   async (body, thunkApi) => {
     try {
@@ -84,7 +84,7 @@ export const addProduct = createAsyncThunk(
     }
   }
 );
-export const getOrder = createAsyncThunk(
+export const GetOrder = createAsyncThunk(
   'adminProductSlice/getOrder',
   async (body, thunkApi) => {
     try {
@@ -102,7 +102,7 @@ export const getOrder = createAsyncThunk(
   }
 );
 
-export const editProduct = createAsyncThunk(
+export const EditProduct = createAsyncThunk(
   'adminProductSlice/editProduct',
   async (body, thunkApi) => {
     try {
@@ -130,7 +130,7 @@ export const editProduct = createAsyncThunk(
   }
 );
 
-export const deleteProduct = createAsyncThunk(
+export const DeleteProduct = createAsyncThunk(
   'adminProductSlice/deleteProduct',
   async (body, thunkApi) => {
     try {
@@ -157,6 +157,7 @@ export const deleteProduct = createAsyncThunk(
     }
   }
 );
+
 export const GetTopSellingProducts = createAsyncThunk(
   'adminProductSlice/getTopSellingProducts',
   async (body, thunkApi) => {
@@ -184,36 +185,36 @@ const AdminProductSlice = createSlice({
   name: 'adminProductSlice',
   initialState,
   reducers: {
-    handleNext: (state) => {
+    HandleNext: (state) => {
       state.offset = state.offset + 1;
     },
-    handlePrevious: (state) => {
+    HandlePrevious: (state) => {
       state.offset = state.offset - 1;
     },
-    handleOffset: (state, { payload }) => {
+    HandleOffset: (state, { payload }) => {
       state.offset = payload;
     },
-    hideOffcanvas: (state) => {
+    HideOffcanvas: (state) => {
       state.offcanvas = false;
       state.addProductCanvas = false;
       state.product = {};
     },
-    hideModal: (state) => {
+    HideModal: (state) => {
       state.modal = false;
     },
-    displayModal: (state, { payload }) => {
+    DisplayModal: (state, { payload }) => {
       state.modal = true;
       console.log(state.data);
       state.product = payload;
     },
-    showOffcanvas: (state, { payload }) => {
+    ShowOffcanvas: (state, { payload }) => {
       state.offcanvas = true;
       state.product = payload;
     },
-    showAddProductCanvas: (state, { payload }) => {
+    ShowAddProductCanvas: (state, { payload }) => {
       state.addProductCanvas = true;
     },
-    editProduct: (state, { payload }) => {
+    EditProductAction: (state, { payload }) => {
       const updatedData = state.data.map((product) => {
         if (product.id === payload.id) {
           return payload;
@@ -224,59 +225,59 @@ const AdminProductSlice = createSlice({
       state.offcanvas = false;
       state.data = updatedData;
     },
-    clearError: (state, { payload }) => {
+    ClearError: (state, { payload }) => {
       state.error = '';
       state.loader = false;
     }
   },
   extraReducers: {
-    [getData.fulfilled]: (state, action) => {
+    [GetData.fulfilled]: (state, action) => {
       state.data = action.payload;
       state.loader = false;
       state.status = true;
       state.error = false;
     },
-    [getData.pending]: (state) => {
+    [GetData.pending]: (state) => {
       state.loader = true;
       state.status = false;
       state.error = false;
     },
-    [getData.rejected]: (state, action) => {
+    [GetData.rejected]: (state, action) => {
       state.error = action.payload.error;
       state.tableDataError = action.payload.error;
       state.status = false;
       state.loader = false;
     },
-    [getOrder.fulfilled]: (state, action) => {
+    [GetOrder.fulfilled]: (state, action) => {
       state.data = action.payload;
       state.loader = false;
       state.status = true;
     },
 
-    [getOrder.pending]: (state, action) => {
+    [GetOrder.pending]: (state, action) => {
       state.loader = true;
       state.status = false;
     },
-    [getOrder.rejected]: (state, action) => {
+    [GetOrder.rejected]: (state, action) => {
       state.error = action.payload.error;
       state.loader = false;
       state.status = false;
     },
-    [addProduct.pending]: (state, action) => {
+    [AddProduct.pending]: (state, action) => {
       state.loader = true;
     },
-    [addProduct.fulfilled]: (state, action) => {
+    [AddProduct.fulfilled]: (state, action) => {
       state.data.push(action.payload.product);
       state.addProductCanvas = false;
       state.loader = false;
       state.error = 'product has been addedd';
     },
-    [addProduct.rejected]: (state, action) => {
+    [AddProduct.rejected]: (state, action) => {
       state.error = action.payload.error;
       state.addProductCanvas = false;
       state.loader = false;
     },
-    [deleteProduct.fulfilled]: (state, action) => {
+    [DeleteProduct.fulfilled]: (state, action) => {
       state.modal = false;
       state.data = state.data.filter(
         (d) => d._id !== action.meta.arg.product._id
@@ -284,12 +285,12 @@ const AdminProductSlice = createSlice({
       state.product = {};
       state.loader = false;
     },
-    [deleteProduct.pending]: (state, action) => {
+    [DeleteProduct.pending]: (state, action) => {
     },
-    [deleteProduct.rejected]: (state, action) => {
+    [DeleteProduct.rejected]: (state, action) => {
       state.error = action.payload.error;
     },
-    [editProduct.fulfilled]: (state, action) => {
+    [EditProduct.fulfilled]: (state, action) => {
       state.error = 'Product has been updated ';
       state.offcanvas = false;
       const updatedData = state.data.map((product) => {
@@ -303,9 +304,9 @@ const AdminProductSlice = createSlice({
       state.data = updatedData;
       state.product = {};
     },
-    [editProduct.pending]: (state, action) => {
+    [EditProduct.pending]: (state, action) => {
     },
-    [editProduct.rejected]: (state, action) => {
+    [EditProduct.rejected]: (state, action) => {
       state.error = action.payload.error;
       state.product = {};
       state.offcanvas = false;
@@ -326,15 +327,15 @@ const AdminProductSlice = createSlice({
 });
 
 export const {
-  handleNext,
-  handleOffset,
-  handlePrevious,
-  hideOffcanvas,
-  showOffcanvas,
-  displayModal,
-  hideModal,
-  showAddProductCanvas,
-  clearError
+  HandleNext,
+  HandleOffset,
+  HandlePrevious,
+  HideOffcanvas,
+  ShowOffcanvas,
+  DisplayModal,
+  HideModal,
+  ShowAddProductCanvas,
+  ClearError
 } = AdminProductSlice.actions;
 
 export default AdminProductSlice.reducer;

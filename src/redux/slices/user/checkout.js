@@ -1,8 +1,8 @@
 import axios from 'axios';
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 
-import { updateShoppingBag } from './shopping-bag';
-import { updateCurrentUserDetails } from '../auth';
+import { UpdateShoppingBag } from './shopping-bag';
+import { UpdateCurrentUserDetails } from '../auth';
 
 export const PlaceOrder = createAsyncThunk(
   'ordersSlice/placeOrders',
@@ -29,7 +29,7 @@ export const PlaceOrder = createAsyncThunk(
         }
       );
 
-      thunkApi.dispatch(updateShoppingBag(response));
+      thunkApi.dispatch(UpdateShoppingBag(response));
 
       return response;
     } catch (error) {
@@ -51,7 +51,7 @@ export const AddDeliveryAddress = createAsyncThunk(
         body
       );
 
-      thunkApi.dispatch(updateCurrentUserDetails(response.data));
+      thunkApi.dispatch(UpdateCurrentUserDetails(response.data));
 
       return response.data;
     } catch (error) {
@@ -61,6 +61,7 @@ export const AddDeliveryAddress = createAsyncThunk(
     }
   }
 );
+
 export const AddPaymentMethod = createAsyncThunk(
   'ordersSlice/addPaymentMethod',
   async (body, thunkApi) => {
@@ -72,7 +73,7 @@ export const AddPaymentMethod = createAsyncThunk(
         body
       );
 
-      thunkApi.dispatch(updateCurrentUserDetails(response.data));
+      thunkApi.dispatch(UpdateCurrentUserDetails(response.data));
 
       return response.data;
     } catch (error) {
@@ -146,7 +147,7 @@ export const UpdateDeliveryPerson = createAsyncThunk(
         'http://localhost:5000/users/updateDeliveryPerson',
         { userId, body }
       );
-      thunkApi.dispatch(updateCurrentUserDetails(response.data));
+      thunkApi.dispatch(UpdateCurrentUserDetails(response.data));
 
       return response.data;
     } catch (error) {
@@ -166,7 +167,7 @@ export const UpdatePaymentMethod = createAsyncThunk(
         'http://localhost:5000/users/updatePaymentMethod',
         { userId, body }
       );
-      thunkApi.dispatch(updateCurrentUserDetails(response.data));
+      thunkApi.dispatch(UpdateCurrentUserDetails(response.data));
 
       return response.data;
     } catch (error) {
@@ -204,7 +205,7 @@ const CheckoutSlice = createSlice({
     changeAddressOffcanvas: false
   },
   reducers: {
-    setPaymentMethodAndDeliveryAddress: (state, { payload }) => {
+    SetPaymentMethodAndDeliveryAddress: (state, { payload }) => {
       state.allDeliveryPersons = payload.data.user.deliveryAddress;
       state.deliveryPerson = payload.data.user.deliveryAddress[payload.data.user.selectedPerson];
       state.allPaymentMethods = payload.data.user.paymentMethods;
@@ -238,19 +239,43 @@ const CheckoutSlice = createSlice({
         changeAddressOffcanvas: false
       };
     },
-    addDeliveryPerson: (state, { payload }) => {
+    ClearMyCheckoutCache: (state) => {
+      state.deliveryPerson = {
+        name: '',
+        mobile: '',
+        country: '',
+        city: '',
+        address: '',
+        province: ''
+      };
+      state.selectedPerson = 0;
+      state.selectedPaymentMethod = 0;
+      state.allDeliveryPersons = [];
+      state.paymentMethod = {
+        cardNumber: '',
+        expiryDate: '',
+        cvc: '',
+        country: ''
+      };
+      state.allPaymentMethods = [];
+      state.orders = [];
+      state.isDeliveryPerson = false;
+      state.isPaymentMethod = false;
+      state.changeAddressOffcanvas = false;
+    },
+    AddDeliveryPerson: (state, { payload }) => {
       state.deliveryPerson = payload;
       state.isDeliveryPerson = true;
     },
-    addPaymentMethod: (state, { payload }) => {
+    AddPaymentMethodAction: (state, { payload }) => {
       state.paymentMethod = payload;
       state.isPaymentMethod = true;
     },
-    addOrder: (state, { payload }) => {
+    AddOrder: (state, { payload }) => {
       const selectedItems = payload.filter((item) => item.selected === true);
       state.orders = selectedItems;
     },
-    handleOffcanvas: (state, { payload }) => {
+    HandleOffcanvas: (state, { payload }) => {
       state[payload.offcanvas] = !payload.value;
     }
   },
@@ -316,12 +341,13 @@ const CheckoutSlice = createSlice({
   }
 });
 export const {
-  addDeliveryPerson,
-  addPaymentMethod,
-  addOrder,
-  handleOffcanvas,
-  setPaymentMethodAndDeliveryAddress,
-  clearCache
-} = CheckoutSlice.actions;
+  clearCache,
+  AddDeliveryPerson,
+  AddPaymentMethodAction,
+  AddOrder,
+  HandleOffcanvas,
+  SetPaymentMethodAndDeliveryAddress,
+  ClearMyCheckoutCache
+} = CheckoutSlice;
 
 export default CheckoutSlice.reducer;

@@ -6,7 +6,7 @@ import CustomTable from '../../../components/custom-table';
 
 import {
   DeliverOrder,
-  ClearError,
+  clearError,
   GetOrders
 } from '../../../redux/slices/orders';
 
@@ -101,7 +101,7 @@ const AdminOrder = () => {
   return (
     <div className="main-box-admin">
       <div className="cards-box">
-        {error ? <ErrorModal error={error} clearError={ClearError} /> : <></>}
+        {error ? <ErrorModal error={error} clearError={clearError} /> : <></>}
         {ordersStats.map((box, index) => (
           <div key={index} className="orders-box">
             {Object.keys(box).map((key) => (

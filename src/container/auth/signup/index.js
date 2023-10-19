@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
-import { clearCache, signupUser } from '../../../redux/slices/auth';
+import { ClearCache, SignupUser } from '../../../redux/slices/auth';
 
 import Form from 'react-bootstrap/Form';
 
@@ -25,7 +25,7 @@ const Signup = () => {
   const navigation = useNavigate();
 
   useEffect(() => {
-    dispatch(clearCache());
+    dispatch(ClearCache());
   }, [dispatch]);
 
   const loading = useSelector((state) => state.authentication.isLoading);
@@ -49,7 +49,7 @@ const Signup = () => {
 
     if (isEmailValid && isMobileValid) {
       dispatch(
-        signupUser({
+        SignupUser({
           name,
           email,
           password,

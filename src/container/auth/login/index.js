@@ -8,7 +8,7 @@ import CustomButton from '../../../components/button';
 import CustomInput from '../../../components/input-field';
 import CustomHeading from '../../../components/heading';
 import FormBase from '../../../components/form-base';
-import { clearCache, loginUser } from '../../../redux/slices/auth';
+import { ClearCache, LoginUser } from '../../../redux/slices/auth';
 
 import './login.css';
 
@@ -21,7 +21,7 @@ const Login = () => {
   const navigation = useNavigate();
 
   useEffect(() => {
-    dispatch(clearCache());
+    dispatch(ClearCache());
   }, [dispatch]);
 
   const validateEmail = (email) => {
@@ -31,7 +31,7 @@ const Login = () => {
 
   const handleInput = () => {
     if (isValidEmail) {
-      dispatch(loginUser({ email, password }));
+      dispatch(LoginUser({ email, password }));
       navigation('/');
     } else {
       console.error('Invalid email address');

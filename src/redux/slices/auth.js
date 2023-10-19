@@ -1,14 +1,13 @@
 import axios from 'axios';
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 
-import { clearCache as clearShoppingBagCache } from './user/shopping-bag';
-import { clearCache as clearOrdersCache } from './orders';
+import { ClearCache as ClearShoppingBagCache } from './user/shopping-bag';
+import { ClearCache as ClearOrdersCache } from './orders';
 import {
-  clearCache as clearCheckoutCache,
-  setPaymentMethodAndDeliveryAddress
+  SetPaymentMethodAndDeliveryAddress
 } from './user/checkout';
 
-export const loginUser = createAsyncThunk(
+export const LoginUser = createAsyncThunk(
   'auth/loginStatus',
   async (body, thunkApi) => {
     try {
@@ -17,7 +16,7 @@ export const loginUser = createAsyncThunk(
         body
       );
       if (!response.data.user.admin === 'present') {
-        thunkApi.dispatch(setPaymentMethodAndDeliveryAddress(response));
+        thunkApi.dispatch(SetPaymentMethodAndDeliveryAddress(response));
       }
       return response.data;
     } catch (error) {
@@ -74,13 +73,14 @@ export const ResetPassword = createAsyncThunk(
     }
   }
 );
-export const logoutUser = createAsyncThunk(
+
+export const LogoutUser = createAsyncThunk(
   'auth/logout',
   async (_, thunkApi) => {
     try {
-      thunkApi.dispatch(clearShoppingBagCache());
-      thunkApi.dispatch(clearCheckoutCache());
-      thunkApi.dispatch(clearOrdersCache());
+      thunkApi.dispatch(ClearShoppingBagCache());
+      thunkApi.dispatch(ClearOrdersCache());
+      // thunkApi.dispatch(ClearMyCheckoutCache());
 
       return 'Logout successful';
     } catch (error) {
@@ -89,7 +89,8 @@ export const logoutUser = createAsyncThunk(
     }
   }
 );
-export const signupUser = createAsyncThunk(
+
+export const SignupUser = createAsyncThunk(
   'auth/signup',
   async (body, thunkApi) => {
     try {
@@ -129,42 +130,42 @@ const AuthSlice = createSlice({
     emailSentStatus: false
   },
   reducers: {
-    clearCache: (state) => {
+    ClearCache: (state) => {
       state.token = '';
       state.error = '';
       state.isLoading = false;
       state.currentUser = {};
       state.isAdmin = false;
     },
-    login: (state, { payload }) => {
+    Login: (state, { payload }) => {
       state[payload.field] = payload.value;
     },
-    logout: (state) => {
+    Logout: (state) => {
       localStorage.clear();
       state.token = '';
       state.error = '';
       state.isLoading = false;
       state.currentUser = {};
-      clearShoppingBagCache(state);
+      ClearShoppingBagCache(state);
     },
-    loginAdmin: (state) => {
+    LoginAdmin: (state) => {
       state.isAdmin = true;
     },
-    logoutAdmin: (state) => {
+    LogoutAdmin: (state) => {
       state.isAdmin = false;
     },
-    clearError: (state, action) => {
+    ClearError: (state, action) => {
       state.error = '';
       state.isLoading = false;
       state.emailSentStatus = false;
       state.passwordResetStatus = false;
     },
-    updateCurrentUserDetails: (state, { payload }) => {
+    UpdateCurrentUserDetails: (state, { payload }) => {
       state.currentUser = payload;
     }
   },
   extraReducers: {
-    [loginUser.fulfilled]: (state, { payload }) => {
+    [LoginUser.fulfilled]: (state, { payload }) => {
       state.passwordResetStatus = false;
       state.emailSentStatus = false;
       state.token = payload.message;
@@ -180,28 +181,28 @@ const AuthSlice = createSlice({
 
       state.error = '';
     },
-    [loginUser.rejected]: (state, { payload }) => {
+    [LoginUser.rejected]: (state, { payload }) => {
       state.passwordResetStatus = false;
       state.emailSentStatus = false;
       state.token = false;
       state.isLoading = false;
       state.error = payload.error.error;
     },
-    [loginUser.pending]: (state, action) => {
+    [LoginUser.pending]: (state, action) => {
       console.log(action.payload);
       state.token = false;
       state.isLoading = true;
     },
-    [signupUser.fulfilled]: (state, { payload }) => {
+    [SignupUser.fulfilled]: (state, { payload }) => {
       state.error = 'signup successful';
     },
-    [signupUser.pending]: (state, { payload }) => {
+    [SignupUser.pending]: (state, { payload }) => {
       state.isLoading = true;
     },
-    [signupUser.rejected]: (state, { payload }) => {
+    [SignupUser.rejected]: (state, { payload }) => {
       state.error = payload.error;
     },
-    [logoutUser.fulfilled]: (state, { payload }) => {
+    [LogoutUser.fulfilled]: (state, { payload }) => {
       localStorage.clear();
       state.token = '';
       state.error = '';
@@ -239,13 +240,13 @@ const AuthSlice = createSlice({
 });
 
 export const {
-  login,
-  updateCurrentUserDetails,
-  logout,
-  loginAdmin,
-  logoutAdmin,
-  clearCache,
-  clearError
+  Login,
+  UpdateCurrentUserDetails,
+  Logout,
+  LoginAdmin,
+  LogoutAdmin,
+  ClearCache,
+  ClearError
 } = AuthSlice.actions;
 
 export default AuthSlice.reducer;

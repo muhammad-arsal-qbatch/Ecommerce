@@ -16,7 +16,7 @@ import EditBtn from '../../assets/images/edit-btn.svg';
 import Warning from '../../assets/images/warning.svg';
 import CustomModal from '../custom-modal';
 import CustomOffcanvas from '../offcanvas';
-import { displayModal, showOffcanvas } from '../../redux/slices/admin-product';
+import { DisplayModal, ShowOffcanvas } from '../../redux/slices/admin-product';
 
 import './customTable.css';
 
@@ -69,8 +69,8 @@ const CustomTable = (props) => {
                  col.id === 'actions'
                    ? <div className='actions-btn'>
 
-                   <Image onClick= {() => dispatch(showOffcanvas(doc))} className='action-images' src={EditBtn}></Image>
-                   <Image onClick={ () => dispatch(displayModal(doc))} className='action-images' src={DeleteBtn}></Image>
+                   <Image onClick= {() => dispatch(ShowOffcanvas(doc))} className='action-images' src={EditBtn}></Image>
+                   <Image onClick={ () => dispatch(DisplayModal(doc))} className='action-images' src={DeleteBtn}></Image>
            </div>
                    : col.id === 'title'
                      ? <div className='box-text'>

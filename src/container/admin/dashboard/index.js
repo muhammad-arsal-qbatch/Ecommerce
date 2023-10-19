@@ -3,7 +3,7 @@ import { useEffect } from 'react';
 import { Spinner } from 'react-bootstrap';
 
 import { GetTopSellingProducts } from '../../../redux/slices/admin-product';
-import { GetStats, getOrders } from '../../../redux/slices/orders';
+import { GetStats, GetOrders } from '../../../redux/slices/orders';
 
 import CustomTable from '../../../components/custom-table';
 import CustomCards from '../../../components/custom-cards';
@@ -49,7 +49,7 @@ const AdminDashboard = () => {
   useEffect(() => {
     dispatch(GetStats());
     dispatch(GetTopSellingProducts());
-    dispatch(getOrders({ sortingObj: { orderId: -1 } }));
+    dispatch(GetOrders({ sortingObj: { orderId: -1 } }));
   }, []);
 
   return (

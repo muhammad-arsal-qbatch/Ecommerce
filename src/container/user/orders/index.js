@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
 
-import { GetOrdersByUserId, getOrders } from '../../../redux/slices/orders';
+import { GetOrdersByUserId, GetOrders } from '../../../redux/slices/orders';
 
 import { Badge } from 'react-bootstrap';
 
@@ -17,7 +17,7 @@ const Orders = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getOrders({ userId: currentUser._id }));
+    dispatch(GetOrders({ userId: currentUser._id }));
   }, []);
 
   const headings = [

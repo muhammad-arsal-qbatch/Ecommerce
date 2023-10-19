@@ -8,10 +8,10 @@ const ShoppingBagSlice = createSlice({
   name: 'ShoppingBagSlice',
   initialState,
   reducers: {
-    clearCache: (state) => {
+    ClearCache: (state) => {
       state.cart = [];
     },
-    addToCart: (state, { payload }) => {
+    AddToCart: (state, { payload }) => {
       const payloadCopy = { ...payload, selected: true };
       const existingItem = state.cart.find((item) => item._id === payload._id);
 
@@ -19,7 +19,7 @@ const ShoppingBagSlice = createSlice({
         state.cart.push(payloadCopy);
       }
     },
-    updateCartItem: (state, { payload }) => {
+    UpdateCartItem: (state, { payload }) => {
       const { _id } = payload;
       const indexOfItem = state.cart.findIndex((item) => item._id === _id);
       if (indexOfItem !== -1) {
@@ -31,28 +31,28 @@ const ShoppingBagSlice = createSlice({
         });
       }
     },
-    updateCart: (state, { payload }) => {
+    UpdateCart: (state, { payload }) => {
       const selectedItems = payload.filter((item) => item.selected === true);
       state.cart = selectedItems;
     },
-    updateShoppingBag: (state, { payload }) => {
+    UpdateShoppingBag: (state, { payload }) => {
       state.cart = state.cart.filter(
         (item) => !payload.data.some((p) => p._id === item._id)
       );
     },
-    deleteFromCart: (state, { payload }) => {
+    DeleteFromCart: (state, { payload }) => {
       state.cart = state.cart.filter((c) => c._id !== payload._id);
     }
   }
 });
 
 export const {
-  addToCart,
-  deleteFromCart,
-  updateCartItem,
-  updateCart,
-  clearCache,
-  updateShoppingBag
+  AddToCart,
+  DeleteFromCart,
+  UpdateCartItem,
+  UpdateCart,
+  ClearCache,
+  UpdateShoppingBag
 } = ShoppingBagSlice.actions;
 
 export default ShoppingBagSlice.reducer;

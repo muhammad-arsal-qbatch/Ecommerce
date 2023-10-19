@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux';
 
 import CustomDropDown from '../dropdown';
 import CustomInput from '../input-field';
-import { getData } from '../../redux/slices/admin-product';
+import { GetData } from '../../redux/slices/admin-product';
 import { useEffect, useState } from 'react';
 
 import './filterRectangle.css';
@@ -85,7 +85,7 @@ const FilterRectangle = () => {
 
   useEffect(() => {
     dispatch(
-      getData({
+      GetData({
         filterObj: filterObject,
         sortingObj: sortingObject,
         ...searchKeyword

@@ -12,7 +12,7 @@ const initialState = {
   status: false
 };
 
-export const getOrders = createAsyncThunk(
+export const GetOrders = createAsyncThunk(
   'ordersSlice/getOrders',
   async (body, thunkApi) => {
     try {
@@ -123,10 +123,10 @@ const ordersSlice = createSlice({
   name: 'ordersSlice',
   initialState,
   reducers: {
-    clearError: (state) => {
+    ClearError: (state) => {
       state.error = '';
     },
-    clearCache: (state) => {
+    ClearCache: (state) => {
       return {
         orders: [],
         allOrders: [],
@@ -140,14 +140,14 @@ const ordersSlice = createSlice({
     }
   },
   extraReducers: {
-    [getOrders.pending]: (state, action) => {
+    [GetOrders.pending]: (state, action) => {
       state.loader = true;
     },
-    [getOrders.fulfilled]: (state, action) => {
+    [GetOrders.fulfilled]: (state, action) => {
       state.orders = action.payload;
       state.loader = false;
     },
-    [getOrders.rejected]: (state, action) => {
+    [GetOrders.rejected]: (state, action) => {
       state.loader = false;
     },
     [DeliverOrder.pending]: (state, action) => {
@@ -183,6 +183,6 @@ const ordersSlice = createSlice({
   }
 });
 
-export const { clearError, clearCache } = ordersSlice.actions;
+export const { ClearError, ClearCache } = ordersSlice.actions;
 
 export default ordersSlice.reducer;

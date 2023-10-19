@@ -4,9 +4,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useState } from 'react';
 
 import {
-  addProduct,
-  editProduct,
-  hideOffcanvas
+  AddProduct,
+  EditProduct,
+  HideOffcanvas
 } from '../../redux/slices/admin-product';
 
 import CloudArrowUp from '../../assets/images/cloud-arrow-up.svg';
@@ -59,7 +59,7 @@ const CustomOffcanvas = ({
         quantity: productStock,
         images: [...imagesArray]
       };
-      dispatch(addProduct({ newProduct }));
+      dispatch(AddProduct({ newProduct }));
     }
   };
 
@@ -80,7 +80,7 @@ const CustomOffcanvas = ({
         images: [...imagesArray],
         id: body._id
       };
-      dispatch(editProduct({ newProduct }));
+      dispatch(EditProduct({ newProduct }));
     }
   };
 
@@ -102,7 +102,7 @@ const CustomOffcanvas = ({
         className="custom-offcanvas"
         show={true}
         placement="end"
-        onHide={() => dispatch(hideOffcanvas())}
+        onHide={() => dispatch(HideOffcanvas())}
       >
         <Offcanvas.Header closeButton>
           <Offcanvas.Title>{title} </Offcanvas.Title>

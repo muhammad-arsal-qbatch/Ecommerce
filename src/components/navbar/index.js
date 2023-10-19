@@ -9,7 +9,7 @@ import Container from 'react-bootstrap/Container';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 
 import { useDispatch, useSelector } from 'react-redux';
-import { logoutUser } from '../../redux/slices/auth';
+import { LogoutUser } from '../../redux/slices/auth';
 import { useNavigate } from 'react-router-dom';
 
 import userImage from '../../assets/images/user-image.png';
@@ -31,7 +31,7 @@ const CustomNavbar = (props) => {
   const dispatch = useDispatch();
 
   const logoutIt = () => {
-    dispatch(logoutUser());
+    dispatch(LogoutUser());
     navigation('/');
   };
 

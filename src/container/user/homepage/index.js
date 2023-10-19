@@ -3,13 +3,13 @@ import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
 
-import { clearError } from '../../../redux/slices/auth';
+import { ClearError } from '../../../redux/slices/auth';
 
 import { Spinner } from 'react-bootstrap';
 
 import FilterRectangle from '../../../components/filter-rectangle';
 import UserCards from '../../../components/userCards';
-import { getData } from '../../../redux/slices/admin-product';
+import { GetData } from '../../../redux/slices/admin-product';
 import UserDetailedCards from '../../../components/user-detailed-cards';
 import ErrorModal from '../../../components/error-modal';
 
@@ -31,7 +31,7 @@ const UserHomepage = ({ cn }) => {
   };
 
   useEffect(() => {
-    dispatch(getData({ limit: 100 }));
+    dispatch(GetData({ limit: 100 }));
   }, []);
 
   return (
@@ -45,7 +45,7 @@ const UserHomepage = ({ cn }) => {
           {error
             ? (
             <ErrorModal
-              clearError={clearError}
+              clearError={ClearError}
               error={error}
               className="error-container"
             />

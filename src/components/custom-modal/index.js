@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import Modal from 'react-bootstrap/Modal';
 
-import { deleteProduct, hideModal } from '../../redux/slices/admin-product';
+import { DeleteProduct, HideModal } from '../../redux/slices/admin-product';
 import CustomButton from '../button';
 
 import './customModal.css';
@@ -26,13 +26,13 @@ const CustomModal = (props) => {
         <Modal.Footer>
           <div className="msg-btns">
             <CustomButton
-              onClick={() => dispatch(hideModal())}
+              onClick={() => dispatch(HideModal())}
               value="No"
               variant="primary"
               size="lg"
             />
             <CustomButton
-              onClick={() => dispatch(deleteProduct({ product }))}
+              onClick={() => dispatch(DeleteProduct({ product }))}
               value="yes"
               variant="primary"
               size="sm"

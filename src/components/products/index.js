@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from 'react-redux';
 
 import CustomButton from '../button';
-import { showAddProductCanvas } from '../../redux/slices/admin-product';
+import { ShowAddProductCanvas } from '../../redux/slices/admin-product';
 import CustomOffcanvas from '../offcanvas';
 
 import './products.css';
@@ -26,7 +26,7 @@ const Products = () => {
           <CustomButton
             size="default"
             onClick={() => {
-              dispatch(showAddProductCanvas({}));
+              dispatch(ShowAddProductCanvas({}));
             }}
             variant="primary"
             value="Add New"

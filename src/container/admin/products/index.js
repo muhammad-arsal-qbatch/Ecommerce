@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { Pagination } from 'react-bootstrap';
 
 import CustomTable from '../../../components/custom-table';
-import { clearError, getData } from '../../../redux/slices/admin-product';
+import { ClearError, GetData } from '../../../redux/slices/admin-product';
 
 import Products from '../../../components/products';
 import ErrorModal from '../../../components/error-modal';
@@ -17,7 +17,7 @@ const AdminProducts = () => {
   const data = useSelector((state) => state.adminProduct.data);
   const error = useSelector((state) => state.adminProduct.error);
   useEffect(() => {
-    dispatch(getData(offset));
+    dispatch(GetData(offset));
   }, [offset]);
 
   const headings = [
@@ -58,7 +58,7 @@ const AdminProducts = () => {
     <div className="main-box-admin">
       {error
         ? (
-        <ErrorModal clearError={clearError} error={error} />
+        <ErrorModal clearError={ClearError} error={error} />
           )
         : (
         <>

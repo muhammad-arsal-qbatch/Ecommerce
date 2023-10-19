@@ -4,7 +4,7 @@ import { useState } from 'react';
 
 import { Form } from 'react-bootstrap';
 
-import { ResetPassword, clearError } from '../../../redux/slices/auth';
+import { ResetPassword, ClearError } from '../../../redux/slices/auth';
 
 import CustomHeading from '../../../components/heading';
 import CustomInput from '../../../components/input-field';
@@ -38,7 +38,7 @@ const NewPassword = () => {
 
   if (emailSentStatus) {
     alert('password reset successful');
-    dispatch(clearError());
+    dispatch(ClearError());
     navigation('/login');
   }
 

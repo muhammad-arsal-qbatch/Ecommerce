@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { UserForgotPassword, clearError } from '../../../redux/slices/auth';
+import { UserForgotPassword, ClearError } from '../../../redux/slices/auth';
 
 import { Form } from 'react-bootstrap';
 
@@ -42,13 +42,13 @@ const ForgotPassword = () => {
 
   if (forgotPasswordStatus === true) {
     alert('An email has been sent to you for verification');
-    dispatch(clearError());
+    dispatch(ClearError());
     navigation('/login');
   }
 
   return (
     <div className="main-container-forgot">
-      {error ? <ErrorModal clearError={clearError} error={error} /> : <></>}
+      {error ? <ErrorModal clearError={ClearError} error={error} /> : <></>}
       <div className="group-fg">
         <CustomHeading text="Forgot Password" className="blue-heading" />
         <div className="rectangle-fg">

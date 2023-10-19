@@ -7,8 +7,8 @@ import Bin from '../../assets/images/delete-btn.svg';
 import CustomInput from '../input-field';
 
 import {
-  updateCartItem,
-  deleteFromCart
+  UpdateCartItem,
+  DeleteFromCart
 } from '../../redux/slices/user/shopping-bag';
 
 import './cartItems.css';
@@ -21,11 +21,11 @@ const CartItems = ({
   const dispatch = useDispatch();
 
   const handleSelect = () => {
-    dispatch(updateCartItem(data));
+    dispatch(UpdateCartItem(data));
   };
 
   const deleteFromTheCart = (item) => {
-    dispatch(deleteFromCart(item));
+    dispatch(DeleteFromCart(item));
   };
 
   return (

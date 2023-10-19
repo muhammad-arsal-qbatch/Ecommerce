@@ -10,7 +10,7 @@ import ColorsBox from '../colors-box';
 import CustomInput from '../input-field';
 import CustomButton from '../button';
 import CustomTooltip from '../tooltip';
-import { addToCart } from '../../redux/slices/user/shopping-bag';
+import { AddToCart } from '../../redux/slices/user/shopping-bag';
 
 import './user-detailed-cards.css';
 
@@ -39,7 +39,7 @@ const UserDetailedCards = ({ singleCard }) => {
   const addToCarts = (singleCard) => {
     const updatedCard = { ...singleCard };
     updatedCard.quantity = selectedQuantity;
-    dispatch(addToCart(updatedCard));
+    dispatch(AddToCart(updatedCard));
     navigate('/c');
   };
 
