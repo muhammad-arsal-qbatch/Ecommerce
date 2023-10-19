@@ -18,6 +18,8 @@ const initialState = {
 export const GetData = createAsyncThunk(
   'adminProductSlice/getProducts',
   async (body, { rejectWithValue, getState }) => {
+    console.log('i am called', body);
+
     const state = getState();
 
     try {
@@ -28,7 +30,7 @@ export const GetData = createAsyncThunk(
             offset: body * 10 || 0,
             limit: body.limit ? body.limit : 10,
             search: body.search ? body.search : '',
-            filterObj: body.filterObj || {},
+            filterObj: body.filterObj ? body.filterObj : {},
             sortingObj: body.sortingObj || {}
           }
         }
