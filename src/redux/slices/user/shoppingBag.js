@@ -2,72 +2,57 @@ import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
   cart: []
-}
+};
 
-const shoppingBagSlice = createSlice(
-  {
-    name: 'ShoppingBagSlice',
-    initialState,
-    reducers: {
-      clearCache: (state) => {
-        console.log(' shpping bag cache is called');
-        state.cart = [];
-      },
-      addToCart: (state, { payload }) => {
-        const payloadCopy = { ...payload, selected: true };
-        const existingItem = state.cart.find(item => item._id === payload._id);
+const shoppingBagSlice = createSlice({
+  name: 'ShoppingBagSlice',
+  initialState,
+  reducers: {
+    clearCache: (state) => {
+      state.cart = [];
+    },
+    addToCart: (state, { payload }) => {
+      const payloadCopy = { ...payload, selected: true };
+      const existingItem = state.cart.find((item) => item._id === payload._id);
 
-        if (existingItem) {
-          console.log('Item is already in the cart:', existingItem);
-        } else {
-          state.cart.push(payloadCopy);
-          console.log(state.cart);
-        }
-      },
-      updateCartItem: (state, { payload }) => {
-        const { _id } = payload;
-        console.log(' update cart item is called', payload);
-        console.log(state.cart);
-
-        const indexOfItem = state.cart.findIndex(item => item._id === _id);
-
-        if (indexOfItem !== -1) {
-          state.cart = state.cart.map((item, index) => {
-            if (index === indexOfItem) {
-              item.selected = !item.selected;
-            }
-            return item;
-          });
-        }
-        console.log('cart now updated is, ', state.cart);
-      },
-      updateCart: (state, { payload }) => {
-        console.log(payload);
-        // state.cart = state.cart.filter(item => !payload.includes(item.id));
-        const selectedItems = payload.filter((item) => item.selected === true);
-        console.log('selected items are, ', selectedItems);
-
-        state.cart = selectedItems;
-        // console.log('insdei add orders', selectedItems)
-      },
-      updateShoppingBag: (state, { payload }) => {
-        console.log(' orderred product is , ', payload);
-        console.log(' cart is , ', state.cart);
-        state.cart = state.cart.filter(item => !payload.data.some(p => p._id === item._id));
-      },
-      deleteFromCart: (state, { payload }) => {
-        console.log('aa');
-        state.cart = state.cart.filter((c) => c._id !== payload._id);
-        console.log(state.cart);
+      if (existingItem) { /* empty */ } else {
+        state.cart.push(payloadCopy);
       }
+    },
+    updateCartItem: (state, { payload }) => {
+      const { _id } = payload;
+      const indexOfItem = state.cart.findIndex((item) => item._id === _id);
+      if (indexOfItem !== -1) {
+        state.cart = state.cart.map((item, index) => {
+          if (index === indexOfItem) {
+            item.selected = !item.selected;
+          }
+          return item;
+        });
+      }
+    },
+    updateCart: (state, { payload }) => {
+      const selectedItems = payload.filter((item) => item.selected === true);
+      state.cart = selectedItems;
+    },
+    updateShoppingBag: (state, { payload }) => {
+      state.cart = state.cart.filter(
+        (item) => !payload.data.some((p) => p._id === item._id)
+      );
+    },
+    deleteFromCart: (state, { payload }) => {
+      state.cart = state.cart.filter((c) => c._id !== payload._id);
     }
   }
-)
+});
+
 export const {
   addToCart,
   deleteFromCart,
   updateCartItem,
-  updateCart, clearCache,
+  updateCart,
+  clearCache,
   updateShoppingBag
-} = shoppingBagSlice.actions
+} = shoppingBagSlice.actions;
+
 export default shoppingBagSlice.reducer;

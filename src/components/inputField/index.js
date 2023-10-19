@@ -1,8 +1,8 @@
-import React from 'react'
-import Form from 'react-bootstrap/Form'
-import PropTypes from 'prop-types'
+import React from 'react';
+import Form from 'react-bootstrap/Form';
+import PropTypes from 'prop-types';
 
-import './style.css'
+import './style.css';
 
 const CustomInput = (props) => {
   const {
@@ -14,25 +14,26 @@ const CustomInput = (props) => {
     value,
     readOnly = false,
     defaultValue
-  } = props
+  } = props;
 
   return (
-    <Form.Group className='mb-4' >
-        <Form.Label htmlFor="inputPassword5">{label}</Form.Label>
+    <Form.Group className="mb-4">
+      <Form.Label htmlFor="inputPassword5">{label}</Form.Label>
       <Form.Control
         type={type}
-        readOnly = {readOnly}
+        readOnly={readOnly}
         defaultValue={defaultValue}
         id="inputPassword5"
         aria-describedby="passwordHelpBlock"
-        placeholder= {placeholder}
+        placeholder={placeholder}
         onChange={onChange}
         value={value}
       />
       <Form.Text>{emailText}</Form.Text>
-      </Form.Group>
-  )
-}
+    </Form.Group>
+  );
+};
+
 CustomInput.propTypes = {
   label: PropTypes.string,
   type: PropTypes.string,
@@ -43,7 +44,6 @@ CustomInput.propTypes = {
   defaultValue: PropTypes.string,
   onChange: PropTypes.func,
   readOnly: PropTypes.bool
-  // className: PropTypes.string
-}
+};
 
-export default CustomInput
+export default CustomInput;

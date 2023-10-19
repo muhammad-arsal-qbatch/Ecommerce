@@ -1,10 +1,12 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
+
 import { Pagination } from 'react-bootstrap';
 
-import Products from '../../../components/products';
 import CustomTable from '../../../components/customTable';
 import { clearError, getData } from '../../../redux/slices/adminProduct';
+
+import Products from '../../../components/products';
 import ErrorModal from '../../../components/errorModal';
 
 import './adminProducts.css';
@@ -23,7 +25,12 @@ const AdminProducts = () => {
       id: 'title',
       label: 'Title',
       image: 'thumbnail',
-      render: (doc) => <img src={`http://localhost:5000/${doc.images[0]}`} className="item-image"></img>
+      render: (doc) => (
+        <img
+          src={`http://localhost:5000/${doc.images[0]}`}
+          className="item-image"
+        ></img>
+      )
     },
     {
       id: 'size',
@@ -102,4 +109,5 @@ const AdminProducts = () => {
     </div>
   );
 };
+
 export default AdminProducts;

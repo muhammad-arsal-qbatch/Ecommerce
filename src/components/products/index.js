@@ -4,34 +4,44 @@ import CustomButton from '../button';
 import { showAddProductCanvas } from '../../redux/slices/adminProduct';
 import CustomOffcanvas from '../offcanvas';
 
-import './products.css'
+import './products.css';
 
 const Products = () => {
   const dispatch = useDispatch();
-  const addProductCanvas = useSelector((state) => state.adminProduct.addProductCanvas);
+  const addProductCanvas = useSelector(
+    (state) => state.adminProduct.addProductCanvas
+  );
   return (
-      <div className='rectangle-admin-p'>
-
-        <h4 className='heading-style'>Products</h4>
-        <div className='btn-position'>
-          <div className='single-btn'>
-        <CustomButton size = 'default' variant = 'primary' value = 'Import Bulk Products' ></CustomButton>
+    <div className="rectangle-admin-p">
+      <h4 className="heading-style">Products</h4>
+      <div className="btn-position">
+        <div className="single-btn">
+          <CustomButton
+            size="default"
+            variant="primary"
+            value="Import Bulk Products"
+          ></CustomButton>
         </div>
-        <div className='single-btn'>
-        <CustomButton
-        size = 'default'
-        onClick={() => {
-          dispatch(showAddProductCanvas({}))
-        }}
-        variant = 'primary'
-        value = 'Add New' ></CustomButton></div>
+        <div className="single-btn">
+          <CustomButton
+            size="default"
+            onClick={() => {
+              dispatch(showAddProductCanvas({}));
+            }}
+            variant="primary"
+            value="Add New"
+          ></CustomButton>
         </div>
-        {addProductCanvas
-          ? <CustomOffcanvas title= "add new product" ></CustomOffcanvas>
-          : <></>
-      }
       </div>
+      {addProductCanvas
+        ? (
+        <CustomOffcanvas title="add new product"></CustomOffcanvas>
+          )
+        : (
+        <></>
+          )}
+    </div>
+  );
+};
 
-  )
-}
 export default Products;

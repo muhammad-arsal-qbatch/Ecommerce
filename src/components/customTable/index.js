@@ -1,4 +1,9 @@
-import { Image, Modal, Table } from 'react-bootstrap';
+import {
+  Image,
+  Modal,
+  Table
+} from 'react-bootstrap';
+
 import Spinner from 'react-bootstrap/Spinner';
 import PropTypes from 'prop-types';
 import { useEffect } from 'react';
@@ -20,6 +25,7 @@ const CustomTable = (props) => {
     data = [],
     headings
   } = props;
+
   const offset = useSelector((state) => state.adminProduct.offset);
   const status = useSelector((state) => state.adminProduct.status);
   const error = useSelector((state) => state.adminProduct.tableDataError);
@@ -30,11 +36,8 @@ const CustomTable = (props) => {
 
   useEffect(() => {
     console.log(offset);
-  }, [])
-
-  const editTheProduct = (product) => {
-    console.log('inside edit the produtc', product);
-  }
+  }, []
+  )
 
   return (
     <>
@@ -58,7 +61,6 @@ const CustomTable = (props) => {
           ? status === true
 
             ? (
-
                 data?.map((doc, index) => (
           <tr key={index}>
             {headings.map((col, index) => (
@@ -90,9 +92,6 @@ const CustomTable = (props) => {
                                col.render(doc)
                              )
                            : col.id === 'date' ? (<> {moment(doc[col.id]).format('ll')}</>) : <>{doc[col.id]}</>
-
-                    //  : doc[col.id
-
                 }
               </td>
 
@@ -124,12 +123,13 @@ const CustomTable = (props) => {
       : <></>
     }
     {offcanvas
-      ? <CustomOffcanvas onClick={editTheProduct} title="Edit Product" ></CustomOffcanvas>
+      ? <CustomOffcanvas title="Edit Product" ></CustomOffcanvas>
       : <></>
 }
     </>
   )
 }
+
 CustomTable.propTypes = {
   data: PropTypes.array,
   cols: PropTypes.string,
@@ -144,4 +144,5 @@ CustomTable.propTypes = {
   setData: PropTypes.func,
   getData: PropTypes.func
 }
+
 export default CustomTable;

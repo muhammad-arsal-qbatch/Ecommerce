@@ -1,10 +1,13 @@
-import { useDispatch, useSelector } from 'react-redux';
-import { useEffect, useState } from 'react';
-import { Spinner } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 
-import FilterRectangle from '../../../components/filterRectangle';
+import { useDispatch, useSelector } from 'react-redux';
+import { useEffect, useState } from 'react';
+
 import { clearError } from '../../../redux/slices/auth';
+
+import { Spinner } from 'react-bootstrap';
+
+import FilterRectangle from '../../../components/filterRectangle';
 import UserCards from '../../../components/userCards';
 import { getData } from '../../../redux/slices/adminProduct';
 import UserDetailedCards from '../../../components/userDetailedCards';
@@ -30,52 +33,73 @@ const UserHomepage = ({ cn }) => {
   useEffect(() => {
     dispatch(getData({ limit: 100 }));
   }, []);
+
   return (
     <>
       {cn}
-        <div className="user-box">
-          <div>
-            <FilterRectangle />
-          </div>
-          <div className="products-listing">
-          {error ? <ErrorModal clearError={clearError} error={error} className="error-container" /> : <></>}
-            {loader
-              ? (
-        <div style={{ margin: '400px' }}>
-          <Spinner animation="border" role="status">
-            <span className="visually-hidden">Loading...</span>
-          </Spinner>
+      <div className="user-box">
+        <div>
+          <FilterRectangle />
         </div>
-                )
-              : <></>}
-              {dataError
-                ? (<p style={{ margin: '400px' }}>{dataError}</p>)
-
-                : (
-            <><div className="left-box">
-                    {data.map((obj, index) => (
-                      <UserCards
-                        cardData={obj}
-                        onClick={() => displayRightCard(obj._id)}
-                        key={index} />
-                    ))}
-                  </div><div className="right-box">
-                      {rightCard
-                        ? (
-                          <UserDetailedCards singleCard={singleCard}></UserDetailedCards>
-                          )
-                        : (
-                          <></>
-                          )}
-                    </div></>
-                  )
-}
-          </div>
+        <div className="products-listing">
+          {error
+            ? (
+            <ErrorModal
+              clearError={clearError}
+              error={error}
+              className="error-container"
+            />
+              )
+            : (
+            <></>
+              )}
+          {loader
+            ? (
+            <div style={{ margin: '400px' }}>
+              <Spinner animation="border" role="status">
+                <span className="visually-hidden">Loading...</span>
+              </Spinner>
+            </div>
+              )
+            : (
+            <></>
+              )}
+          {dataError
+            ? (
+            <p style={{ margin: '400px' }}>{dataError}</p>
+              )
+            : (
+            <>
+              <div className="left-box">
+                {data.map((obj, index) => (
+                  <UserCards
+                    cardData={obj}
+                    onClick={() => displayRightCard(obj._id)}
+                    key={index}
+                  />
+                ))}
+              </div>
+              <div className="right-box">
+                {rightCard
+                  ? (
+                  <UserDetailedCards
+                    singleCard={singleCard}
+                  ></UserDetailedCards>
+                    )
+                  : (
+                  <></>
+                    )}
+              </div>
+            </>
+              )}
         </div>
+      </div>
     </>
   );
 };
+
 UserHomepage.propTypes = {
   cn: PropTypes.any
 };
+
 export default UserHomepage;

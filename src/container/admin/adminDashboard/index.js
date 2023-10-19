@@ -2,12 +2,13 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
 import { Spinner } from 'react-bootstrap';
 
+import { GetTopSellingProducts } from '../../../redux/slices/adminProduct';
+import { GetStats, getOrders } from '../../../redux/slices/orders';
+
 import CustomTable from '../../../components/customTable';
 import CustomCards from '../../../components/customCards';
 import ShoppingCart from '../../../assets/images/shopping_cart.svg';
 import CustomChart from '../../../components/chart';
-import { GetTopSellingProducts } from '../../../redux/slices/adminProduct';
-import { GetStats, getOrders } from '../../../redux/slices/orders';
 
 import '../../../layout/layout.css';
 import './adminDashboard.css';
@@ -16,11 +17,12 @@ const AdminDashboard = () => {
   const topSellingProducts = useSelector(
     (state) => state.adminProduct.topSellingProducts
   );
+
   const loader = useSelector((state) => state.adminProduct.loader);
   const stats = useSelector((state) => state.orders.stats);
   const statsLoader = useSelector((state) => state.orders.statsLoader);
-  console.log('stats is, ', stats);
-  console.log('stats is, ', stats);
+  const currentOrders = useSelector((state) => state.orders.orders);
+
   const headings = [
     {
       id: 'productName',
@@ -41,13 +43,13 @@ const AdminDashboard = () => {
       label: 'Amount'
     }
   ];
-  const currentOrders = useSelector((state) => state.orders.orders);
+
   const dispatch = useDispatch();
+
   useEffect(() => {
-    console.log('asdsaasdasdsada');
     dispatch(GetStats());
     dispatch(GetTopSellingProducts());
-    dispatch(getOrders());
+    dispatch(getOrders({ sortingObj: { orderId: -1 } }));
   }, []);
 
   return (
@@ -90,12 +92,14 @@ const AdminDashboard = () => {
           </>
             )}
       </div>
-      <div className="charts-box">
-        {currentOrders
-          ? <CustomChart currentOrders={currentOrders} type="donut" />
-          : <></>
-        }
-        {/* <DashboardChart /> */}
+      <div className="charts-box" >
+        {currentOrders.length
+          ? (
+          <CustomChart currentOrders={currentOrders} type="donut" />
+            )
+          : (
+          <></>
+            )}
       </div>
       <h6 className="top-products">Top selling products</h6>
       {loader === true

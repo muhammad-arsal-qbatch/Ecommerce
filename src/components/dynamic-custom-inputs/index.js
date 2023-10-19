@@ -3,7 +3,6 @@ import CustomInput from '../inputField';
 const AddPersonRows = (props) => {
   const { deliveryAddressData, setDeliveryAddressData } = props || {};
   const { addPersonMappedRows } = props;
-  console.log(addPersonMappedRows);
 
   const handleUpdate = (e, col) => {
     console.log({ VAL: col.field });
@@ -11,7 +10,6 @@ const AddPersonRows = (props) => {
       ...deliveryAddressData,
       [`${col.field}`]: e.target.value
     });
-    console.log(deliveryAddressData);
   };
 
   return addPersonMappedRows.map((row, index) => (

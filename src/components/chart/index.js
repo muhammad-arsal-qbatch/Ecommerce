@@ -1,24 +1,15 @@
 import React, { useState } from 'react';
 import ReactApexChart from 'react-apexcharts';
 import PropTypes from 'prop-types';
-// import { getOrdersInGroup } from '../../redux/slices/orders';
 
 import './chart.css';
-// import { useDispatch } from 'react-redux';
+
 const CustomChart = ({ type, currentOrders }) => {
-  // const dispatch = useDispatch();
-  // useEffect(
-  //   () => {
-  //     dispatch(getOrdersInGroup());
-  //   }, []
-  // )
-  console.log('current ordersss, ', currentOrders);
   const ordersDelivered = currentOrders.filter(order => order.delivered === 'Delivered');
   const deliveredOrdersCount = ordersDelivered.length;
   const ordersNotDelivered = currentOrders.filter(order => order.delivered === 'Not Delivered');
   const notDeliveredOrdersCount = ordersNotDelivered.length;
-  console.log('orders delivered, ', notDeliveredOrdersCount);
-  console.log('orders Not, ', ordersNotDelivered);
+
   const [chartData] = useState({
     series: [deliveredOrdersCount, notDeliveredOrdersCount],
     options: {
@@ -33,14 +24,15 @@ const CustomChart = ({ type, currentOrders }) => {
   });
 
   return (
-    <div className="donut">
+    <div className="donut" style={{ height: '300px', width: '300px' }}>
       <h6 className="chart-heading">Orders overview</h6>
-      <div className="chart-box">
+      <div className="chart-box" style={{ height: '300px', width: '300px' }}>
         <ReactApexChart
           options={chartData.options}
           series={chartData.series}
           type={type}
           className="overview-chart"
+          style={{ height: '100px', width: '300px' }}
         />
         <div className='single-label'>
           <div>
@@ -119,8 +111,10 @@ const CustomChart = ({ type, currentOrders }) => {
     </div>
   );
 };
+
 CustomChart.propTypes = {
   type: PropTypes.string,
   currentOrders: PropTypes.any
 };
+
 export default CustomChart;

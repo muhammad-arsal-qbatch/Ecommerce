@@ -1,38 +1,43 @@
 import { Offcanvas } from 'react-bootstrap';
 import PropTypes from 'prop-types';
+import { useEffect } from 'react';
+
+import CustomButton from '../button';
 
 import './deliveryOffcanvas.css';
-import CustomButton from '../button';
-import { useEffect } from 'react';
-// import { useDispatch } from 'react-redux';
+
 const DeliveryOffcanvas = ({
   onClick,
   rows,
   heading,
-  show, handleShow,
+  show,
+  handleShow,
   handleFunc
 }) => {
-  useEffect(() => {}, [])
-  // const dispatch= useDispatch();
+  useEffect(() => {}, []);
   return (
-    <Offcanvas show={ show } onHide={ handleShow } placement='end' >
-      <Offcanvas.Header closeButton>{ heading }</Offcanvas.Header>
+    <Offcanvas show={show} onHide={handleShow} placement="end">
+      <Offcanvas.Header closeButton>{heading}</Offcanvas.Header>
       <Offcanvas.Body>
-        <div className='container'>
+        <div className="container">
           {rows}
-          <div className='row'>
-            <div className='col-12'>
-              <div className='d-flex justify-content-end'>
-                <CustomButton onClick={handleFunc} value="Save" variant='primary' ></CustomButton>
+          <div className="row">
+            <div className="col-12">
+              <div className="d-flex justify-content-end">
+                <CustomButton
+                  onClick={handleFunc}
+                  value="Save"
+                  variant="primary"
+                ></CustomButton>
               </div>
             </div>
           </div>
         </div>
       </Offcanvas.Body>
     </Offcanvas>
+  );
+};
 
-  )
-}
 DeliveryOffcanvas.propTypes = {
   rows: PropTypes.any,
   heading: PropTypes.string,
@@ -40,5 +45,6 @@ DeliveryOffcanvas.propTypes = {
   onClick: PropTypes.func,
   handleShow: PropTypes.func,
   handleFunc: PropTypes.func
-}
+};
+
 export default DeliveryOffcanvas;

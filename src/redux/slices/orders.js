@@ -7,189 +7,181 @@ const initialState = {
   error: '',
   stats: {},
   statsLoader: true,
-  statsError: ''
+  loader: false,
+  statsError: '',
+  status: false
+};
 
-}
-
-export const getOrders = createAsyncThunk('ordersSlice/getOrders', async (body, thunkApi) => {
-  try {
-    console.log('insid4 get ordersss of thunk apiii');
-    const state = thunkApi.getState();
-    console.log(body);
-    const userIdObject = { userId: body.userId || null }
-
-    const response = await axios.get('http://localhost:5000/orders/getOrders', {
-      headers: {
-        Authorization: `Bearer ${state.authentication.token}` // Assuming your JWT token is stored in authentication.token
-      },
-      params: {
-        userId: userIdObject || null,
-        sortingObj: body.sortingObj || {}
-      }
-    })
-    console.log({ response });
-    return response.data;
-  } catch (error) {
-    return thunkApi.rejectWithValue({
-      error
-    })
-  }
-})
-
-export const GetStats = createAsyncThunk('orders/getStats',
+export const getOrders = createAsyncThunk(
+  'ordersSlice/getOrders',
   async (body, thunkApi) => {
     try {
-      console.log('product is, ')
       const state = thunkApi.getState();
-      const response = await axios.get('http://localhost:5000/orders/getStats',
+      const userIdObject = { userId: body.userId || null };
+
+      const response = await axios.get(
+        'http://localhost:5000/orders/getOrders',
         {
           headers: {
-            Authorization: `Bearer ${state.authentication.token}` // Assuming your JWT token is stored in authentication.token
+            Authorization: `Bearer ${state.authentication.token}`
+          },
+          params: {
+            userId: userIdObject || null,
+            sortingObj: body.sortingObj || {}
           }
-        });
-      console.log('response stats is, ', response.data);
+        }
+      );
+
       return response.data;
     } catch (error) {
       return thunkApi.rejectWithValue({
         error
-      })
+      });
     }
   }
-)
-export const getOrdersInGroup = createAsyncThunk('ordersSlice/getOrdersInGroup', async (body, thunkApi) => {
-  try {
-    console.log(body);
-    const state = thunkApi.getState();
-    const response = await axios.get('http://localhost:5000/orders/getOrdersInGroup', {
-      headers: {
-        Authorization: `Bearer ${state.authentication.token}` // Assuming your JWT token is stored in authentication.token
-      }
-    })
-    console.log('sdfsdff', response);
-    if (!response) { throw new Error('network error'); }
-    return response.data;
-  } catch (error) {
-    console.log('cataaacch', error);
-    return thunkApi.rejectWithValue({
-      error: error.message
-    })
-  }
-})
-export const DeliverOrder = createAsyncThunk('ordersSlice/DeliverOrder', async (body, thunkApi) => {
-  try {
-    const state = thunkApi.getState();
-    console.log('order is, ', body);
-    const response = await axios.put('http://localhost:5000/orders/deliverOrder', body, {
-      headers: {
-        Authorization: `Bearer ${state.authentication.token}` // Assuming your JWT token is stored in authentication.token
-      }
-    });
-    if (response.data.error) {
-      return thunkApi.rejectWithValue({
-        error: response.data.error
-      })
-    };
-    console.log({ response });
-    return response.data;
-  } catch (error) {
-    console.log('in errorrorois , ', error)
-    return thunkApi.rejectWithValue({
-      error: error.message
-    })
-  }
-})
-export const GetOrdersByUserId = createAsyncThunk('ordersSlice/GetOrders', async (body, thunkApi) => {
-  try {
-    body = localStorage.getItem('userId');
-    const state = thunkApi.getState();
-    console.log('huihiuh', body);
-    const response = await axios.get(`http://localhost:5000/orders/getOrders?userId=${body}`,
-      {
-        headers: {
-          Authorization: `Bearer ${state.authentication.token}` // Assuming your JWT token is stored in authentication.token
+);
+
+export const GetStats = createAsyncThunk(
+  'orders/getStats',
+  async (body, thunkApi) => {
+    try {
+      const state = thunkApi.getState();
+      const response = await axios.get(
+        'http://localhost:5000/orders/getStats',
+        {
+          headers: {
+            Authorization: `Bearer ${state.authentication.token}`
+          }
         }
-      })
-    console.log('orders by user id is, ', { response });
-    return response.data;
-  } catch (error) {
-    thunkApi.rejectWithValue({
-      error
-    })
-  }
-})
-const ordersSlice = createSlice(
-  {
-    name: 'ordersSlice',
-    initialState,
-    reducers: {
-      clearError: (state) => {
-        console.log('inside clear');
-        state.error = ''
-      }
-    },
-    extraReducers: {
-      [getOrders.pending]: (state, action) => {
-        console.log('inside pendign');
-      },
-      [getOrders.fulfilled]: (state, action) => {
-        console.log(action);
-        state.orders = action.payload;
-      },
-      [getOrders.rejected]: (state, action) => {
-        console.log('inside rejected');
-      },
-      [getOrdersInGroup.pending]: (state, action) => {
-      },
-      [getOrdersInGroup.fulfilled]: (state, action) => {
-        console.log('in fulfilled of getOrdersssssss', action.payload.orders);
-        state.orders = action.payload.orders;
-      },
-      [getOrdersInGroup.rejected]: (state, { payload }) => {
-        console.log('inside rejected');
-        state.error = payload.error
-      },
-      [DeliverOrder.pending]: (state, action) => {
-      },
-      [DeliverOrder.fulfilled]: (state, action) => {
-        console.log('in fulfilled', action.payload);
-        state.error = 'Order has been delivered successfully';
+      );
 
-        // state.orders = action.payload.orders;
-      },
-      [DeliverOrder.rejected]: (state, { payload }) => {
-        console.log('inside rejected, ', payload);
-        state.error = payload.error;
-        console.log('inside rejected');
-      },
-      [GetOrdersByUserId.pending]: (state, action) => {
-        console.log('inside pending');
-      },
-      [GetOrdersByUserId.fulfilled]: (state, action) => {
-        console.log({ action })
-        state.orders = action.payload;
-        console.log('inside fulfilled');
-      },
-      [GetOrdersByUserId.rejected]: (state, action) => {
-        console.log('inside rejected');
-      },
-      [GetStats.pending]: (state, { payload }) => {
-        state.statsLoader = true;
-      },
-      [GetStats.fulfilled]: (state, { payload }) => {
-        console.log('in fulfilled , ', payload);
-        state.statsLoader = false;
-        state.stats = payload[0];
-      },
-      [GetStats.rejected]: (state, { payload }) => {
-        console.log('inside rejected , ', payload.error.message);
-        state.statsLoader = false;
-        state.statsError = 'Error fetching stats';
-      }
-
+      return response.data;
+    } catch (error) {
+      return thunkApi.rejectWithValue({
+        error
+      });
     }
   }
+);
 
-)
+export const DeliverOrder = createAsyncThunk(
+  'ordersSlice/DeliverOrder',
+  async (body, thunkApi) => {
+    try {
+      const state = thunkApi.getState();
+      const response = await axios.put(
+        'http://localhost:5000/orders/deliverOrder',
+        body,
+        {
+          headers: {
+            Authorization: `Bearer ${state.authentication.token}`
+          }
+        }
+      );
 
-export const { clearError } = ordersSlice.actions;
+      if (response.data.error) {
+        return thunkApi.rejectWithValue({
+          error: response.data.error
+        });
+      }
+
+      return response.data;
+    } catch (error) {
+      return thunkApi.rejectWithValue({
+        error: error.message
+      });
+    }
+  }
+);
+
+export const GetOrdersByUserId = createAsyncThunk(
+  'ordersSlice/GetOrders',
+  async (body, thunkApi) => {
+    try {
+      body = localStorage.getItem('userId');
+      const state = thunkApi.getState();
+      const response = await axios.get(
+        `http://localhost:5000/orders/getOrders?userId=${body}`,
+        {
+          headers: {
+            Authorization: `Bearer ${state.authentication.token}`
+          }
+        }
+      );
+
+      return response.data;
+    } catch (error) {
+      thunkApi.rejectWithValue({
+        error
+      });
+    }
+  }
+);
+
+const ordersSlice = createSlice({
+  name: 'ordersSlice',
+  initialState,
+  reducers: {
+    clearError: (state) => {
+      state.error = '';
+    },
+    clearCache: (state) => {
+      return {
+        orders: [],
+        allOrders: [],
+        error: '',
+        stats: {},
+        statsLoader: true,
+        loader: false,
+        statsError: '',
+        status: false
+      }
+    }
+  },
+  extraReducers: {
+    [getOrders.pending]: (state, action) => {
+      state.loader = true;
+    },
+    [getOrders.fulfilled]: (state, action) => {
+      state.orders = action.payload;
+      state.loader = false;
+    },
+    [getOrders.rejected]: (state, action) => {
+      state.loader = false;
+    },
+    [DeliverOrder.pending]: (state, action) => {
+      state.loader = true;
+    },
+    [DeliverOrder.fulfilled]: (state, action) => {
+      state.error = 'Order has been delivered successfully';
+      state.status = true;
+      state.loader = true;
+    },
+    [DeliverOrder.rejected]: (state, { payload }) => {
+      state.error = payload.error;
+      state.loader = false;
+    },
+    [GetOrdersByUserId.pending]: (state, action) => {
+    },
+    [GetOrdersByUserId.fulfilled]: (state, action) => {
+      state.orders = action.payload;
+    },
+    [GetOrdersByUserId.rejected]: (state, action) => {
+    },
+    [GetStats.pending]: (state, { payload }) => {
+      state.statsLoader = true;
+    },
+    [GetStats.fulfilled]: (state, { payload }) => {
+      state.statsLoader = false;
+      state.stats = payload[0];
+    },
+    [GetStats.rejected]: (state, { payload }) => {
+      state.statsLoader = false;
+      state.statsError = 'Error fetching stats';
+    }
+  }
+});
+
+export const { clearError, clearCache } = ordersSlice.actions;
+
 export default ordersSlice.reducer;

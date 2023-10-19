@@ -1,9 +1,11 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
 
-import CustomTable from '../../../components/customTable';
 import { GetOrdersByUserId, getOrders } from '../../../redux/slices/orders';
+
 import { Badge } from 'react-bootstrap';
+
+import CustomTable from '../../../components/customTable';
 import CustomButton from '../../../components/button';
 import OrderDetailsOffcanvas from '../../../components/order-details-offcanvas';
 
@@ -13,9 +15,11 @@ const Orders = () => {
   const currentUser = useSelector((state) => state.authentication.currentUser);
   const [singleOrder, setSingleOrder] = useState({});
   const dispatch = useDispatch();
+
   useEffect(() => {
     dispatch(getOrders({ userId: currentUser._id }));
   }, []);
+
   const headings = [
     {
       id: 'orderId',
@@ -58,7 +62,7 @@ const Orders = () => {
       )
     }
   ];
-  console.log('in ordersss page', { orders });
+
   return (
     <div className="container mt-5 orders-box">
       <div className="row heading-style">
@@ -89,4 +93,5 @@ const Orders = () => {
     </div>
   );
 };
+
 export default Orders;

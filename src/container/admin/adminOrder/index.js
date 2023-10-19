@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Badge } from 'react-bootstrap';
+import { Badge, Spinner } from 'react-bootstrap';
 
 import CustomTable from '../../../components/customTable';
 
@@ -18,23 +18,28 @@ import './adminOrder.css';
 const AdminOrder = () => {
   const dispatch = useDispatch();
   const data = useSelector((state) => state.orders.orders);
-  console.log('now all data isss, ', data);
-
+  const status = useSelector((state) => state.orders.status);
   const error = useSelector((state) => state.orders.error);
+  const loader = useSelector((state) => state.orders.loader);
+
   useEffect(() => {
     dispatch(getOrders({ sortingObj: { orderId: -1 } }));
-  }, []);
+  }, [status]);
+
   let totalUnits = 0;
   let totalAmount = 0;
+
   data?.forEach((singleData, index) => {
     totalUnits += singleData.totalQuantity;
     totalAmount += singleData.totalAmount;
   });
+
   const ordersStats = [
     { TotalOrders: data?.length },
     { TotalUnits: totalUnits },
     { TotalAmount: totalAmount }
   ];
+
   const headings = [
     {
       id: 'date',
@@ -82,7 +87,9 @@ const AdminOrder = () => {
           <CustomButton
             size="sm"
             value="Mark as Delivered"
-            onClick={() => dispatch(DeliverOrder(order))}
+            onClick={() => {
+              dispatch(DeliverOrder(order));
+            }}
             disabled={false}
             className="btn btn-outline-primary"
           />
@@ -105,11 +112,21 @@ const AdminOrder = () => {
           </div>
         ))}
       </div>
-      <CustomTable
-        pagination={false}
-        data={data}
-        headings={headings}
-      ></CustomTable>
+      {loader
+        ? (
+        <div>
+          <Spinner animation="border" role="status">
+            <span className="visually-hidden">Loading...</span>
+          </Spinner>
+        </div>
+          )
+        : (
+        <CustomTable
+          pagination={false}
+          data={data}
+          headings={headings}
+        ></CustomTable>
+          )}
     </div>
   );
 };

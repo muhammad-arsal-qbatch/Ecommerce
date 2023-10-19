@@ -1,80 +1,131 @@
-import { useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 
-import Form from 'react-bootstrap/Form'
-import { useDispatch, useSelector } from 'react-redux'
+import { clearCache, signupUser } from '../../../redux/slices/auth';
 
-import CustomButton from '../../../components/button'
-import CustomInput from '../../../components/inputField' // why {Myimport not working}
-import CustomHeading from '../../../components/heading'
-import FormBase from '../../../components/formBase'
-import { clearCache, signupUser } from '../../../redux/slices/auth'
-import { useNavigate } from 'react-router-dom'
+import Form from 'react-bootstrap/Form';
+
+import CustomButton from '../../../components/button';
+import CustomInput from '../../../components/inputField';
+import CustomHeading from '../../../components/heading';
+import FormBase from '../../../components/formBase';
 
 import '../login/login.css';
+import './signup.css';
 
 const Signup = () => {
-  useEffect(() => {
-    dispatch(clearCache())
-  }, [])
-  const loading = useSelector((state) => state.authentication.isLoading);
   const [email, setEmail] = useState('');
   const [name, setName] = useState('');
   const [password, setPassword] = useState('');
   const [mobileNo, setMobileNo] = useState('');
+  const [isValidEmail, setIsValidEmail] = useState(true);
+  const [isValidMobile, setIsValidMobile] = useState(true);
   const dispatch = useDispatch();
   const navigation = useNavigate();
+
+  useEffect(() => {
+    dispatch(clearCache());
+  }, [dispatch]);
+
+  const loading = useSelector((state) => state.authentication.isLoading);
+
+  const validateEmail = (email) => {
+    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return regex.test(email);
+  };
+
+  const validateMobileNumber = (mobileNo) => {
+    const regex = /^\d+$/;
+    return regex.test(mobileNo);
+  };
+
   const handleInput = () => {
-    dispatch(signupUser({ name, email, password, mobileNo }));
-    navigation('/');
-  }
+    const isEmailValid = validateEmail(email);
+    const isMobileValid = validateMobileNumber(mobileNo);
+
+    setIsValidEmail(isEmailValid);
+    setIsValidMobile(isMobileValid);
+
+    if (isEmailValid && isMobileValid) {
+      dispatch(
+        signupUser({
+          name,
+          email,
+          password,
+          mobileNo
+        })
+      );
+      navigation('/');
+    } else {
+      console.error('Invalid input. Please check the email and mobile number.');
+    }
+  };
+
   return (
-    <div className="main-container-login">
-      <div className="group">
+    <div className="main-container-signup">
+      <div className="group-rectangle">
         <CustomHeading text="SignUp" className="blue-heading"></CustomHeading>
-        <div className="rectangle">
+        <div className="rectangle-signup">
           <Form>
             <CustomInput
               className="input-style"
-              placeholder="full name"
+              placeholder="Full Name"
               type="text"
-              label="Full name"
-              value = {name}
+              label="Full Name"
+              value={name}
               onChange={(e) => setName(e.target.value)}
-
-            >
-
-            </CustomInput>
+            ></CustomInput>
 
             <CustomInput
-              placeholder="email address"
+              placeholder="Email Address"
               type="email"
               label="Email Address"
-              emailText="Enter valid email address"
-              value= {email}
-              onChange={(e) => setEmail(e.target.value)}
+              emailText=""
+              value={email}
+              onChange={(e) => {
+                const enteredEmail = e.target.value;
+                setEmail(enteredEmail);
+                setIsValidEmail(validateEmail(enteredEmail));
+              }}
             ></CustomInput>
+            {!isValidEmail
+              ? (
+              <div className="error-message">Please enter a valid email address</div>
+                )
+              : null}
+
             <CustomInput
-              placeholder="Please Enter your password"
+              placeholder="Password"
               type="password"
               label="Password"
-              value= {password}
+              value={password}
               onChange={(e) => setPassword(e.target.value)}
             ></CustomInput>
+
             <CustomInput
-              placeholder="mobile number"
+              placeholder="Mobile Number"
               type="text"
               label="Mobile"
-              value= {mobileNo}
-              onChange={(e) => setMobileNo(e.target.value)}
+              value={mobileNo}
+              onChange={(e) => {
+                const enteredMobileNo = e.target.value;
+                setMobileNo(enteredMobileNo);
+                setIsValidMobile(validateMobileNumber(enteredMobileNo));
+              }}
             ></CustomInput>
+            {!isValidMobile
+              ? (
+              <div className="error-message">Mobile number must be in Digits</div>
+                )
+              : null}
 
-            <div className="check-box">
-              <Form.Group>
-                <Form.Check type="checkbox" label="Remember me" />
-              </Form.Group>
-            </div>
-
-            <CustomButton onClick= {handleInput} className="btn-style" value= {(loading) ? 'LOADING' : 'Signup'} variant="primary" />
+            <CustomButton
+              onClick={handleInput}
+              className="btn-style"
+              value={loading ? 'LOADING' : 'Signup'}
+              variant="primary"
+            />
 
             <div className="form-base">
               <div className="form-base-2">
@@ -85,7 +136,7 @@ const Signup = () => {
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Signup
+export default Signup;

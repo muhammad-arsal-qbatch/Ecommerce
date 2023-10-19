@@ -1,9 +1,9 @@
 .main-container-login{
     display: flex;
-width: 1366px;
+width: 1500px;
+height: 1500px;
 padding: 100px 379px 210px 379px;
 justify-content: center;
-align-items: center; 
 background: var(--global-07-light, #F8F9FA);
 }
 .group{
@@ -36,3 +36,8 @@ align-items: center;
 gap: 4px;
 justify-content: center ;
 }
+.error-message {
+    color: red;
+    font-size: 14px;
+    margin-top: 5px;
+  }

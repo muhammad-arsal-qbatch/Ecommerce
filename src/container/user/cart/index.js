@@ -1,10 +1,10 @@
 import { useSelector } from 'react-redux';
-import { Container, Row, Col, Image } from 'react-bootstrap';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
+import { Container, Row, Col, Image } from 'react-bootstrap';
+
 import CartItems from '../../../components/cartItems';
-// import Bin from '../../../assets/images/delete-btn.svg';
 import LeftArrow from '../../../assets/images/Arrow-left.svg';
 import CustomButton from '../../../components/button';
 
@@ -20,22 +20,20 @@ const Cart = () => {
   const loader = useSelector((state) => state.adminProduct.loader);
   const [selectedItems, setSelectedItems] = useState(data);
   const [totalQuantity, setTotalQuantity] = useState(0);
+
   useEffect(() => {
     const newSelectedItems = data.filter(item => item.selected);
     const total = newSelectedItems.reduce((accumulator, singleItem) => accumulator + (singleItem.quantity * singleItem.price), 0);
-
     setTotalQuantity(total)
-
-    // Update the state with the filtered items
     setSelectedItems(newSelectedItems)
   }, [data]);
+
   const goToCheckout = () => {
     const shouldGoToCheckout = data.every((item) => item.selected === false);
-    console.log(data);
+
     if (shouldGoToCheckout) {
       alert('please add something to cart first');
     } else {
-      console.log('data selected is , ', data);
       navigation('/checkout');
     }
   };
@@ -58,19 +56,6 @@ const Cart = () => {
                 Shopping Bag
               </h4>
             </div>
-            {/* <Container className="mb-2">
-              <Row className=" items-select-text">
-                <div className="col-8">
-                  <div className="items-select-check-box">
-                    <Form.Check type="checkbox" />
-                    <span>Select {selectedItems.length} items</span>
-                  </div>
-                </div>
-                <div className="d-flex justify-content-end pe-5 col-4">
-                  <Image src={Bin}></Image>
-                </div>
-              </Row>
-            </Container> */}
             {loader === false
               ? (
               <>
