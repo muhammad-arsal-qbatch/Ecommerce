@@ -1,4 +1,4 @@
-import SideBarGroup from '../sideBarGroup';
+import SideBarGroup from '../side-bar-group';
 
 import './sideBar.css';
 

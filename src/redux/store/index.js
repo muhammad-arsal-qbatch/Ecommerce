@@ -6,9 +6,9 @@ import logger from 'redux-logger';
 import thunk from 'redux-thunk';
 
 import authenticationReducer from '../slices/auth';
-import adminProductSlice from '../slices/adminProduct';
-import shoppingBagSlice from '../slices/user/shoppingBag';
-import checkoutSlice from '../slices/user/checkout';
+import AdminProductSlice from '../slices/admin-product';
+import ShoppingBagSlice from '../slices/user/shopping-bag';
+import CheckoutSlice from '../slices/user/checkout';
 import ordersSlice from '../slices/orders';
 
 const persistConfig = {
@@ -25,9 +25,9 @@ const persistConfig = {
 
 const reducers = combineReducers({
   authentication: authenticationReducer,
-  adminProduct: adminProductSlice,
-  shoppingBag: shoppingBagSlice,
-  checkout: checkoutSlice,
+  adminProduct: AdminProductSlice,
+  shoppingBag: ShoppingBagSlice,
+  checkout: CheckoutSlice,
   orders: ordersSlice
 });
 

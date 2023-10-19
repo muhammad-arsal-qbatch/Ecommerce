@@ -5,14 +5,14 @@ import { useSelector } from 'react-redux';
 
 import Login from '../container/auth/login';
 import ForgotPassword from '../container/auth/forgot-password';
-import NewPassword from '../container/auth/newPassword';
+import NewPassword from '../container/auth/new-password';
 import Signup from '../container/auth/signup';
 
-import AdminProducts from '../container/admin/adminProducts';
-import AdminOrder from '../container/admin/adminOrder';
-import AdminDashboard from '../container/admin/adminDashboard';
+import AdminProducts from '../container/admin/products';
+import AdminOrder from '../container/admin/orders';
+import AdminDashboard from '../container/admin/dashboard';
 
-import UserHomepage from '../container/user/userHomepage';
+import UserHomepage from '../container/user/homepage';
 import Orders from '../container/user/orders';
 import Cart from '../container/user/cart';
 import Checkout from '../container/user/checkout';

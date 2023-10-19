@@ -1,4 +1,4 @@
-import CustomInput from '../inputField';
+import CustomInput from '../input-field';
 import PropTypes from 'prop-types';
 
 import './incDecBtns.css';

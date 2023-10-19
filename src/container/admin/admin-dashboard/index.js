@@ -2,11 +2,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
 import { Spinner } from 'react-bootstrap';
 
-import { GetTopSellingProducts } from '../../../redux/slices/adminProduct';
+import { GetTopSellingProducts } from '../../../redux/slices/admin-product';
 import { GetStats, getOrders } from '../../../redux/slices/orders';
 
-import CustomTable from '../../../components/customTable';
-import CustomCards from '../../../components/customCards';
+import CustomTable from '../../../components/custom-table';
+import CustomCards from '../../../components/custom-cards';
 import ShoppingCart from '../../../assets/images/shopping_cart.svg';
 import CustomChart from '../../../components/chart';
 

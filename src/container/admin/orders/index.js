@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Badge, Spinner } from 'react-bootstrap';
 
-import CustomTable from '../../../components/customTable';
+import CustomTable from '../../../components/custom-table';
 
 import {
   DeliverOrder,
@@ -11,13 +11,14 @@ import {
 } from '../../../redux/slices/orders';
 
 import CustomButton from '../../../components/button';
-import ErrorModal from '../../../components/errorModal';
+import ErrorModal from '../../../components/error-modal';
 
 import './adminOrder.css';
 
 const AdminOrder = () => {
   const dispatch = useDispatch();
   const data = useSelector((state) => state.orders.orders);
+  console.log('data is,  ', data);
   const status = useSelector((state) => state.orders.status);
   const error = useSelector((state) => state.orders.error);
   const loader = useSelector((state) => state.orders.loader);
@@ -123,8 +124,8 @@ const AdminOrder = () => {
         : (
         <CustomTable
           pagination={false}
-          data={data}
-          headings={headings}
+          data={data || [] }
+          headings={headings || []}
         ></CustomTable>
           )}
     </div>

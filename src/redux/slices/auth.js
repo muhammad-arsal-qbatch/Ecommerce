@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 
-import { clearCache as clearShoppingBagCache } from './user/shoppingBag';
+import { clearCache as clearShoppingBagCache } from './user/shopping-bag';
 import { clearCache as clearOrdersCache } from './orders';
 import {
   clearCache as clearCheckoutCache,
@@ -117,7 +117,7 @@ export const signupUser = createAsyncThunk(
   }
 );
 
-const authSlice = createSlice({
+const AuthSlice = createSlice({
   name: 'auth',
   initialState: {
     token: '',
@@ -246,6 +246,6 @@ export const {
   logoutAdmin,
   clearCache,
   clearError
-} = authSlice.actions;
+} = AuthSlice.actions;
 
-export default authSlice.reducer;
+export default AuthSlice.reducer;

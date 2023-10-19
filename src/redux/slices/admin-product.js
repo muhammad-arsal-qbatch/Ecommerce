@@ -77,6 +77,7 @@ export const addProduct = createAsyncThunk(
 
       return response.data;
     } catch (error) {
+      console.log('error in admin is, ', error);
       return thunkApi.rejectWithValue({
         error: 'Api Not found, please check your api url'
       });
@@ -173,13 +174,13 @@ export const GetTopSellingProducts = createAsyncThunk(
       return response.data;
     } catch (error) {
       return thunkApi.rejectWithValue({
-        error
+        error: error.message
       });
     }
   }
 );
 
-const adminProductSlice = createSlice({
+const AdminProductSlice = createSlice({
   name: 'adminProductSlice',
   initialState,
   reducers: {
@@ -334,6 +335,6 @@ export const {
   hideModal,
   showAddProductCanvas,
   clearError
-} = adminProductSlice.actions;
+} = AdminProductSlice.actions;
 
-export default adminProductSlice.reducer;
+export default AdminProductSlice.reducer;

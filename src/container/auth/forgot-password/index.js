@@ -7,10 +7,10 @@ import { UserForgotPassword, clearError } from '../../../redux/slices/auth';
 import { Form } from 'react-bootstrap';
 
 import CustomHeading from '../../../components/heading';
-import CustomInput from '../../../components/inputField';
+import CustomInput from '../../../components/input-field';
 import CustomButton from '../../../components/button';
-import FormBase from '../../../components/formBase';
-import ErrorModal from '../../../components/errorModal';
+import FormBase from '../../../components/form-base';
+import ErrorModal from '../../../components/error-modal';
 
 import './forgotPassword.css';
 

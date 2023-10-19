@@ -5,7 +5,7 @@ import { GetOrdersByUserId, getOrders } from '../../../redux/slices/orders';
 
 import { Badge } from 'react-bootstrap';
 
-import CustomTable from '../../../components/customTable';
+import CustomTable from '../../../components/custom-table';
 import CustomButton from '../../../components/button';
 import OrderDetailsOffcanvas from '../../../components/order-details-offcanvas';
 

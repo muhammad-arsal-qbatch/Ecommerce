@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from 'react-redux';
 
 import CustomButton from '../button';
-import { showAddProductCanvas } from '../../redux/slices/adminProduct';
+import { showAddProductCanvas } from '../../redux/slices/admin-product';
 import CustomOffcanvas from '../offcanvas';
 
 import './products.css';

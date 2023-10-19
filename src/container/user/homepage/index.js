@@ -7,11 +7,11 @@ import { clearError } from '../../../redux/slices/auth';
 
 import { Spinner } from 'react-bootstrap';
 
-import FilterRectangle from '../../../components/filterRectangle';
+import FilterRectangle from '../../../components/filter-rectangle';
 import UserCards from '../../../components/userCards';
-import { getData } from '../../../redux/slices/adminProduct';
-import UserDetailedCards from '../../../components/userDetailedCards';
-import ErrorModal from '../../../components/errorModal';
+import { getData } from '../../../redux/slices/admin-product';
+import UserDetailedCards from '../../../components/user-detailed-cards';
+import ErrorModal from '../../../components/error-modal';
 
 import './userHomepage.css';
 
@@ -62,13 +62,12 @@ const UserHomepage = ({ cn }) => {
             </div>
               )
             : (
-            <></>
-              )}
-          {dataError
-            ? (
+            <>
+            {dataError
+              ? (
             <p style={{ margin: '400px' }}>{dataError}</p>
-              )
-            : (
+                )
+              : (
             <>
               <div className="left-box">
                 {data.map((obj, index) => (
@@ -91,6 +90,10 @@ const UserHomepage = ({ cn }) => {
                     )}
               </div>
             </>
+                )}
+
+            </>
+
               )}
         </div>
       </div>

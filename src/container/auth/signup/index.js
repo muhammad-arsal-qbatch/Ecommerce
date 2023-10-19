@@ -7,9 +7,9 @@ import { clearCache, signupUser } from '../../../redux/slices/auth';
 import Form from 'react-bootstrap/Form';
 
 import CustomButton from '../../../components/button';
-import CustomInput from '../../../components/inputField';
+import CustomInput from '../../../components/input-field';
 import CustomHeading from '../../../components/heading';
-import FormBase from '../../../components/formBase';
+import FormBase from '../../../components/form-base';
 
 import '../login/login.css';
 import './signup.css';

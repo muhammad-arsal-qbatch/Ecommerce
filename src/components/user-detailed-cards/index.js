@@ -6,13 +6,13 @@ import { useEffect, useState } from 'react';
 
 import { Image } from 'react-bootstrap';
 
-import ColorsBox from '../colorsBox';
-import CustomInput from '../inputField';
+import ColorsBox from '../colors-box';
+import CustomInput from '../input-field';
 import CustomButton from '../button';
-import CustomTooltip from '../../components/tooltip';
-import { addToCart } from '../../redux/slices/user/shoppingBag';
+import CustomTooltip from '../tooltip';
+import { addToCart } from '../../redux/slices/user/shopping-bag';
 
-import './userDetailedCards.css';
+import './user-detailed-cards.css';
 
 const UserDetailedCards = ({ singleCard }) => {
   const dispatch = useDispatch();
@@ -61,7 +61,7 @@ const UserDetailedCards = ({ singleCard }) => {
               <CustomTooltip text={singleCard.productName}></CustomTooltip>
             </div>
             <ColorsBox colors={singleCard.color} text="Color"></ColorsBox>
-            <ColorsBox colors={singleCard.size} text="Sizes"></ColorsBox>
+            <ColorsBox colors={singleCard.size} text="Size"></ColorsBox>
             <div className="price-box">
               <span className="price-heading"> Price</span>
               <h4 className="price-text">${singleCard.price}</h4>

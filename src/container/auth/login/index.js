@@ -5,9 +5,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import Form from 'react-bootstrap/Form';
 
 import CustomButton from '../../../components/button';
-import CustomInput from '../../../components/inputField';
+import CustomInput from '../../../components/input-field';
 import CustomHeading from '../../../components/heading';
-import FormBase from '../../../components/formBase';
+import FormBase from '../../../components/form-base';
 import { clearCache, loginUser } from '../../../redux/slices/auth';
 
 import './login.css';

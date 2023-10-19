@@ -14,9 +14,9 @@ import Arrow from '../../assets/images/Arrow.svg'
 import DeleteBtn from '../../assets/images/delete-btn.svg';
 import EditBtn from '../../assets/images/edit-btn.svg';
 import Warning from '../../assets/images/warning.svg';
-import CustomModal from '../customModal';
-import CustomOffcanvas from '../../components/offcanvas';
-import { displayModal, showOffcanvas } from '../../redux/slices/adminProduct';
+import CustomModal from '../custom-modal';
+import CustomOffcanvas from '../offcanvas';
+import { displayModal, showOffcanvas } from '../../redux/slices/admin-product';
 
 import './customTable.css';
 

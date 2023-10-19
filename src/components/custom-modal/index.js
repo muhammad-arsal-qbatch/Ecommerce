@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import Modal from 'react-bootstrap/Modal';
 
-import { deleteProduct, hideModal } from '../../redux/slices/adminProduct';
+import { deleteProduct, hideModal } from '../../redux/slices/admin-product';
 import CustomButton from '../button';
 
 import './customModal.css';

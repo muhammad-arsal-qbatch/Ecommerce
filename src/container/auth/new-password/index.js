@@ -7,7 +7,7 @@ import { Form } from 'react-bootstrap';
 import { ResetPassword, clearError } from '../../../redux/slices/auth';
 
 import CustomHeading from '../../../components/heading';
-import CustomInput from '../../../components/inputField';
+import CustomInput from '../../../components/input-field';
 import CustomButton from '../../../components/button';
 
 import './newPassword.css';

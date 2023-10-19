@@ -14,9 +14,9 @@ import {
 import CartItems from '../../../components/cartItems';
 import PaymentCard from '../../../components/payment-card';
 import CustomButton from '../../../components/button';
-import DeliveryOffcanvas from '../../../components/deliveryOffcanvas';
+import DeliveryOffcanvas from '../../../components/delivery-offcanvas';
 import UpdatePaymentOffcanvas from '../../../components/update-payment-offcavas';
-import CustomInput from '../../../components/inputField';
+import CustomInput from '../../../components/input-field';
 import LeftArrow from '../../../assets/images/Arrow-left.svg';
 import ChangeAddressOffcanvas from '../../../components/change-address-offcanvas';
 import PaymentEdit from '../../../assets/images/payment-edit.svg';

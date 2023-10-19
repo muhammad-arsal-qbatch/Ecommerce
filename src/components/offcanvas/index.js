@@ -7,11 +7,11 @@ import {
   addProduct,
   editProduct,
   hideOffcanvas
-} from '../../redux/slices/adminProduct';
+} from '../../redux/slices/admin-product';
 
 import CloudArrowUp from '../../assets/images/cloud-arrow-up.svg';
 import CustomButton from '../button';
-import CustomInput from '../inputField';
+import CustomInput from '../input-field';
 
 import './offcanvas.css';
 

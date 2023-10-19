@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 
-import { updateShoppingBag } from './shoppingBag';
+import { updateShoppingBag } from './shopping-bag';
 import { updateCurrentUserDetails } from '../auth';
 
 export const PlaceOrder = createAsyncThunk(
@@ -177,7 +177,7 @@ export const UpdatePaymentMethod = createAsyncThunk(
   }
 );
 
-const checkoutSlice = createSlice({
+const CheckoutSlice = createSlice({
   name: 'Checkout slice',
   initialState: {
     deliveryPerson: {
@@ -322,6 +322,6 @@ export const {
   handleOffcanvas,
   setPaymentMethodAndDeliveryAddress,
   clearCache
-} = checkoutSlice.actions;
+} = CheckoutSlice.actions;
 
-export default checkoutSlice.reducer;
+export default CheckoutSlice.reducer;

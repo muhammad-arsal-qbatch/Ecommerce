@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 
 import CustomNavbar from '../components/navbar';
-import SideBar from '../components/sideBar';
+import SideBar from '../components/side-bar';
 
 import './layout.css';
 

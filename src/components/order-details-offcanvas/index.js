@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import moment from 'moment';
 import { Offcanvas } from 'react-bootstrap';
 
-import CustomTable from '../../components/customTable';
+import CustomTable from '../custom-table';
 
 import './order-details-offcanvas.css';
 

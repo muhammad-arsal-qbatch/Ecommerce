@@ -1,9 +1,9 @@
 import { debounce } from 'lodash';
 import { useDispatch } from 'react-redux';
 
-import CustomDropDown from '../../components/dropdown';
-import CustomInput from '../inputField';
-import { getData } from '../../redux/slices/adminProduct';
+import CustomDropDown from '../dropdown';
+import CustomInput from '../input-field';
+import { getData } from '../../redux/slices/admin-product';
 import { useEffect, useState } from 'react';
 
 import './filterRectangle.css';

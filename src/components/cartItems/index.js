@@ -4,12 +4,12 @@ import { useDispatch } from 'react-redux';
 
 import Bin from '../../assets/images/delete-btn.svg';
 
-import CustomInput from '../inputField';
+import CustomInput from '../input-field';
 
 import {
   updateCartItem,
   deleteFromCart
-} from '../../redux/slices/user/shoppingBag';
+} from '../../redux/slices/user/shopping-bag';
 
 import './cartItems.css';
 

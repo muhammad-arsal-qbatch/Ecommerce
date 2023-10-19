@@ -3,11 +3,11 @@ import { useEffect, useState } from 'react';
 
 import { Pagination } from 'react-bootstrap';
 
-import CustomTable from '../../../components/customTable';
-import { clearError, getData } from '../../../redux/slices/adminProduct';
+import CustomTable from '../../../components/custom-table';
+import { clearError, getData } from '../../../redux/slices/admin-product';
 
 import Products from '../../../components/products';
-import ErrorModal from '../../../components/errorModal';
+import ErrorModal from '../../../components/error-modal';
 
 import './adminProducts.css';
 
