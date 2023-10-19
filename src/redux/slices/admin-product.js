@@ -18,8 +18,6 @@ const initialState = {
 export const GetData = createAsyncThunk(
   'adminProductSlice/getProducts',
   async (body, { rejectWithValue, getState }) => {
-    console.log('i am called', body);
-
     const state = getState();
 
     try {
@@ -79,13 +77,13 @@ export const AddProduct = createAsyncThunk(
 
       return response.data;
     } catch (error) {
-      console.log('error in admin is, ', error);
       return thunkApi.rejectWithValue({
         error: 'Api Not found, please check your api url'
       });
     }
   }
 );
+
 export const GetOrder = createAsyncThunk(
   'adminProductSlice/getOrder',
   async (body, thunkApi) => {
@@ -124,7 +122,6 @@ export const EditProduct = createAsyncThunk(
 
       return response.data.updatedObject;
     } catch (error) {
-      console.log(error);
       return thunkApi.rejectWithValue({
         error: 'there is some error while calling the api'
       });
@@ -206,7 +203,6 @@ const AdminProductSlice = createSlice({
     },
     DisplayModal: (state, { payload }) => {
       state.modal = true;
-      console.log(state.data);
       state.product = payload;
     },
     ShowOffcanvas: (state, { payload }) => {

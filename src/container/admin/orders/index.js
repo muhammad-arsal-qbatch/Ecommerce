@@ -18,7 +18,6 @@ import './adminOrder.css';
 const AdminOrder = () => {
   const dispatch = useDispatch();
   const data = useSelector((state) => state.orders.orders);
-  console.log('data is,  ', data);
   const status = useSelector((state) => state.orders.status);
   const error = useSelector((state) => state.orders.error);
   const loader = useSelector((state) => state.orders.loader);

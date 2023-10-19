@@ -34,7 +34,6 @@ export const GetOrders = createAsyncThunk(
 
       return response.data;
     } catch (error) {
-      console.log('EROROROR', error);
       return thunkApi.rejectWithValue({
         error: error.message
       });

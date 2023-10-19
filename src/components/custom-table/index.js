@@ -34,11 +34,6 @@ const CustomTable = (props) => {
   const modal = useSelector((state) => state.adminProduct.modal);
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    console.log(offset);
-  }, []
-  )
-
   return (
     <>
     <Modal>

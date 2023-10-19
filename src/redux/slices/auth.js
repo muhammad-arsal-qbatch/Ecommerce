@@ -3,9 +3,7 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 
 import { ClearCache as ClearShoppingBagCache } from './user/shopping-bag';
 import { ClearCache as ClearOrdersCache } from './orders';
-import {
-  SetPaymentMethodAndDeliveryAddress
-} from './user/checkout';
+import { SetPaymentMethodAndDeliveryAddress } from './user/checkout';
 
 export const LoginUser = createAsyncThunk(
   'auth/loginStatus',
@@ -43,7 +41,6 @@ export const UserForgotPassword = createAsyncThunk(
       );
       return response.data;
     } catch (error) {
-      console.log('error in thuk is, ', error.response.data.error);
       return thunkApi.rejectWithValue({
         error: error.response.data.error
       });
@@ -80,7 +77,6 @@ export const LogoutUser = createAsyncThunk(
     try {
       thunkApi.dispatch(ClearShoppingBagCache());
       thunkApi.dispatch(ClearOrdersCache());
-      // thunkApi.dispatch(ClearMyCheckoutCache());
 
       return 'Logout successful';
     } catch (error) {
@@ -189,7 +185,6 @@ const AuthSlice = createSlice({
       state.error = payload.error.error;
     },
     [LoginUser.pending]: (state, action) => {
-      console.log(action.payload);
       state.token = false;
       state.isLoading = true;
     },

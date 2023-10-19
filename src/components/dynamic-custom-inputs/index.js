@@ -5,7 +5,6 @@ const AddPersonRows = (props) => {
   const { addPersonMappedRows } = props;
 
   const handleUpdate = (e, col) => {
-    console.log({ VAL: col.field });
     setDeliveryAddressData({
       ...deliveryAddressData,
       [`${col.field}`]: e.target.value

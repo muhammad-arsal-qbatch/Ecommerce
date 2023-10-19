@@ -239,30 +239,6 @@ const CheckoutSlice = createSlice({
         changeAddressOffcanvas: false
       };
     },
-    ClearMyCheckoutCache: (state) => {
-      state.deliveryPerson = {
-        name: '',
-        mobile: '',
-        country: '',
-        city: '',
-        address: '',
-        province: ''
-      };
-      state.selectedPerson = 0;
-      state.selectedPaymentMethod = 0;
-      state.allDeliveryPersons = [];
-      state.paymentMethod = {
-        cardNumber: '',
-        expiryDate: '',
-        cvc: '',
-        country: ''
-      };
-      state.allPaymentMethods = [];
-      state.orders = [];
-      state.isDeliveryPerson = false;
-      state.isPaymentMethod = false;
-      state.changeAddressOffcanvas = false;
-    },
     AddDeliveryPerson: (state, { payload }) => {
       state.deliveryPerson = payload;
       state.isDeliveryPerson = true;
@@ -346,8 +322,7 @@ export const {
   AddPaymentMethodAction,
   AddOrder,
   HandleOffcanvas,
-  SetPaymentMethodAndDeliveryAddress,
-  ClearMyCheckoutCache
+  SetPaymentMethodAndDeliveryAddress
 } = CheckoutSlice;
 
 export default CheckoutSlice.reducer;

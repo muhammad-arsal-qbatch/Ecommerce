@@ -26,7 +26,7 @@ const UserCards = ({
           src={`http://localhost:5000/${cardData.images[0]}`}
           width="256px"
           height="222px"
-        ></CardImg>
+        />
         <Card.Body>
           <Card.Title> {cardData.productName} </Card.Title>
           <Card.Text>
@@ -49,7 +49,7 @@ const UserCards = ({
                 value="Out of stock"
                 size="sm"
                 onClick={onClick}
-              ></CustomButton>
+              />
                 )
               : (
               <CustomButton
@@ -57,7 +57,7 @@ const UserCards = ({
                 size="sm"
                 onClick={onClick}
                 variant="primary"
-              ></CustomButton>
+              />
                 )}
           </div>
         </Card.Body>
