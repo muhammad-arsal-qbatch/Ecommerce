@@ -2,7 +2,7 @@ import { Offcanvas } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { UpdateDeliveryPerson } from '../../redux/slices/user/checkout';
+import { UpdateDeliveryPerson } from '../../redux/slices/checkout';
 import CustomButton from '../button';
 
 const ChangeAddressOffcanvas = ({

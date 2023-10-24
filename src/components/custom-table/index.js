@@ -6,7 +6,7 @@ import {
 
 import Spinner from 'react-bootstrap/Spinner';
 import PropTypes from 'prop-types';
-import { useEffect } from 'react';
+// import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import moment from 'moment';
 
@@ -16,7 +16,7 @@ import EditBtn from '../../assets/images/edit-btn.svg';
 import Warning from '../../assets/images/warning.svg';
 import CustomModal from '../custom-modal';
 import CustomOffcanvas from '../offcanvas';
-import { DisplayModal, ShowOffcanvas } from '../../redux/slices/admin-product';
+import { DisplayModal, ShowOffcanvas } from '../../redux/slices/products';
 
 import './customTable.css';
 
@@ -26,7 +26,7 @@ const CustomTable = (props) => {
     headings
   } = props;
 
-  const offset = useSelector((state) => state.adminProduct.offset);
+  // const offset = useSelector((state) => state.adminProduct.offset);
   const status = useSelector((state) => state.adminProduct.status);
   const error = useSelector((state) => state.adminProduct.tableDataError);
   const loader = useSelector((state) => state.adminProduct.loader);

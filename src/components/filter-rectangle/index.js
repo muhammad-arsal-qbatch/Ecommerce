@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux';
 
 import CustomDropDown from '../dropdown';
 import CustomInput from '../input-field';
-import { GetData } from '../../redux/slices/admin-product';
+import { GetData } from '../../redux/slices/products';
 import { useEffect, useState } from 'react';
 
 import './filterRectangle.css';

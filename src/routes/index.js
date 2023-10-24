@@ -42,7 +42,7 @@ const CustomRoutes = () => {
           <Layout showSidebar={false}>
             <Routes>
               <Route path="/" element={<UserHomepage />} />
-              <Route path="/c" element={<Cart />} />
+              <Route path="/shoppingBag" element={<Cart />} />
               <Route path="/checkout" element={<Checkout />} />
               <Route path="/o" element={<Orders />} />
               <Route path="*" element={<UserHomepage />} />

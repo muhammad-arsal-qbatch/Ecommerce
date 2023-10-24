@@ -134,6 +134,7 @@ export const DeleteProduct = createAsyncThunk(
   async (body, thunkApi) => {
     try {
       const state = thunkApi.getState();
+      console.log('product id to delete is, ', body);
       const response = await axios.delete(
         'http://localhost:5000/products/deleteProduct',
         {
@@ -149,6 +150,8 @@ export const DeleteProduct = createAsyncThunk(
           error: response.data.error
         });
       }
+      console.log('before calling  ', response.data);
+      return response.data
     } catch (error) {
       return thunkApi.rejectWithValue({
         error: error.message
@@ -256,42 +259,52 @@ const AdminProductSlice = createSlice({
       state.loader = true;
       state.status = false;
     },
+
     [GetOrder.rejected]: (state, action) => {
       state.error = action.payload.error;
       state.loader = false;
       state.status = false;
     },
+
     [AddProduct.pending]: (state, action) => {
       state.loader = true;
     },
+
     [AddProduct.fulfilled]: (state, action) => {
       state.data.push(action.payload.product);
       state.addProductCanvas = false;
       state.loader = false;
       state.error = 'product has been addedd';
     },
+
     [AddProduct.rejected]: (state, action) => {
       state.error = action.payload.error;
       state.addProductCanvas = false;
       state.loader = false;
     },
+
     [DeleteProduct.fulfilled]: (state, action) => {
+      console.log('in fulfilled,  ', action);
       state.modal = false;
       state.data = state.data.filter(
-        (d) => d._id !== action.meta.arg.product._id
+        (d) => d._id !== action.meta.arg._id
       );
       state.product = {};
       state.loader = false;
     },
+
     [DeleteProduct.pending]: (state, action) => {
     },
+
     [DeleteProduct.rejected]: (state, action) => {
       state.error = action.payload.error;
     },
+
     [EditProduct.fulfilled]: (state, action) => {
       state.error = 'Product has been updated ';
       state.offcanvas = false;
       const updatedData = state.data.map((product) => {
+        console.log('action.payload is ,', action.payload);
         if (product._id === action.payload._id) {
           return action.payload;
         } else {
@@ -302,20 +315,25 @@ const AdminProductSlice = createSlice({
       state.data = updatedData;
       state.product = {};
     },
+
     [EditProduct.pending]: (state, action) => {
     },
+
     [EditProduct.rejected]: (state, action) => {
       state.error = action.payload.error;
       state.product = {};
       state.offcanvas = false;
     },
+
     [GetTopSellingProducts.pending]: (state) => {
       state.loader = true;
     },
+
     [GetTopSellingProducts.fulfilled]: (state, { payload }) => {
       state.loader = false;
       state.topSellingProducts = payload;
     },
+
     [GetTopSellingProducts.rejected]: (state, { payload }) => {
       state.loader = false;
       state.topSellingProducts = [];

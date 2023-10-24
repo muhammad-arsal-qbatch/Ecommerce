@@ -9,7 +9,7 @@ import CustomInput from '../input-field';
 import {
   UpdateCartItem,
   DeleteFromCart
-} from '../../redux/slices/user/shopping-bag';
+} from '../../redux/slices/shopping-bag';
 
 import './cartItems.css';
 

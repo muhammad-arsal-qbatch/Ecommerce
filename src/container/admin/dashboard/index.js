@@ -2,8 +2,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
 import { Spinner } from 'react-bootstrap';
 
-import { GetTopSellingProducts } from '../../../redux/slices/admin-product';
-import { GetStats, GetOrders } from '../../../redux/slices/orders';
+import { GetTopSellingProducts } from '../../../redux/slices/products';
+import { GetOrders } from '../../../redux/slices/orders';
+import { GetStats } from '../../../redux/slices/dashboard';
 
 import CustomTable from '../../../components/custom-table';
 import CustomCards from '../../../components/custom-cards';
@@ -19,8 +20,8 @@ const AdminDashboard = () => {
   );
 
   const loader = useSelector((state) => state.adminProduct.loader);
-  const stats = useSelector((state) => state.orders.stats);
-  const statsLoader = useSelector((state) => state.orders.statsLoader);
+  const stats = useSelector((state) => state.adminDashboard.stats);
+  const statsLoader = useSelector((state) => state.adminDashboard.statsLoader);
   const currentOrders = useSelector((state) => state.orders.orders);
 
   const headings = [

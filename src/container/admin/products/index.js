@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { Pagination } from 'react-bootstrap';
 
 import CustomTable from '../../../components/custom-table';
-import { ClearError, GetData } from '../../../redux/slices/admin-product';
+import { ClearError, GetData } from '../../../redux/slices/products';
 
 import Products from '../../../components/products';
 import ErrorModal from '../../../components/error-modal';

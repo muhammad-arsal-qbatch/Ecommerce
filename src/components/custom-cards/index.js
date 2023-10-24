@@ -11,7 +11,7 @@ const CustomCards = ({
   cardHeading,
   imageSrc
 }) => {
-  const statsError = useSelector((state) => state.orders.statsError);
+  const statsError = useSelector((state) => state.adminDashboard.statsError);
 
   return (
     <div className="card-box">

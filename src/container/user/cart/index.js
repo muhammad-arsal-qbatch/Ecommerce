@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 
 import { Container, Row, Col, Image } from 'react-bootstrap';
 
-import CartItems from '../../../components/cartItems';
+import CartItems from '../../../components/cart-items';
 import LeftArrow from '../../../assets/images/Arrow-left.svg';
 import CustomButton from '../../../components/button';
 

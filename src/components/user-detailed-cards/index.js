@@ -10,7 +10,7 @@ import ColorsBox from '../colors-box';
 import CustomInput from '../input-field';
 import CustomButton from '../button';
 import CustomTooltip from '../tooltip';
-import { AddToCart } from '../../redux/slices/user/shopping-bag';
+import { AddToCart } from '../../redux/slices/shopping-bag';
 
 import './user-detailed-cards.css';
 
@@ -20,7 +20,7 @@ const UserDetailedCards = ({ singleCard }) => {
   const token = useSelector((state) => state.authentication.token);
   const [smallImagesShow, setSmallImagesShow] = useState(0);
   const [largeImagesShow, setLargeImagesShow] = useState(0);
-  const [selectedQuantity, setSelectedQuantity] = useState(singleCard.quantity);
+  const [selectedQuantity, setSelectedQuantity] = useState(1);
 
   const handleSmallImageClick = (index) => {
     setLargeImagesShow(index);
@@ -40,11 +40,11 @@ const UserDetailedCards = ({ singleCard }) => {
     const updatedCard = { ...singleCard };
     updatedCard.quantity = selectedQuantity;
     dispatch(AddToCart(updatedCard));
-    navigate('/c');
+    navigate('/shoppingBag');
   };
 
   useEffect(() => {
-    setSelectedQuantity(singleCard.quantity);
+    setSelectedQuantity(1);
   }, [singleCard]);
   return (
     <>

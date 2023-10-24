@@ -7,11 +7,11 @@ import { Container, Row, Col, Image } from 'react-bootstrap';
 import {
   AddDeliveryAddress,
   AddPaymentMethod,
-  GetDeliveryAddress,
-  PlaceOrder
-} from '../../../redux/slices/user/checkout';
+  GetDeliveryAddress
+} from '../../../redux/slices/checkout';
+import { PlaceOrder } from '../../../redux/slices/orders';
 
-import CartItems from '../../../components/cartItems';
+import CartItems from '../../../components/cart-items';
 import PaymentCard from '../../../components/payment-card';
 import CustomButton from '../../../components/button';
 import DeliveryOffcanvas from '../../../components/delivery-offcanvas';

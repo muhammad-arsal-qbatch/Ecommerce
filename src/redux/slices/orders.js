@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import { UpdateShoppingBag } from './shopping-bag';
 
 const initialState = {
   orders: [],
@@ -11,6 +12,42 @@ const initialState = {
   statsError: '',
   status: false
 };
+
+export const PlaceOrder = createAsyncThunk(
+  'ordersSlice/placeOrders',
+  async (body, thunkApi) => {
+    try {
+      const selectedItems = body.filter((item) => item.selected === true);
+      const userId = localStorage.getItem('userId');
+      const userName = localStorage.getItem('userName');
+      const finalItems = {};
+      finalItems.userName = userName;
+      finalItems.userId = userId;
+      finalItems.products = selectedItems;
+      finalItems.totalQuantity = finalItems.products.length;
+
+      const state = thunkApi.getState();
+
+      const response = await axios.post(
+        'http://localhost:5000/orders/placeOrder',
+        finalItems,
+        {
+          headers: {
+            Authorization: `Bearer ${state.authentication.token}`
+          }
+        }
+      );
+
+      thunkApi.dispatch(UpdateShoppingBag(response));
+
+      return response;
+    } catch (error) {
+      thunkApi.rejectWithValue({
+        error
+      });
+    }
+  }
+);
 
 export const GetOrders = createAsyncThunk(
   'ordersSlice/getOrders',
@@ -36,29 +73,6 @@ export const GetOrders = createAsyncThunk(
     } catch (error) {
       return thunkApi.rejectWithValue({
         error: error.message
-      });
-    }
-  }
-);
-
-export const GetStats = createAsyncThunk(
-  'orders/getStats',
-  async (body, thunkApi) => {
-    try {
-      const state = thunkApi.getState();
-      const response = await axios.get(
-        'http://localhost:5000/orders/getStats',
-        {
-          headers: {
-            Authorization: `Bearer ${state.authentication.token}`
-          }
-        }
-      );
-
-      return response.data;
-    } catch (error) {
-      return thunkApi.rejectWithValue({
-        error
       });
     }
   }
@@ -139,6 +153,12 @@ const ordersSlice = createSlice({
     }
   },
   extraReducers: {
+    [PlaceOrder.pending]: (state, action) => {
+    },
+    [PlaceOrder.fulfilled]: (state, { payload }) => {
+    },
+    [PlaceOrder.rejected]: (state, action) => {
+    },
     [GetOrders.pending]: (state, action) => {
       state.loader = true;
     },
@@ -167,17 +187,6 @@ const ordersSlice = createSlice({
       state.orders = action.payload;
     },
     [GetOrdersByUserId.rejected]: (state, action) => {
-    },
-    [GetStats.pending]: (state, { payload }) => {
-      state.statsLoader = true;
-    },
-    [GetStats.fulfilled]: (state, { payload }) => {
-      state.statsLoader = false;
-      state.stats = payload[0];
-    },
-    [GetStats.rejected]: (state, { payload }) => {
-      state.statsLoader = false;
-      state.statsError = 'Error fetching stats';
     }
   }
 });

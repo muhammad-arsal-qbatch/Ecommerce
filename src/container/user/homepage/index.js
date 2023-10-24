@@ -8,8 +8,8 @@ import { ClearError } from '../../../redux/slices/auth';
 import { Spinner } from 'react-bootstrap';
 
 import FilterRectangle from '../../../components/filter-rectangle';
-import UserCards from '../../../components/userCards';
-import { GetData } from '../../../redux/slices/admin-product';
+import UserCards from '../../../components/user-cards';
+import { GetData } from '../../../redux/slices/products';
 import UserDetailedCards from '../../../components/user-detailed-cards';
 import ErrorModal from '../../../components/error-modal';
 

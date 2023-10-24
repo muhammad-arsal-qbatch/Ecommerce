@@ -1,14 +1,15 @@
 import axios from 'axios';
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 
-import { ClearCache as ClearShoppingBagCache } from './user/shopping-bag';
+import { ClearCache as ClearShoppingBagCache } from './shopping-bag';
 import { ClearCache as ClearOrdersCache } from './orders';
-import { SetPaymentMethodAndDeliveryAddress } from './user/checkout';
+import { SetPaymentMethodAndDeliveryAddress } from './checkout';
 
 export const LoginUser = createAsyncThunk(
   'auth/loginStatus',
   async (body, thunkApi) => {
     try {
+      console.log('in login body has,  ', body);
       const response = await axios.post(
         'http://localhost:5000/auth/signIn',
         body
@@ -39,6 +40,7 @@ export const UserForgotPassword = createAsyncThunk(
         'http://localhost:5000/auth/forgotPassword',
         body
       );
+      console.log('token of reset token is, ', response.data);
       return response.data;
     } catch (error) {
       return thunkApi.rejectWithValue({
@@ -123,7 +125,8 @@ const AuthSlice = createSlice({
     isAdmin: false,
     currentUser: {},
     passwordResetStatus: false,
-    emailSentStatus: false
+    emailSentStatus: false,
+    resetToken: false
   },
   reducers: {
     ClearCache: (state) => {
@@ -212,6 +215,7 @@ const AuthSlice = createSlice({
       state.passwordResetStatus = true;
       state.isLoading = false;
       state.error = 'email has sent to you for verification';
+      state.resetToken = payload;
     },
     [UserForgotPassword.rejected]: (state, { payload }) => {
       state.isLoading = false;
@@ -225,6 +229,7 @@ const AuthSlice = createSlice({
       state.isLoading = false;
       state.error = '';
       state.emailSentStatus = true;
+      state.resetToken = ''
     },
     [ResetPassword.rejected]: (state, { payload }) => {
       state.isLoading = false;

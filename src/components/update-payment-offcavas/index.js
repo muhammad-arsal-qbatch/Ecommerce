@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import { Offcanvas } from 'react-bootstrap';
 
-import { UpdatePaymentMethod } from '../../redux/slices/user/checkout';
+import { UpdatePaymentMethod } from '../../redux/slices/checkout';
 import { useDispatch, useSelector } from 'react-redux';
 
 import CustomButton from '../button';

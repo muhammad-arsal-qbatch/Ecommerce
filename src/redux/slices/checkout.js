@@ -1,44 +1,7 @@
 import axios from 'axios';
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 
-import { UpdateShoppingBag } from './shopping-bag';
-import { UpdateCurrentUserDetails } from '../auth';
-
-export const PlaceOrder = createAsyncThunk(
-  'ordersSlice/placeOrders',
-  async (body, thunkApi) => {
-    try {
-      const selectedItems = body.filter((item) => item.selected === true);
-      const userId = localStorage.getItem('userId');
-      const userName = localStorage.getItem('userName');
-      const finalItems = {};
-      finalItems.userName = userName;
-      finalItems.userId = userId;
-      finalItems.products = selectedItems;
-      finalItems.totalQuantity = finalItems.products.length;
-
-      const state = thunkApi.getState();
-
-      const response = await axios.post(
-        'http://localhost:5000/orders/placeOrder',
-        finalItems,
-        {
-          headers: {
-            Authorization: `Bearer ${state.authentication.token}`
-          }
-        }
-      );
-
-      thunkApi.dispatch(UpdateShoppingBag(response));
-
-      return response;
-    } catch (error) {
-      thunkApi.rejectWithValue({
-        error
-      });
-    }
-  }
-);
+import { UpdateCurrentUserDetails } from './auth';
 
 export const AddDeliveryAddress = createAsyncThunk(
   'ordersSlice/addDeliveryAddress',
@@ -256,12 +219,6 @@ const CheckoutSlice = createSlice({
     }
   },
   extraReducers: {
-    [PlaceOrder.pending]: (state, action) => {
-    },
-    [PlaceOrder.fulfilled]: (state, { payload }) => {
-    },
-    [PlaceOrder.rejected]: (state, action) => {
-    },
     [AddDeliveryAddress.pending]: (state, action) => {
     },
     [AddDeliveryAddress.fulfilled]: (state, { payload }) => {

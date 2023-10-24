@@ -6,10 +6,11 @@ import logger from 'redux-logger';
 import thunk from 'redux-thunk';
 
 import authenticationReducer from '../slices/auth';
-import AdminProductSlice from '../slices/admin-product';
-import ShoppingBagSlice from '../slices/user/shopping-bag';
-import CheckoutSlice from '../slices/user/checkout';
+import AdminProductSlice from '../slices/products';
+import ShoppingBagSlice from '../slices/shopping-bag';
+import CheckoutSlice from '../slices/checkout';
 import ordersSlice from '../slices/orders';
+import DashboardSlice from '../slices/dashboard'
 
 const persistConfig = {
   key: 'qbatch',
@@ -26,6 +27,7 @@ const persistConfig = {
 const reducers = combineReducers({
   authentication: authenticationReducer,
   adminProduct: AdminProductSlice,
+  adminDashboard: DashboardSlice,
   shoppingBag: ShoppingBagSlice,
   checkout: CheckoutSlice,
   orders: ordersSlice

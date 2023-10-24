@@ -7,7 +7,7 @@ import {
   AddProduct,
   EditProduct,
   HideOffcanvas
-} from '../../redux/slices/admin-product';
+} from '../../redux/slices/products';
 
 import CloudArrowUp from '../../assets/images/cloud-arrow-up.svg';
 import CustomButton from '../button';
