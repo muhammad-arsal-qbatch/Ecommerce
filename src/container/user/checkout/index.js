@@ -7,8 +7,10 @@ import { Container, Row, Col, Image } from 'react-bootstrap';
 import {
   AddDeliveryAddress,
   AddPaymentMethod,
-  GetDeliveryAddress
+  GetAllDeliveryAddress,
+  GetAllPaymentMethods
 } from '../../../redux/slices/checkout';
+
 import { PlaceOrder } from '../../../redux/slices/orders';
 
 import CartItems from '../../../components/cart-items';
@@ -53,7 +55,7 @@ const AddPersonRows = (props) => {
 
 const Checkout = () => {
   const deliveryAddressInitialState = {
-    fullName: '',
+    name: '',
     mobileNo: '',
     country: '',
     province: '',
@@ -69,10 +71,9 @@ const Checkout = () => {
   const [deliveryAddressData, setDeliveryAddressData] = useState(
     deliveryAddressInitialState
   );
-
   const [paymentData, setPaymentData] = useState(paymentInitialState);
+
   const originalData = useSelector((state) => state.shoppingBag.cart);
-  const currentUser = useSelector((state) => state.authentication.currentUser);
   const data = originalData.filter((item, index) => item.selected === true);
 
   const loader = useSelector((state) => state.adminProduct.loader);
@@ -82,16 +83,17 @@ const Checkout = () => {
   const [updatePaymentOffcanvas, setUpdatePaymentOffcanvas] = useState(false);
   const [changeAddressOffcanvas, setChangeAddressOffcanvas] = useState(false);
 
-  const deliveryPersons = currentUser.deliveryAddress;
-  const allPaymentMethods = currentUser.paymentMethods;
-  const selectedPerson = currentUser.selectedPerson;
-  const selectedPaymentMethod = currentUser.selectedPaymentMethod;
+  const deliveryPersons = useSelector((state) => state.checkout.allDeliveryPersons) || [];
+  const selectedPerson = useSelector((state) => state.checkout.selectedPerson) || 0;
+
+  const allPaymentMethods = useSelector((state) => state.checkout.allPaymentMethods) || [];
+  const selectedPaymentMethod = useSelector((state) => state.checkout.selectedPaymentMethod) || 0;
 
   const dispatch = useDispatch();
   const navigation = useNavigate();
 
   const addPersonMappedRows = [
-    [{ field: 'fullName', state: deliveryAddressData.fullName }],
+    [{ field: 'name', state: deliveryAddressData.name }],
     [
       { field: 'mobileNo', state: deliveryAddressInitialState.mobileNo },
       { field: 'country', state: deliveryAddressInitialState.country }
@@ -108,13 +110,6 @@ const Checkout = () => {
     [{ field: 'cvc', state: paymentData.cvc }],
     [{ field: 'country', state: paymentData.country }]
   ];
-  const placeMyOrder = () => {
-    dispatch(PlaceOrder(data));
-
-    alert('your order has been placed');
-
-    navigation('/');
-  };
 
   const displayTheDeliveryOffcanvas = () => {
     showDeliveryOffcanvas(true);
@@ -141,11 +136,12 @@ const Checkout = () => {
   };
 
   useEffect(() => {
-    dispatch(GetDeliveryAddress());
+    dispatch(GetAllDeliveryAddress());
+    dispatch(GetAllPaymentMethods());
   }, []);
 
   const saveThePerson = () => {
-    const { address, city, country, mobileNo, fullName, province } =
+    const { address, city, country, mobileNo, name, province } =
       deliveryAddressData;
 
     if (
@@ -153,7 +149,7 @@ const Checkout = () => {
       city === '' ||
       country === '' ||
       mobileNo === '' ||
-      fullName === '' ||
+      name === '' ||
       province === ''
     ) {
       alert('Please provide all details');
@@ -178,6 +174,14 @@ const Checkout = () => {
       dispatch(AddPaymentMethod(paymentData));
     }
     hideThePaymentOffcanvas();
+  };
+
+  const placeMyOrder = () => {
+    dispatch(PlaceOrder(data));
+
+    alert('your order has been placed');
+
+    navigation('/');
   };
 
   const newSelectedItems = data.filter((item) => item.selected);

@@ -57,6 +57,7 @@ export const AddProduct = createAsyncThunk(
   async (body, thunkApi) => {
     try {
       const state = thunkApi.getState();
+      console.log('new product to add is, ', body);
 
       const response = await axios.post(
         'http://localhost:5000/products/addProduct',

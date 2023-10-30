@@ -1,17 +1,22 @@
 import PropTypes from 'prop-types';
 import { Offcanvas } from 'react-bootstrap';
 
-import { UpdatePaymentMethod } from '../../redux/slices/checkout';
+import { NewPaymentMethod } from '../../redux/slices/checkout';
 import { useDispatch, useSelector } from 'react-redux';
 
 import CustomButton from '../button';
 import PaymentCard from '../payment-card';
+import { useEffect } from 'react';
 
 const UpdatePaymentOffcanvas = ({ show, handleShow, rows, handleFunc }) => {
   const dispatch = useDispatch();
-  const currentUser = useSelector((state) => state.authentication.currentUser);
-  const paymentCards = currentUser.paymentMethods;
-  const selectedPaymentMethod = currentUser.selectedPaymentMethod;
+  useEffect(() => {
+    // dispatch(GetAllPaymentMethods())
+    console.log('all payment methods are');
+  }, [])
+  const allPaymentMethods = useSelector((state) => state.checkout.allPaymentMethods) || [];
+  const selectedPaymentMethod = useSelector((state) => state.checkout.selectedPaymentMethod) || 0;
+  console.log('selected payment method iss  ', selectedPaymentMethod);
   return (
     <Offcanvas
       className="custom-offcanvas"
@@ -24,7 +29,7 @@ const UpdatePaymentOffcanvas = ({ show, handleShow, rows, handleFunc }) => {
       </Offcanvas.Header>
       <Offcanvas.Body>
         <div className="d-flex flex-wrap">
-          {paymentCards.map((singleCard, index) => (
+          {allPaymentMethods.map((singleCard, index) => (
             <div key={index}>
               {' '}
               <PaymentCard cardDetails={singleCard} />
@@ -39,7 +44,7 @@ const UpdatePaymentOffcanvas = ({ show, handleShow, rows, handleFunc }) => {
                   )
                 : (
                 <CustomButton
-                  onClick={() => dispatch(UpdatePaymentMethod(index))}
+                  onClick={() => { dispatch(NewPaymentMethod(index)) }}
                   size="sm"
                   value="select this"
                   className="btn btn-outline-primary"

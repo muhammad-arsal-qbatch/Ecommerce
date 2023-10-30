@@ -6,7 +6,6 @@ import {
 
 import Spinner from 'react-bootstrap/Spinner';
 import PropTypes from 'prop-types';
-// import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import moment from 'moment';
 
@@ -26,7 +25,6 @@ const CustomTable = (props) => {
     headings
   } = props;
 
-  // const offset = useSelector((state) => state.adminProduct.offset);
   const status = useSelector((state) => state.adminProduct.status);
   const error = useSelector((state) => state.adminProduct.tableDataError);
   const loader = useSelector((state) => state.adminProduct.loader);
@@ -64,9 +62,16 @@ const CustomTable = (props) => {
                  col.id === 'actions'
                    ? <div className='actions-btn'>
 
-                   <Image onClick= {() => dispatch(ShowOffcanvas(doc))} className='action-images' src={EditBtn}></Image>
-                   <Image onClick={ () => dispatch(DisplayModal(doc))} className='action-images' src={DeleteBtn}></Image>
-           </div>
+                   <Image
+                    onClick= {() => dispatch(ShowOffcanvas(doc))}
+                    className='action-images'
+                    src={EditBtn} />
+
+                   <Image
+                   onClick={ () => dispatch(DisplayModal(doc))}
+                   className='action-images'
+                   src={DeleteBtn} />
+                    </div>
                    : col.id === 'title'
                      ? <div className='box-text'>
                    <span className='image-box'>

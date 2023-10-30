@@ -3,7 +3,7 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 
 import { ClearCache as ClearShoppingBagCache } from './shopping-bag';
 import { ClearCache as ClearOrdersCache } from './orders';
-import { SetPaymentMethodAndDeliveryAddress } from './checkout';
+import { SetPaymentMethodAndDeliveryAddress, clearCache } from './checkout';
 
 export const LoginUser = createAsyncThunk(
   'auth/loginStatus',
@@ -79,6 +79,7 @@ export const LogoutUser = createAsyncThunk(
     try {
       thunkApi.dispatch(ClearShoppingBagCache());
       thunkApi.dispatch(ClearOrdersCache());
+      thunkApi.dispatch(clearCache())
 
       return 'Logout successful';
     } catch (error) {

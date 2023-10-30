@@ -13,9 +13,9 @@ const ChangeAddressOffcanvas = ({
   handleShow,
   handleFunc
 }) => {
-  const currentUser = useSelector((state) => state.authentication.currentUser);
-  const deliveryAddress = currentUser.deliveryAddress;
-  const selectedPerson = currentUser.selectedPerson;
+  // const currentUser = useSelector((state) => state.authentication.currentUser);
+  const deliveryAddress = useSelector((state) => state.checkout.allDeliveryPersons);
+  const selectedPerson = useSelector((state) => state.checkout.selectedPerson);
   const dispatch = useDispatch();
 
   return (

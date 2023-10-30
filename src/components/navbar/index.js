@@ -65,7 +65,7 @@ const CustomNavbar = (props) => {
                       if (!token) {
                         naviagtion('/login');
                       } else {
-                        naviagtion('/c');
+                        naviagtion('/shoppingBag');
                       }
                     }}
                     src={Bag}

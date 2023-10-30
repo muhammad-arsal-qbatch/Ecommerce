@@ -33,16 +33,16 @@ const PaymentCard = ({ cardDetails }) => {
               />
             </svg>
           </div>
-          <div className="col-9">Master Card</div>
+          <div className="col-9">{cardDetails.brand}</div>
         </div>
         <div className="row m-2">
-          <div className="col">{cardDetails.cardNumber}</div>
+          <div className="col">**** **** **** {cardDetails.cardNumber}</div>
         </div>
         <div className="row m-2">
-          <div className="col">{cardDetails.expiryDate}</div>
+          <div className="col">{cardDetails.exp_month}/{cardDetails.exp_year}</div>
         </div>
         <div className="row m-2">
-          <div className="col">{cardDetails.fullName}</div>
+          <div className="col">{cardDetails.customerName}</div>
         </div>
       </div>
     </div>

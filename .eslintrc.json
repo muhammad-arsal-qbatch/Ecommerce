@@ -30,6 +30,7 @@
         "quotes":["error","single"],
         "semi":[0, "never"],        
         "no-trailing-spaces":"warn",
+        // "indent-legacy": ["error", 2]
         "indent":"warn"
     }
 }

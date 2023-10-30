@@ -14,7 +14,8 @@ export const AddDeliveryAddress = createAsyncThunk(
         body
       );
 
-      thunkApi.dispatch(UpdateCurrentUserDetails(response.data));
+      // thunkApi.dispatch(UpdateCurrentUserDetails(response.data));
+      console.log('response.data is   ', response.data);
 
       return response.data;
     } catch (error) {
@@ -36,8 +37,6 @@ export const AddPaymentMethod = createAsyncThunk(
         body
       );
 
-      thunkApi.dispatch(UpdateCurrentUserDetails(response.data));
-
       return response.data;
     } catch (error) {
       thunkApi.rejectWithValue({
@@ -55,6 +54,7 @@ export const GetDeliveryAddress = createAsyncThunk(
       const response = await axios.get(
         `http://localhost:5000/users/getDeliveryAddress?userId=${userId}`
       );
+      console.log('all delivery persons are ', response.data);
 
       return response.data;
     } catch (error) {
@@ -100,7 +100,6 @@ export const GetAllPaymentMethods = createAsyncThunk(
     }
   }
 );
-
 export const UpdateDeliveryPerson = createAsyncThunk(
   'ordersSlice/updateDeliveryPerson',
   async (body, thunkApi) => {
@@ -108,26 +107,6 @@ export const UpdateDeliveryPerson = createAsyncThunk(
       const userId = localStorage.getItem('userId');
       const response = await axios.put(
         'http://localhost:5000/users/updateDeliveryPerson',
-        { userId, body }
-      );
-      thunkApi.dispatch(UpdateCurrentUserDetails(response.data));
-
-      return response.data;
-    } catch (error) {
-      thunkApi.rejectWithValue({
-        error
-      });
-    }
-  }
-);
-
-export const UpdatePaymentMethod = createAsyncThunk(
-  'ordersSlice/updatePaymentMethod',
-  async (body, thunkApi) => {
-    try {
-      const userId = localStorage.getItem('userId');
-      const response = await axios.put(
-        'http://localhost:5000/users/updatePaymentMethod',
         { userId, body }
       );
       thunkApi.dispatch(UpdateCurrentUserDetails(response.data));
@@ -155,12 +134,6 @@ const CheckoutSlice = createSlice({
     selectedPerson: 0,
     selectedPaymentMethod: 0,
     allDeliveryPersons: [],
-    paymentMethod: {
-      cardNumber: '',
-      expiryDate: '',
-      cvc: '',
-      country: ''
-    },
     allPaymentMethods: [],
     orders: [],
     isDeliveryPerson: false,
@@ -178,23 +151,9 @@ const CheckoutSlice = createSlice({
     },
     clearCache: (state) => {
       return {
-        deliveryPerson: {
-          name: '',
-          mobile: '',
-          country: '',
-          city: '',
-          address: '',
-          province: ''
-        },
         selectedPerson: 0,
         selectedPaymentMethod: 0,
         allDeliveryPersons: [],
-        paymentMethod: {
-          cardNumber: '',
-          expiryDate: '',
-          cvc: '',
-          country: ''
-        },
         allPaymentMethods: [],
         orders: [],
         isDeliveryPerson: false,
@@ -206,9 +165,11 @@ const CheckoutSlice = createSlice({
       state.deliveryPerson = payload;
       state.isDeliveryPerson = true;
     },
-    AddPaymentMethodAction: (state, { payload }) => {
-      state.paymentMethod = payload;
-      state.isPaymentMethod = true;
+    UpdateMyPaymentMethod: (state, { payload }) => {
+      state.paymentMethod = payload
+    },
+    NewPaymentMethod: (state, { payload }) => {
+      state.selectedPaymentMethod = payload
     },
     AddOrder: (state, { payload }) => {
       const selectedItems = payload.filter((item) => item.selected === true);
@@ -222,27 +183,30 @@ const CheckoutSlice = createSlice({
     [AddDeliveryAddress.pending]: (state, action) => {
     },
     [AddDeliveryAddress.fulfilled]: (state, { payload }) => {
-      state.allDeliveryPersons = payload;
+      console.log('payload iss   ', payload);
+      state.allDeliveryPersons.push(payload);
     },
     [AddDeliveryAddress.rejected]: (state, action) => {
     },
     [AddPaymentMethod.pending]: (state, action) => {
     },
     [AddPaymentMethod.fulfilled]: (state, { payload }) => {
-      state.allPaymentMethods = payload;
+      console.log('payload is ', payload);
+      state.allPaymentMethods.push(payload);
     },
     [AddPaymentMethod.rejected]: (state, action) => {
     },
     [GetDeliveryAddress.pending]: (state, action) => {
     },
     [GetDeliveryAddress.fulfilled]: (state, action) => {
-      state.deliveryPerson = action.payload;
+      state.allDeliveryPersons = action.payload;
     },
     [GetDeliveryAddress.rejected]: (state, action) => {
     },
     [GetAllDeliveryAddress.pending]: (state, action) => {
     },
     [GetAllDeliveryAddress.fulfilled]: (state, action) => {
+      console.log('all delivery persons ', action.payload);
       state.allDeliveryPersons = action.payload;
     },
     [GetAllDeliveryAddress.rejected]: (state, action) => {
@@ -250,6 +214,7 @@ const CheckoutSlice = createSlice({
     [GetAllPaymentMethods.pending]: (state, action) => {
     },
     [GetAllPaymentMethods.fulfilled]: (state, action) => {
+      console.log('payment methods in fulfilled ', action.payload);
       state.allPaymentMethods = action.payload;
     },
     [GetAllPaymentMethods.rejected]: (state, action) => {
@@ -262,24 +227,18 @@ const CheckoutSlice = createSlice({
       state.selectedPerson = action.payload.selectedPerson;
     },
     [UpdateDeliveryPerson.rejected]: (state, action) => {
-    },
-    [UpdatePaymentMethod.pending]: (state, action) => {
-    },
-    [UpdatePaymentMethod.fulfilled]: (state, action) => {
-      state.allPaymentMethods = action.payload.paymentMethods;
-      state.selectedPaymentMethod = action.payload.selectedPaymentMethod;
-    },
-    [UpdatePaymentMethod.rejected]: (state, action) => {
     }
   }
 });
+
 export const {
   clearCache,
   AddDeliveryPerson,
-  AddPaymentMethodAction,
   AddOrder,
   HandleOffcanvas,
-  SetPaymentMethodAndDeliveryAddress
-} = CheckoutSlice;
+  UpdateMyPaymentMethod,
+  SetPaymentMethodAndDeliveryAddress,
+  NewPaymentMethod
+} = CheckoutSlice.actions;
 
 export default CheckoutSlice.reducer;

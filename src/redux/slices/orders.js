@@ -27,10 +27,14 @@ export const PlaceOrder = createAsyncThunk(
       finalItems.totalQuantity = finalItems.products.length;
 
       const state = thunkApi.getState();
+      const paymentCard = state.checkout.allPaymentMethods[state.checkout.selectedPaymentMethod];
+      console.log('final items and payment card iss   ', finalItems, paymentCard);
+      const data = { finalItems, paymentCard }
+      console.log('data iss   ', data);
 
       const response = await axios.post(
         'http://localhost:5000/orders/placeOrder',
-        finalItems,
+        data,
         {
           headers: {
             Authorization: `Bearer ${state.authentication.token}`
@@ -164,6 +168,7 @@ const ordersSlice = createSlice({
     },
     [GetOrders.fulfilled]: (state, action) => {
       state.orders = action.payload;
+      console.log('in fulfilled', action.payload);
       state.loader = false;
     },
     [GetOrders.rejected]: (state, action) => {

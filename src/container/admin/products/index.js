@@ -4,10 +4,10 @@ import { useEffect, useState } from 'react';
 import { Pagination } from 'react-bootstrap';
 
 import CustomTable from '../../../components/custom-table';
-import { ClearError, GetData } from '../../../redux/slices/products';
+import { GetData } from '../../../redux/slices/products';
 
 import Products from '../../../components/products';
-import ErrorModal from '../../../components/error-modal';
+// import ErrorModal from '../../../components/error-modal';
 
 import './adminProducts.css';
 
@@ -15,7 +15,7 @@ const AdminProducts = () => {
   const dispatch = useDispatch();
   const [offset, setOffset] = useState(0);
   const data = useSelector((state) => state.adminProduct.data);
-  const error = useSelector((state) => state.adminProduct.error);
+  const error = useSelector((state) => state.adminProduct.tableDataError);
   useEffect(() => {
     dispatch(GetData(offset));
   }, [offset]);
@@ -56,15 +56,15 @@ const AdminProducts = () => {
 
   return (
     <div className="main-box-admin">
-      {error
-        ? (
-        <ErrorModal clearError={ClearError} error={error} />
-          )
-        : (
+
         <>
           <Products />
 
-          <CustomTable data={data} pagination={false} headings={headings} />
+          <CustomTable
+          data={data}
+          pagination={false}
+          error={ error }
+          headings={headings} />
           <div className="pagination">
             <Pagination>
               <Pagination.Item
@@ -105,7 +105,7 @@ const AdminProducts = () => {
             </Pagination>
           </div>
         </>
-          )}
+          
     </div>
   );
 };
