@@ -60,10 +60,7 @@ const CartItems = ({
               <div className="col">{data.productName}</div>
             </div>
             <div className="row">
-              <div className="col">
-                <div
-                  className="flex "
-                >
+              <div className="col-6">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="22"
@@ -113,9 +110,10 @@ const CartItems = ({
                     </defs>
                   </svg>
                   {data.color}
-                  {data.size}
-                </div>
               </div>
+              <div className='col-6'>
+                  <b>Size: </b>{data.size}
+                  </div>
             </div>
           </div>
         </div>

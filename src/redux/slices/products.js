@@ -85,6 +85,36 @@ export const AddProduct = createAsyncThunk(
   }
 );
 
+export const ImportBulkProducts = createAsyncThunk(
+  'adminProductSlice/importBulkProducts',
+  async (body, thunkApi) => {
+    try {
+      console.log('new product to add is, ', body);
+      const response = await axios.post(
+        'http://localhost:5000/products/importBulkProducts',
+        body,
+        {
+          headers: {
+            'Content-Type': 'multipart/form-data'
+          }
+        }
+      );
+
+      if (response.data.message) {
+        return thunkApi.rejectWithValue({
+          error: response.data.message
+        });
+      }
+
+      return response.data;
+    } catch (error) {
+      return thunkApi.rejectWithValue({
+        error: 'Api Not found, please check your api url'
+      });
+    }
+  }
+);
+
 export const GetOrder = createAsyncThunk(
   'adminProductSlice/getOrder',
   async (body, thunkApi) => {
@@ -282,6 +312,14 @@ const AdminProductSlice = createSlice({
       state.error = action.payload.error;
       state.addProductCanvas = false;
       state.loader = false;
+    },
+    [ImportBulkProducts.pending]: (state, action) => {
+    },
+
+    [ImportBulkProducts.fulfilled]: (state, action) => {
+    },
+
+    [ImportBulkProducts.rejected]: (state, action) => {
     },
 
     [DeleteProduct.fulfilled]: (state, action) => {

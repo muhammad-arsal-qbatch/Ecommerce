@@ -6,7 +6,7 @@ import { useEffect, useState } from 'react';
 
 import { Image } from 'react-bootstrap';
 
-import ColorsBox from '../colors-box';
+// import ColorsBox from '../colors-box';
 import CustomInput from '../input-field';
 import CustomButton from '../button';
 import CustomTooltip from '../tooltip';
@@ -21,6 +21,8 @@ const UserDetailedCards = ({ singleCard }) => {
   const [smallImagesShow, setSmallImagesShow] = useState(0);
   const [largeImagesShow, setLargeImagesShow] = useState(0);
   const [selectedQuantity, setSelectedQuantity] = useState(1);
+  const [selectedColor, setSelectedColor] = useState(singleCard.color[0] || '');
+  const [selectedSize, setSelectedSize] = useState(singleCard.size[0] || '');
 
   const handleSmallImageClick = (index) => {
     setLargeImagesShow(index);
@@ -37,14 +39,29 @@ const UserDetailedCards = ({ singleCard }) => {
   };
 
   const addToCarts = (singleCard) => {
-    const updatedCard = { ...singleCard };
+    // const updatedCard = { ...singleCard };
+    console.log('single card is ', singleCard);
+    const { totalSold, date, ...updatedCard } = singleCard;
     updatedCard.quantity = selectedQuantity;
+    updatedCard.color = selectedColor;
+    updatedCard.size = selectedSize;
+    console.log('updated card is   ', updatedCard);
     dispatch(AddToCart(updatedCard));
     navigate('/shoppingBag');
   };
 
+  const toggleSize = (size) => {
+    setSelectedSize(size === selectedSize ? '' : size);
+  }
+
+  const toggleColor = (color) => {
+    setSelectedColor(color === selectedColor ? '' : color);
+  }
+
   useEffect(() => {
     setSelectedQuantity(1);
+    setSelectedColor(singleCard.color[0] || '');
+    setSelectedSize(singleCard.size[0] || '');
   }, [singleCard]);
   return (
     <>
@@ -60,8 +77,35 @@ const UserDetailedCards = ({ singleCard }) => {
             <div className="card-description">
               <CustomTooltip text={singleCard.productName}></CustomTooltip>
             </div>
-            <ColorsBox colors={singleCard.color} text="Color"></ColorsBox>
-            <ColorsBox colors={singleCard.size} text="Size"></ColorsBox>
+            Color
+              <div className="size-box">
+                {singleCard.color.map((c, index) => (
+                  <div
+                    className={`sizes ${selectedColor === c ? 'selected' : ''}`}
+                    onClick={() => toggleColor(c)}
+                    key={index}
+                  >
+                    <div
+                      key={index}
+                      className="color-box"
+                      style={{ backgroundColor: c }}
+                    />
+                  </div>
+                ))}
+              </div>
+            Size
+              <div className="size-box">
+                {singleCard.size?.map((s, index) => (
+                  <div
+                    key={index}
+                    onClick={() => toggleSize(s)}
+                    className={`sizes ${selectedSize === s ? 'selected' : ''} `}
+                  >
+                    {s}
+                  </div>
+                ))}
+              </div>
+              
             <div className="price-box">
               <span className="price-heading"> Price</span>
               <h4 className="price-text">${singleCard.price}</h4>

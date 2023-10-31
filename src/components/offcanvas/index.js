@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import { Offcanvas, Image } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 
 import {
   AddProduct,
@@ -22,17 +22,11 @@ const CustomOffcanvas = ({
   price = 'price',
   quantity = 'Quantity'
 }) => {
-  const colors = ['#155724', '#AAA', '#1B1E21', '#231579', '#740F0F'];
-  const colorsName = [
-    { '#155724': 'darkgreen' },
-    { '#AAA': 'grey' },
-    { '#1B1E21': 'black' },
-    { '#231579': 'blue' },
-    { '#740F0F': 'darkred' }
-  ];
-  const [selectedColors, setSelectedColors] = useState('');
+  const imageInputRef = useRef();
+  const colors = ['darkgreen', 'grey', 'black', 'blue', 'darkred'];
+  const [selectedColors, setSelectedColors] = useState([]);
   const sizes = ['XS', 'S', 'M', 'L', 'XL', '2XL', '3XL'];
-  const [selectedSize, setSelectedSizes] = useState('');
+  const [selectedSize, setSelectedSizes] = useState([]);
   const [imagesArray, setImagesArray] = useState([]);
 
   const [productTitle, setProductTitle] = useState('');
@@ -46,15 +40,10 @@ const CustomOffcanvas = ({
     if (productTitle === '' || !/^\d+$/.test(productPrice) || !/^\d+$/.test(productStock)) {
       alert('Please provide valid Product Name, Quantity, and Price');
     } else {
-      const matchingEntry = colorsName.find(
-        (entry) => Object.keys(entry)[0] === selectedColors
-      ) || '';
-      const actualColor = Object.values(matchingEntry)[0] || '';
-
       const newProduct = {
         productName: productTitle,
         size: selectedSize,
-        color: actualColor,
+        color: selectedColors,
         price: productPrice,
         quantity: productStock,
         images: [...imagesArray]
@@ -67,14 +56,10 @@ const CustomOffcanvas = ({
     if ((!/^\d*$/.test(productPrice) && productPrice !== '') || (!/^\d*$/.test(productStock) && productStock !== '')) {
       alert('Please provide valid Product Name, Quantity, and Price');
     } else {
-      const matchingEntry =
-        colorsName.find((entry) => Object.keys(entry)[0] === selectedColors) || '';
-      const actualColor = Object.values(matchingEntry)[0] || '';
-
       const newProduct = {
         productName: productTitle,
         size: selectedSize,
-        color: actualColor,
+        color: selectedColors,
         price: productPrice,
         quantity: productStock,
         images: [...imagesArray],
@@ -85,12 +70,27 @@ const CustomOffcanvas = ({
   };
 
   const toggleSize = (size) => {
-    setSelectedSizes((prevSize) => (prevSize === size ? '' : size));
+    setSelectedSizes((prevSize) => {
+      if (prevSize.includes(size)) {
+        return prevSize.filter((singleSize) => singleSize !== size);
+      } else {
+        return [...prevSize, size];
+      }
+    });
+  };
+  const toggleColor = (color) => {
+    setSelectedColors((prevColor) => {
+      if (prevColor.includes(color)) {
+        return prevColor.filter((singleColor) => singleColor !== color);
+      } else {
+        return [...prevColor, color];
+      }
+    });
   };
 
-  const toggleColor = (color) => {
-    setSelectedColors((prevColor) => (prevColor === color ? '' : color));
-  };
+  // const toggleColor = (color) => {
+  //   setSelectedColors((prevColor) => (prevColor === color ? '' : color));
+  // };
 
   const addFile = (files) => {
     setImagesArray([...imagesArray, ...files]);
@@ -113,18 +113,23 @@ const CustomOffcanvas = ({
             <div className="body-left">
               <div className="image-input">
                 <Image className="cloud-image" src={CloudArrowUp}></Image>
+                <CustomButton
+                onClick={ () => {
+                  imageInputRef.current.click();
+                }}
+                  type="file"
+                  value="Browse"
+                  variant="primary"
+                  size="sm"
+                />
                 <input
+                style={{ display: 'none' }}
+                ref={imageInputRef}
                   onChange={(e) => addFile(e.target.files)}
                   type="file"
                   id="fileInput"
                   multiple
                 />
-                <CustomButton
-                  type="file"
-                  value="Browse"
-                  variant="primary"
-                  size="sm"
-                ></CustomButton>
               </div>
               <p className="images-text">multiple images can be uploaded</p>
               <div className="images-div">
@@ -158,7 +163,7 @@ const CustomOffcanvas = ({
                   <div
                     key={index}
                     onClick={() => toggleSize(s)}
-                    className={`sizes ${selectedSize === s ? 'selected' : ''} `}
+                    className={`sizes ${selectedSize.includes(s) ? 'selected' : ''} `}
                   >
                     {s}
                   </div>
@@ -168,7 +173,7 @@ const CustomOffcanvas = ({
               <div className="size-box">
                 {colors.map((c, index) => (
                   <div
-                    className={`sizes ${selectedColors === c ? 'selected' : ''}`}
+                    className={`sizes ${selectedColors.includes(c) ? 'selected' : ''}`}
                     onClick={() => toggleColor(c)}
                     key={index}
                   >
