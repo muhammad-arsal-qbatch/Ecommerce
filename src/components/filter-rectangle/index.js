@@ -1,5 +1,5 @@
 import { debounce } from 'lodash';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import CustomDropDown from '../dropdown';
 import CustomInput from '../input-field';
@@ -10,10 +10,10 @@ import './filterRectangle.css';
 
 const FilterRectangle = () => {
   const dispatch = useDispatch();
-
   const [filterObject, setFilterObject] = useState({});
   const [sortingObject, setSortingObject] = useState({});
   const [searchKeyword, setSearchKeyword] = useState('');
+  const productsLength = useSelector((state) => state.adminProduct?.productsLength) || 0;
 
   const dropdownArray = [
     {
@@ -41,26 +41,38 @@ const FilterRectangle = () => {
     let filterName = Object.keys(filter)[0];
     const { filterAction } = filter;
     filterName = filterName.toLowerCase();
-
+    let updatedFilterObject;
     if (filterName === 'price') {
       const splittedValue = filterAction.split('-');
       const startValue = splittedValue[0].split('$')[1];
       const endValue = splittedValue[1].split('$')[1];
-      setFilterObject({
+      updatedFilterObject = {
         ...filterObject,
         [filterName]: [startValue, endValue]
-      });
+      };
     } else {
-      setFilterObject({
+      updatedFilterObject = {
         ...filterObject,
         [filterName]: filterAction
-      });
+      };
     }
+    setFilterObject(updatedFilterObject);
+    dispatch(
+      GetData({
+        filterObj: updatedFilterObject,
+        sortingObj: sortingObject,
+        ...searchKeyword,
+        limit: productsLength
+      })
+    );
   };
+  useEffect(() => {
 
+  }, [filterObject])
   const handleSort = (sort) => {
     const defaultSorting = Object.values(sort);
     let sortingObj = {};
+  
     if (defaultSorting[0] === 2) {
       sortingObj = {
         date: -1
@@ -76,22 +88,31 @@ const FilterRectangle = () => {
         };
       }
     }
-    setSortingObject({ ...sortingObj });
+  
+    setSortingObject(sortingObj); // Update the sorting object immediately.
+  
+    dispatch(
+      GetData({
+        filterObj: filterObject, // Use the latest state value
+        sortingObj: sortingObj, // Use the updated sorting object
+        ...searchKeyword,
+        limit: productsLength
+      })
+    );
   };
 
   const handleSearch = debounce((e) => {
-    setSearchKeyword({ search: e.target.value });
-  }, 500);
-
-  useEffect(() => {
+    const newSearchKeyword = { search: e.target.value };
+    setSearchKeyword(newSearchKeyword);
     dispatch(
       GetData({
         filterObj: filterObject,
         sortingObj: sortingObject,
-        ...searchKeyword
+        ...newSearchKeyword, // Use the newSearchKeyword here
+        limit: productsLength
       })
     );
-  }, [filterObject, searchKeyword, sortingObject]);
+  }, 500);
 
   return (
     <div className="main-box-user ">
@@ -105,12 +126,14 @@ const FilterRectangle = () => {
             <b>filteres: </b>
           </div>
           {dropdownArray.map((singleDropdown, index) => (
+            <div style={{ margin: '2%' }} key={ index }>
             <CustomDropDown
               handleClick={handleFilters}
               key={index}
               heading={singleDropdown.heading}
               items={singleDropdown.items}
             />
+            </div>
           ))}
         </div>
         <div className="single-filter-box">

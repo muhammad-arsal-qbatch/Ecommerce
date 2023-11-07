@@ -16,15 +16,22 @@ const OrderDetailsOffcanvas = ({
       id: 'productName',
       label: 'Title',
       image: 'thumbnail',
-      render: (img) => <img src={img} className="item-image"></img>
+      render: (doc, id) => <> <img src = {`http://localhost:5000/${doc.images[0]}`}
+      className="item-image"></img> <>{doc.productName}</> </>
     },
     {
       id: 'quantity',
-      label: 'Quantity'
+      label: 'Quantity',
+      render: (doc, id) => (
+        <>{ doc[id] }</>
+      )
     },
     {
       id: 'price',
-      label: 'Price'
+      label: 'Price',
+      render: (doc, id) => (
+        <>{ doc[id] }</>
+      )
     }
   ];
 

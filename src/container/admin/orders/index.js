@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Badge, Spinner } from 'react-bootstrap';
+import moment from 'moment';
 
 import CustomTable from '../../../components/custom-table';
 
@@ -45,29 +46,45 @@ const AdminOrder = () => {
       id: 'date',
       label: 'Date',
       image: 'thumbnail',
-      render: (img) => <img src={img} className="item-image"></img>
+      render: (doc, id) => (
+        <>
+        {moment(doc[id]).format('ll')}
+        </>
+      )
     },
     {
       id: 'orderId',
-      label: 'Order#Id'
+      label: 'Order#Id',
+      render: (doc, id) => (
+        <>{ doc[id] }</>
+      )
     },
     {
       id: 'userName',
-      label: 'User'
+      label: 'User',
+      render: (doc, id) => (
+        <>{ doc[id] }</>
+      )
     },
     {
       id: 'totalQuantity',
-      label: 'Products'
+      label: 'Products',
+      render: (doc, id) => (
+        <>{ doc[id] }</>
+      )
     },
     {
       id: 'totalAmount',
-      label: 'Amount'
+      label: 'Amount',
+      render: (doc, id) => (
+        <>{ doc[id] }</>
+      )
     },
     {
       id: 'status',
       label: 'Status',
-      render: (text) => (
-        <Badge bg={text === 'Paid' ? 'primary' : 'danger'}>{text}</Badge>
+      render: (doc, id) => (
+        <Badge bg={doc[id] === 'Paid' ? 'primary' : 'danger'}>{doc[id]}</Badge>
       )
     },
     {

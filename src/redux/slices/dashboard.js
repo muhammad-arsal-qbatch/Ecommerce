@@ -16,9 +16,21 @@ export const GetStats = createAsyncThunk('adminDashboard/getStats',
 
       return response.data;
     } catch (error) {
-      return thunkApi.rejectWithValue({
-        error
-      });
+      if (error.response) { // response aya, means api hit hye
+        if (error.response.data.error) {
+          return thunkApi.rejectWithValue({
+            error: error.response.data.error
+          });
+        } else {
+          return thunkApi.rejectWithValue({ // response aya means api hit hye, func me erro
+            error: 'Network error'
+          });
+        }
+      } else {
+        return thunkApi.rejectWithValue({
+          error: 'Network error'
+        });
+      }
     }
   })
 

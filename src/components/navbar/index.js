@@ -1,7 +1,7 @@
 import Navbar from 'react-bootstrap/Navbar';
 import {
-  Badge,
   Dropdown,
+  Badge,
   Image
 } from 'react-bootstrap';
 
@@ -14,10 +14,23 @@ import { useNavigate } from 'react-router-dom';
 
 import userImage from '../../assets/images/user-image.png';
 import Bag from '../../assets/images/Bag.svg';
+import Notification from '../../assets/images/Notification.svg';
 
 import './navbar.css';
+import { useEffect } from 'react';
+import { GetNotifications, ReadNotification } from '../../redux/slices/notification';
+// import NotificationBox from '../notifications-box';
 
 const CustomNavbar = (props) => {
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(GetNotifications())
+  }, []);
+  // const [notificationsBox, setNotificationsBox] = useState(false);
+
+  const notifications = useSelector((state) => state.notification?.notifications) || [];
+  console.log('notifications for this user is  ', notifications);
+
   const naviagtion = useNavigate();
   const token = useSelector((state) => state.authentication.token);
   const isAdmin = useSelector((state) => state.authentication.isAdmin);
@@ -28,7 +41,6 @@ const CustomNavbar = (props) => {
 
   const cart = useSelector((state) => state.shoppingBag.cart);
   const navigation = useNavigate();
-  const dispatch = useDispatch();
 
   const logoutIt = () => {
     dispatch(LogoutUser());
@@ -53,10 +65,59 @@ const CustomNavbar = (props) => {
             className="d-flex"
           >
             <div className="d-flex">
+              {token
+                ? <>
+                <Dropdown>
+                  <div className='my-class'>
+                  <Dropdown.Toggle>
+                    <Image
+                      className="curson-pointer"
+                      id='dropdown-autoclose-true dropdown-autoclose-true'
+                      src={Notification}
+                    ></Image>
+                    </Dropdown.Toggle>
+                    </div>
+                    {notifications.length
+
+                      ? <Dropdown.Menu align= 'end'>
+                    {notifications.map((singleNotification, index) => (
+                      <Dropdown.Item onClick={() => {
+                        console.log('dasdsaddad');
+                        dispatch(ReadNotification({ orderId: singleNotification.orderId }))
+                      }} key={index} >{singleNotification.text}</Dropdown.Item>
+
+                    ))}
+                        </Dropdown.Menu>
+                      : <></>
+                    }
+                  </Dropdown>
+                <Badge
+                  style={{
+                    position: 'relative',
+                    minHeight: 'fit-content',
+                    minWidth: 'fit-content',
+                    bottom: '10px',
+                    right: '9px',
+                    borderRadius: '50%'
+                  }}
+                  bg="primary"
+                >
+                    {notifications.length ? <>{notifications.length}</> : <></>}
+                  </Badge></>
+                : <Image
+                  className="curson-pointer"
+                  id='dropdown-autoclose-true'
+                  onClick={ () => {
+                    naviagtion('/login');
+                  }
+                  }
+                  src={Notification}
+                ></Image>
+
+            }
+
               {isAdmin
-                ? (
-                <></>
-                  )
+                ? null
                 : (
                 <>
                   <Image
@@ -81,7 +142,7 @@ const CustomNavbar = (props) => {
                     }}
                     bg="primary"
                   >
-                    {cart.length === 0 ? <></> : cart.length}
+                    {cart.length ? <>{cart.length}</> : <></>}
                   </Badge>
                 </>
                   )}
@@ -94,7 +155,6 @@ const CustomNavbar = (props) => {
                 {isAdmin === false
                   ? (
                   <>
-                    {' '}
                     <NavDropdown.Item
                       onClick={() => {
                         naviagtion('/o');
@@ -105,9 +165,7 @@ const CustomNavbar = (props) => {
                     <Dropdown.Divider></Dropdown.Divider>
                   </>
                     )
-                  : (
-                  <></>
-                    )}
+                  : null}
 
                 <NavDropdown.Item onClick={logoutIt}>Logout</NavDropdown.Item>
               </NavDropdown>

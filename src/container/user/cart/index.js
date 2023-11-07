@@ -17,9 +17,9 @@ const Cart = () => {
   };
 
   const data = useSelector((state) => state.shoppingBag.cart);
-  const loader = useSelector((state) => state.adminProduct.loader);
   const [selectedItems, setSelectedItems] = useState(data);
   const [totalQuantity, setTotalQuantity] = useState(0);
+  console.log('now data is    ', data);
 
   useEffect(() => {
     const newSelectedItems = data.filter(item => item.selected);
@@ -56,9 +56,6 @@ const Cart = () => {
                 Shopping Bag
               </h4>
             </div>
-            {loader === false
-              ? (
-              <>
                 {data.map((d, index) => (
                   <CartItems
                     showCheckBox={true}
@@ -66,11 +63,6 @@ const Cart = () => {
                     data={d}
                   ></CartItems>
                 ))}
-              </>
-                )
-              : (
-              <>products are loading</>
-                )}
           </div>
           <div className=" mt-5 col-4 right-cart-box">
             <h5>Order Summary</h5>

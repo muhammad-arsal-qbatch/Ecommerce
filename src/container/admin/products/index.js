@@ -1,23 +1,28 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
 
-import { Pagination } from 'react-bootstrap';
+import { Pagination, Image } from 'react-bootstrap';
 
 import CustomTable from '../../../components/custom-table';
-import { GetData } from '../../../redux/slices/products';
-
+import { GetData, GetDataLength, DisplayModal, ShowOffcanvas } from '../../../redux/slices/products';
+import DeleteBtn from '../../../assets/images/delete-btn.svg';
+import EditBtn from '../../../assets/images/edit-btn.svg';
 import Products from '../../../components/products';
-// import ErrorModal from '../../../components/error-modal';
 
 import './adminProducts.css';
+import Loader from '../../../components/loader';
 
 const AdminProducts = () => {
   const dispatch = useDispatch();
   const [offset, setOffset] = useState(0);
   const data = useSelector((state) => state.adminProduct.data);
+  const loader = useSelector((state) => state.adminProduct.loader);
   const error = useSelector((state) => state.adminProduct.tableDataError);
+  const productsLength = useSelector((state) => state.adminProduct?.productsLength) || 0;
+
   useEffect(() => {
-    dispatch(GetData(offset));
+    dispatch(GetData({ offset, limit: 10 }));
+    dispatch(GetDataLength());
   }, [offset]);
 
   const headings = [
@@ -25,32 +30,64 @@ const AdminProducts = () => {
       id: 'title',
       label: 'Title',
       image: 'thumbnail',
-      render: (doc) => (
-        <img
-          src={`http://localhost:5000/${doc.images[0]}`}
-          className="item-image"
-        ></img>
+      render: (doc, id) => (
+
+      <div className='box-text'>
+        <span className='image-box'>
+          { <img src={`http://localhost:5000/${doc.images[0]}`}
+          className="item-image" />}
+          </span>
+          <span className='item-text' id='title-text'>{doc.productName}</span>
+          </div>
       )
     },
     {
       id: 'size',
-      label: 'Size'
+      label: 'Size',
+      render: (doc, id) => (
+        <>{ doc[id] }</>
+      )
     },
     {
       id: 'color',
-      label: 'Color'
+      label: 'Color',
+      render: (doc, id) => (
+        <>{ doc[id] }</>
+      )
     },
     {
       id: 'price',
-      label: 'Price'
+      label: 'Price',
+      render: (doc, id) => (
+        <>{ doc[id] }</>
+      )
     },
     {
       id: 'quantity',
-      label: 'Stock'
+      label: 'Stock',
+      render: (doc, id) => (
+        <>{ doc[id] }</>
+      )
     },
     {
       id: 'actions',
-      label: 'Actions'
+      label: 'Actions',
+      render: (doc, id) => (
+        <div className='actions-btn'>
+                        <Image
+                          onClick={() => dispatch(ShowOffcanvas(doc))}
+                          className='action-images'
+                          src={EditBtn}
+                          alt="Edit"
+                        />
+                        <Image
+                          onClick={() => dispatch(DisplayModal(doc))}
+                          className='action-images'
+                          src={DeleteBtn}
+                          alt="Delete"
+                        />
+                      </div>
+      )
     }
   ];
 
@@ -59,12 +96,16 @@ const AdminProducts = () => {
 
         <>
           <Products />
-
-          <CustomTable
+          {loader
+            ? <Loader/>
+            : <>
+                  <CustomTable
           data={data}
           pagination={false}
           error={ error }
-          headings={headings} />
+          headings={headings} /></>
+        }
+
           <div className="pagination">
             <Pagination>
               <Pagination.Item
@@ -97,7 +138,7 @@ const AdminProducts = () => {
                 {offset + 3}
               </Pagination.Item>
               <Pagination.Item
-                disabled={offset >= 9}
+                disabled={offset >= ((productsLength / 10) - 1)}
                 onClick={() => setOffset(offset + 1)}
               >
                 {'Next'}
@@ -105,7 +146,7 @@ const AdminProducts = () => {
             </Pagination>
           </div>
         </>
-          
+
     </div>
   );
 };

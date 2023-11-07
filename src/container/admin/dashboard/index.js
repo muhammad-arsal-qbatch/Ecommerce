@@ -1,47 +1,53 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
-import { Spinner } from 'react-bootstrap';
 
-import { GetTopSellingProducts } from '../../../redux/slices/products';
-import { GetOrders } from '../../../redux/slices/orders';
 import { GetStats } from '../../../redux/slices/dashboard';
 
 import CustomTable from '../../../components/custom-table';
 import CustomCards from '../../../components/custom-cards';
 import ShoppingCart from '../../../assets/images/shopping_cart.svg';
 import CustomChart from '../../../components/chart';
+import DashboardLineChart from '../../../components/line-chart'
 
 import '../../../layout/layout.css';
 import './adminDashboard.css';
+import Loader from '../../../components/loader';
 
 const AdminDashboard = () => {
-  const topSellingProducts = useSelector(
-    (state) => state.adminProduct.topSellingProducts
-  );
-
-  const loader = useSelector((state) => state.adminProduct.loader);
   const stats = useSelector((state) => state.adminDashboard.stats);
   const statsLoader = useSelector((state) => state.adminDashboard.statsLoader);
-  const currentOrders = useSelector((state) => state.orders.orders);
+  const ordersPaid = useSelector((state) => state.adminDashboard.stats?.ordersPaid) || 0;
+  const ordersUnpaid = useSelector((state) => state.adminDashboard.stats?.ordersUnpaid) || 0;
 
   const headings = [
     {
       id: 'productName',
       label: 'Product',
       image: 'thumbnail',
-      render: (img) => <img src={img} className="item-image"></img>
+      render: (doc, id) => <> <img src={`http://localhost:5000/${doc.images[0]}`}
+      className="item-image" />{doc.productName} </>
     },
     {
       id: 'quantity',
-      label: 'Stock'
+      label: 'Stock',
+      render: (doc, id) => (
+        <>{ doc[id] }</>
+      )
+
     },
     {
       id: 'totalSold',
-      label: 'Units (sold)'
+      label: 'Units (sold)',
+      render: (doc, id) => (
+        <>{ doc[id] }</>
+      )
     },
     {
       id: 'price',
-      label: 'Amount'
+      label: 'Amount',
+      render: (doc, id) => (
+        <>{ doc[id] }</>
+      )
     }
   ];
 
@@ -49,72 +55,58 @@ const AdminDashboard = () => {
 
   useEffect(() => {
     dispatch(GetStats());
-    dispatch(GetTopSellingProducts());
-    dispatch(GetOrders({ sortingObj: { orderId: -1 } }));
   }, []);
 
   return (
-    <div className="main-box-admin">
-      <h4 className="dashboard-heading">Dashboard</h4>
-      <div className="cards-box">
-        {statsLoader === false
-          ? (
-          <>
-            <CustomCards
-              imageSrc={ShoppingCart}
-              cardHeading="Today"
-              cardsText={stats.todayStats}
-              quantityStyle="quantity-dashboard"
-              heading5="heading5"
-            ></CustomCards>
-            <CustomCards
-              imageSrc={ShoppingCart}
-              cardHeading="7 Days"
-              cardsText={stats.sevenDayStats}
-              quantityStyle="quantity-dashboard"
-              heading5="heading5"
-            ></CustomCards>
-            <CustomCards
-              imageSrc={ShoppingCart}
-              cardHeading="30 Days"
-              cardsText={stats.thirtyDayStats}
-              quantityStyle="quantity-dashboard"
-              heading5="heading5"
-            ></CustomCards>
-          </>
-            )
-          : (
-          <>
-            <div>
-              <Spinner animation="border" role="status">
-                <span className="visually-hidden">Loading...</span>
-              </Spinner>
-            </div>
-          </>
-            )}
-      </div>
-      <div className="charts-box" >
-        {currentOrders.length
-          ? (
-          <CustomChart currentOrders={currentOrders} type="donut" />
-            )
-          : (
-          <></>
-            )}
-      </div>
-      <h6 className="top-products">Top selling products</h6>
-      {loader === true
+  <div className="main-box-admin">
+    <h4 className="dashboard-heading">Dashboard</h4>
+    <div className="cards-box">
+      {statsLoader === false
         ? (
-        <div>
-          <Spinner animation="border" role="status">
-            <span className="visually-hidden">Loading...</span>
-          </Spinner>
-        </div>
+        <>
+          <CustomCards
+            imageSrc={ShoppingCart}
+            cardHeading="Today"
+            cardsText={stats?.todayStats}
+            quantityStyle="quantity-dashboard"
+            heading5="heading5"
+          ></CustomCards>
+          <CustomCards
+            imageSrc={ShoppingCart}
+            cardHeading="7 Days"
+            cardsText={stats?.sevenDayStats}
+            quantityStyle="quantity-dashboard"
+            heading5="heading5"
+          ></CustomCards>
+          <CustomCards
+            imageSrc={ShoppingCart}
+            cardHeading="30 Days"
+            cardsText={stats?.thirtyDayStats}
+            quantityStyle="quantity-dashboard"
+            heading5="heading5"
+          ></CustomCards>
+        </>
           )
         : (
-        <CustomTable data={topSellingProducts} headings={headings} />
+        <>
+          <Loader />
+        </>
           )}
     </div>
+    <div className="charts-box" >
+
+        <CustomChart ordersPaid={ordersPaid || 0} ordersUnpaid={ordersUnpaid || 0}/>
+        <DashboardLineChart oneYearData= {stats?.oneYearStats}/>
+    </div>
+    <h6 className="top-products">Top selling products</h6>
+    {statsLoader
+      ? (
+      <Loader />
+        )
+      : (
+      <CustomTable data={stats?.topSellingProducts} headings={headings} />
+        )}
+  </div>
   );
 };
 

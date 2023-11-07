@@ -1,4 +1,6 @@
 import axios from 'axios';
+import { notification } from 'antd';
+
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 
 import { UpdateCurrentUserDetails } from './auth';
@@ -19,9 +21,21 @@ export const AddDeliveryAddress = createAsyncThunk(
 
       return response.data;
     } catch (error) {
-      thunkApi.rejectWithValue({
-        error
-      });
+      if (error.response) { // response aya, means api hit hye
+        if (error.response.data.error) {
+          return thunkApi.rejectWithValue({
+            error: error.response.data.error
+          });
+        } else {
+          return thunkApi.rejectWithValue({ // response aya means api hit hye, func me erro
+            error: 'Network error'
+          });
+        }
+      } else {
+        return thunkApi.rejectWithValue({
+          error: 'Network error'
+        });
+      }
     }
   }
 );
@@ -39,9 +53,21 @@ export const AddPaymentMethod = createAsyncThunk(
 
       return response.data;
     } catch (error) {
-      thunkApi.rejectWithValue({
-        error
-      });
+      if (error.response) { // response aya, means api hit hye
+        if (error.response.data.error) {
+          return thunkApi.rejectWithValue({
+            error: error.response.data.error
+          });
+        } else {
+          return thunkApi.rejectWithValue({ // response aya means api hit hye, func me erro
+            error: 'Network error'
+          });
+        }
+      } else {
+        return thunkApi.rejectWithValue({
+          error: 'Network error'
+        });
+      }
     }
   }
 );
@@ -52,15 +78,27 @@ export const GetDeliveryAddress = createAsyncThunk(
     try {
       const userId = localStorage.getItem('userId');
       const response = await axios.get(
-        `http://localhost:5000/users/getDeliveryAddress?userId=${userId}`
+        `http://localhost:5000/users/getDelisveryAddress?userId=${userId}`
       );
       console.log('all delivery persons are ', response.data);
 
       return response.data;
     } catch (error) {
-      thunkApi.rejectWithValue({
-        error
-      });
+      if (error.response) { // response aya, means api hit hye
+        if (error.response.data.error) {
+          return thunkApi.rejectWithValue({
+            error: error.response.data.error
+          });
+        } else {
+          return thunkApi.rejectWithValue({ // response aya means api hit hye, func me erro
+            error: 'Network error'
+          });
+        }
+      } else {
+        return thunkApi.rejectWithValue({
+          error: 'Network error'
+        });
+      }
     }
   }
 );
@@ -76,9 +114,21 @@ export const GetAllDeliveryAddress = createAsyncThunk(
 
       return response.data;
     } catch (error) {
-      thunkApi.rejectWithValue({
-        error
-      });
+      if (error.response) { // response aya, means api hit hye
+        if (error.response.data.error) {
+          return thunkApi.rejectWithValue({
+            error: error.response.data.error
+          });
+        } else {
+          return thunkApi.rejectWithValue({ // response aya means api hit hye, func me erro
+            error: 'Network error'
+          });
+        }
+      } else {
+        return thunkApi.rejectWithValue({
+          error: 'Network error'
+        });
+      }
     }
   }
 );
@@ -94,9 +144,21 @@ export const GetAllPaymentMethods = createAsyncThunk(
 
       return response.data;
     } catch (error) {
-      thunkApi.rejectWithValue({
-        error
-      });
+      if (error.response) { // response aya, means api hit hye
+        if (error.response.data.error) {
+          return thunkApi.rejectWithValue({
+            error: error.response.data.error
+          });
+        } else {
+          return thunkApi.rejectWithValue({ // response aya means api hit hye, func me erro
+            error: 'Network error'
+          });
+        }
+      } else {
+        return thunkApi.rejectWithValue({
+          error: 'Network error'
+        });
+      }
     }
   }
 );
@@ -113,9 +175,21 @@ export const UpdateDeliveryPerson = createAsyncThunk(
 
       return response.data;
     } catch (error) {
-      thunkApi.rejectWithValue({
-        error
-      });
+      if (error.response) { // response aya, means api hit hye
+        if (error.response.data.error) {
+          return thunkApi.rejectWithValue({
+            error: error.response.data.error
+          });
+        } else {
+          return thunkApi.rejectWithValue({ // response aya means api hit hye, func me erro
+            error: 'Network error'
+          });
+        }
+      } else {
+        return thunkApi.rejectWithValue({
+          error: 'Network error'
+        });
+      }
     }
   }
 );
@@ -186,22 +260,40 @@ const CheckoutSlice = createSlice({
       console.log('payload iss   ', payload);
       state.allDeliveryPersons.push(payload);
     },
-    [AddDeliveryAddress.rejected]: (state, action) => {
+    [AddDeliveryAddress.rejected]: (state, { payload }) => {
+      console.log('payload is  ', payload);
+      notification.error({
+        message: payload.error,
+        description: payload.error,
+        type: 'error',
+        duration: 1
+      });
     },
     [AddPaymentMethod.pending]: (state, action) => {
     },
     [AddPaymentMethod.fulfilled]: (state, { payload }) => {
-      console.log('payload is ', payload);
       state.allPaymentMethods.push(payload);
     },
-    [AddPaymentMethod.rejected]: (state, action) => {
+    [AddPaymentMethod.rejected]: (state, { payload }) => {
+      notification.error({
+        message: payload.error,
+        description: payload.error,
+        type: 'error',
+        duration: 2
+      });
     },
     [GetDeliveryAddress.pending]: (state, action) => {
     },
     [GetDeliveryAddress.fulfilled]: (state, action) => {
       state.allDeliveryPersons = action.payload;
     },
-    [GetDeliveryAddress.rejected]: (state, action) => {
+    [GetDeliveryAddress.rejected]: (state, { payload }) => {
+      notification.error({
+        message: payload.error,
+        description: payload.error,
+        type: 'error',
+        duration: 2
+      });
     },
     [GetAllDeliveryAddress.pending]: (state, action) => {
     },
@@ -209,7 +301,13 @@ const CheckoutSlice = createSlice({
       console.log('all delivery persons ', action.payload);
       state.allDeliveryPersons = action.payload;
     },
-    [GetAllDeliveryAddress.rejected]: (state, action) => {
+    [GetAllDeliveryAddress.rejected]: (state, { payload }) => {
+      notification.error({
+        message: payload.error,
+        description: payload.error,
+        type: 'error',
+        duration: 1
+      });
     },
     [GetAllPaymentMethods.pending]: (state, action) => {
     },
@@ -217,7 +315,13 @@ const CheckoutSlice = createSlice({
       console.log('payment methods in fulfilled ', action.payload);
       state.allPaymentMethods = action.payload;
     },
-    [GetAllPaymentMethods.rejected]: (state, action) => {
+    [GetAllPaymentMethods.rejected]: (state, { payload }) => {
+      notification.error({
+        message: payload.error,
+        description: payload.error,
+        type: 'error',
+        duration: 1
+      });
     },
     [UpdateDeliveryPerson.pending]: (state, action) => {
     },
@@ -226,7 +330,13 @@ const CheckoutSlice = createSlice({
       state.allDeliveryPersons = action.payload.deliveryAddress;
       state.selectedPerson = action.payload.selectedPerson;
     },
-    [UpdateDeliveryPerson.rejected]: (state, action) => {
+    [UpdateDeliveryPerson.rejected]: (state, { payload }) => {
+      notification.error({
+        message: payload.error,
+        description: payload.error,
+        type: 'error',
+        duration: 1
+      });
     }
   }
 });

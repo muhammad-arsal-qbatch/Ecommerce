@@ -14,6 +14,7 @@ import CustomButton from '../button';
 import CustomInput from '../input-field';
 
 import './offcanvas.css';
+import Loader from '../loader';
 
 const CustomOffcanvas = ({
   title = 'Add new product',
@@ -33,6 +34,7 @@ const CustomOffcanvas = ({
   const [productStock, setProductStock] = useState('');
   const [productPrice, setProductPrice] = useState('');
   const body = useSelector((state) => state.adminProduct.product);
+  const loader = useSelector((state) => state.adminProduct.loader);
 
   const dispatch = useDispatch();
 
@@ -206,7 +208,10 @@ const CustomOffcanvas = ({
                 onChange={(e) => setProductStock(e.target.value)}
               />
               <div className="btn-position">
-                <CustomButton
+                {loader
+                  ? <Loader />
+
+                  : <CustomButton
                   value={body._id ? 'Update' : 'Add'}
                   variant="primary"
                   size="lg"
@@ -216,6 +221,7 @@ const CustomOffcanvas = ({
                       : () => addMyProduct()
                   }
                 />
+              }
               </div>
             </div>
           </div>

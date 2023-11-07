@@ -75,8 +75,8 @@ const Checkout = () => {
 
   const originalData = useSelector((state) => state.shoppingBag.cart);
   const data = originalData.filter((item, index) => item.selected === true);
+  console.log('original data is  ', data);
 
-  const loader = useSelector((state) => state.adminProduct.loader);
   const [deliveryOffcanvas, showDeliveryOffcanvas] = useState(false);
 
   const [paymentOffcanvas, showPaymentOffcanvas] = useState(false);
@@ -269,7 +269,7 @@ const Checkout = () => {
               <Image
                 style={{ cursor: 'pointer !important' }}
                 onClick={() => {
-                  navigation('/c');
+                  navigation('/shoppingBag');
                 }}
                 src={LeftArrow}
               ></Image>
@@ -326,9 +326,7 @@ const Checkout = () => {
               </div>
             </Row>
             <Row>
-              {loader === false
-                ? (
-                <>
+ 
                   {data.map((d, index) => (
                     <CartItems
                       showBin={false}
@@ -337,11 +335,6 @@ const Checkout = () => {
                       data={d}
                     ></CartItems>
                   ))}
-                </>
-                  )
-                : (
-                <>products are loading</>
-                  )}{' '}
             </Row>
           </Container>
         </div>

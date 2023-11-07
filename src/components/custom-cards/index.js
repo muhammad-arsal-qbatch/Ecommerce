@@ -27,18 +27,18 @@ const CustomCards = ({
         <div className="container">
           <div className="row-2">
             <div className="col">
-              Total Orders: {cardsText.totalOrders || 0}
+              Total Orders: {cardsText?.totalOrders || 0}
             </div>
             <div className="col">
-              Total Orders: {cardsText.totalOrders || 0}
+              Total Orders: {cardsText?.totalOrders || 0}
             </div>
           </div>
           <div className="row">
             <div className="col">
-              Total Units: {cardsText.totalQuantity || 0}
+              Total Units: {cardsText?.totalQuantity || 0}
             </div>
             <div className="col">
-              Total Sales:$ {cardsText.totalAmount || 0}
+              Total Sales:$ {cardsText?.totalAmount || 0}
             </div>
           </div>
         </div>

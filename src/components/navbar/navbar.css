@@ -48,3 +48,39 @@ height: 31px;
 flex-shrink: 0;
 }
 
+.my-class .btn-primary {
+    --bs-btn-color: '';
+    --bs-btn-bg:'';
+    --bs-btn-border-color: '';
+    --bs-btn-hover-color: '';
+    --bs-btn-hover-bg:'';
+    --bs-btn-hover-border-color: '';
+    --bs-btn-focus-shadow-rgb:'';
+    --bs-btn-active-color: ''
+    --bs-btn-active-bg: '';
+    --bs-btn-active-border-color:''
+    --bs-btn-active-shadow: '';
+    --bs-btn-disabled-color: '';
+    --bs-btn-disabled-bg: '';
+    --bs-btn-disabled-border-color: '';
+}
+.my-class .dropdown-toggle::after {
+    display: '';
+    margin-left: 0;
+    vertical-align: 0;
+    content: "";
+    border-top: 0;
+    border-right: '';
+    border-bottom: 0;
+    border-left: 0;
+}
+.my-class .btn{
+    --bs-btn-padding-x: 0;
+    --bs-btn-padding-y: 0;
+}
+.my-class .dropdown-toggle .show .btn .btn-primary {
+    color: '';
+    background-color:'';
+    border-color: '';
+}
+

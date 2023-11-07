@@ -1,18 +1,18 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import ReactApexChart from 'react-apexcharts';
 import PropTypes from 'prop-types';
 
 import './chart.css';
+import { useSelector } from 'react-redux';
 
-const CustomChart = ({ type, currentOrders }) => {
-  const ordersDelivered = currentOrders.filter(order => order.delivered === 'Delivered');
-  const deliveredOrdersCount = ordersDelivered.length;
-  const ordersNotDelivered = currentOrders.filter(order => order.delivered === 'Not Delivered');
-  const notDeliveredOrdersCount = ordersNotDelivered.length;
+const CustomChart = () => {
+  const ordersPaid = useSelector((state) => state.adminDashboard.stats?.ordersPaid) || 0;
+  const ordersUnpaid = useSelector((state) => state.adminDashboard.stats?.ordersUnpaid) || 0;
 
-  const [chartData] = useState({
-    series: [deliveredOrdersCount, notDeliveredOrdersCount],
+  const [chartData, setChartData] = useState({
+    series: [ordersPaid, ordersUnpaid],
     options: {
+      type: 'donut',
       labels: ['Orders Delivered', 'Orders Not Delivered'],
       legend: {
         show: false
@@ -23,14 +23,32 @@ const CustomChart = ({ type, currentOrders }) => {
     }
   });
 
+  useEffect(() => {
+    if (ordersPaid && ordersUnpaid) {
+      setChartData({
+        series: [ordersPaid, ordersUnpaid],
+        options: {
+          type: 'donut',
+          labels: ['Orders Delivered', 'Orders Not Delivered'],
+          legend: {
+            show: false
+          },
+          dataLabels: {
+            enabled: false
+          }
+        }
+      })
+    }
+  }, [ordersPaid, ordersUnpaid])
+
   return (
     <div className="donut" style={{ height: '300px', width: '300px' }}>
       <h6 className="chart-heading">Orders overview</h6>
       <div className="chart-box" style={{ height: '300px', width: '300px' }}>
         <ReactApexChart
+          type = 'donut'
           options={chartData.options}
           series={chartData.series}
-          type={type}
           className="overview-chart"
           style={{ height: '100px', width: '300px' }}
         />
@@ -113,8 +131,9 @@ const CustomChart = ({ type, currentOrders }) => {
 };
 
 CustomChart.propTypes = {
-  type: PropTypes.string,
-  currentOrders: PropTypes.any
+  currentOrders: PropTypes.any,
+  ordersPaid: PropTypes.number,
+  ordersUnpaid: PropTypes.number
 };
 
 export default CustomChart;

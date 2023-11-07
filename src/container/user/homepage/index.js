@@ -9,7 +9,7 @@ import { Spinner } from 'react-bootstrap';
 
 import FilterRectangle from '../../../components/filter-rectangle';
 import UserCards from '../../../components/user-cards';
-import { GetData } from '../../../redux/slices/products';
+import { GetData, GetDataLength } from '../../../redux/slices/products';
 import UserDetailedCards from '../../../components/user-detailed-cards';
 import ErrorModal from '../../../components/error-modal';
 
@@ -17,22 +17,46 @@ import './userHomepage.css';
 
 const UserHomepage = ({ cn }) => {
   const dispatch = useDispatch();
-  const data = useSelector((state) => state.adminProduct.data);
+  const data = useSelector((state) => state.adminProduct?.data) || [];
+  const productsLength = useSelector((state) => state.adminProduct?.productsLength) || 0;
   const loader = useSelector((state) => state.adminProduct.loader);
   const error = useSelector((state) => state.authentication.error);
   const dataError = useSelector((state) => state.adminProduct.error);
   const [rightCard, showRightCard] = useState(false);
   const [singleCard, setSingleCard] = useState({});
+  const [limit, setLimit] = useState(10);
 
   const displayRightCard = (id) => {
     showRightCard(true);
     const card = data.find((obj) => obj._id === id);
     setSingleCard(card);
   };
+  const handleInifiniteScroll = () => {
+    try {
+      if (
+        window.innerHeight + document.documentElement.scrollTop + 10 >= document.documentElement.offsetHeight
+
+      ) {
+        setLimit((prev) => prev + 10);
+      }
+    } catch (error) {
+
+    }
+  }
+  useEffect(() => {
+    console.log('limit and prodcuts length', limit, productsLength);
+    if (limit - 10 < productsLength) {
+      dispatch(GetData({ offset: 0, limit }));
+    }
+  }, [limit]);
 
   useEffect(() => {
-    dispatch(GetData({ limit: 100 }));
-  }, []);
+    dispatch(GetDataLength());
+    dispatch(GetData({ offset: 0, limit }));
+
+    window.addEventListener('scroll', handleInifiniteScroll);
+    return () => window.removeEventListener('scroll', handleInifiniteScroll);
+  }, [])
 
   return (
     <>

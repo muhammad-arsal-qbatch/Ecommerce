@@ -1,13 +1,14 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { notification } from 'antd';
 
 const initialState = {
   loader: true,
+  productsLength: 0,
   data: [],
   topSellingProducts: [],
   error: '',
   tableDataError: '',
-  offset: 0,
   status: true,
   offcanvas: false,
   modal: false,
@@ -18,22 +19,20 @@ const initialState = {
 export const GetData = createAsyncThunk(
   'adminProductSlice/getProducts',
   async (body, { rejectWithValue, getState }) => {
-    const state = getState();
-
     try {
+      console.log('body is  ', body);
       const response = await axios.get(
         'http://localhost:5000/products/getProducts',
         {
           params: {
-            offset: body * 10 || 0,
-            limit: body.limit ? body.limit : 10,
+            offset: body.offset * body.limit || 0,
+            limit: body?.limit ? body.limit : 10,
             search: body.search ? body.search : '',
             filterObj: body.filterObj ? body.filterObj : {},
             sortingObj: body.sortingObj || {}
           }
         }
       );
-      state.offset = body * 10 || 0;
 
       if (response.data.response.myProducts.length === 0) {
         return rejectWithValue({
@@ -47,7 +46,67 @@ export const GetData = createAsyncThunk(
 
       return response.data.response.myProducts;
     } catch (error) {
-      return rejectWithValue({ error: error.message });
+      if (error.response) { // response aya, means api hit hye
+        if (error.response.data.error) {
+          return rejectWithValue({
+            error: error.response.data.error
+          });
+        } else {
+          return rejectWithValue({ // response aya means api hit hye, func me erro
+            error: 'Network error'
+          });
+        }
+      } else {
+        return rejectWithValue({
+          error: 'Network error'
+        });
+      }
+    }
+  }
+);
+
+export const GetDataLength = createAsyncThunk(
+  'adminProductSlice/getProductsLength',
+  async (body, { rejectWithValue, getState }) => {
+    try {
+      const response = await axios.get(
+        'http://localhost:5000/products/getProducts',
+        {
+          params: {
+            offset: 0,
+            limit: null
+          }
+        }
+      );
+
+      if (response.data.response.myProducts.length === 0) {
+        return rejectWithValue({
+          error: 'no data found'
+        });
+      }
+
+      if (response.data.error) {
+        return rejectWithValue({ error: 'no data found' });
+      }
+      console.log('length is  ', response.data.response.myProducts.length);
+
+      return response.data.response.myProducts.length;
+    } catch (error) {
+      if (error.response) { // response aya, means api hit hye
+        if (error.response.data.error) {
+          return rejectWithValue({
+            error: error.response.data.error
+          });
+        } else {
+          return rejectWithValue({ // response aya means api hit hye, func me erro
+            error: 'Network error'
+          });
+        }
+      } else {
+        return rejectWithValue({
+          error: 'Network error'
+        });
+      }
     }
   }
 );
@@ -78,9 +137,21 @@ export const AddProduct = createAsyncThunk(
 
       return response.data;
     } catch (error) {
-      return thunkApi.rejectWithValue({
-        error: 'Api Not found, please check your api url'
-      });
+      if (error.response) { // response aya, means api hit hye
+        if (error.response.data.error) {
+          return thunkApi.rejectWithValue({
+            error: error.response.data.error
+          });
+        } else {
+          return thunkApi.rejectWithValue({ // response aya means api hit hye, func me erro
+            error: 'Network error'
+          });
+        }
+      } else {
+        return thunkApi.rejectWithValue({
+          error: 'Network error'
+        });
+      }
     }
   }
 );
@@ -108,9 +179,21 @@ export const ImportBulkProducts = createAsyncThunk(
 
       return response.data;
     } catch (error) {
-      return thunkApi.rejectWithValue({
-        error: 'Api Not found, please check your api url'
-      });
+      if (error.response) { // response aya, means api hit hye
+        if (error.response.data.error) {
+          return thunkApi.rejectWithValue({
+            error: error.response.data.error
+          });
+        } else {
+          return thunkApi.rejectWithValue({ // response aya means api hit hye, func me erro
+            error: 'Network error'
+          });
+        }
+      } else {
+        return thunkApi.rejectWithValue({
+          error: 'Network error'
+        });
+      }
     }
   }
 );
@@ -153,9 +236,21 @@ export const EditProduct = createAsyncThunk(
 
       return response.data.updatedObject;
     } catch (error) {
-      return thunkApi.rejectWithValue({
-        error: 'there is some error while calling the api'
-      });
+      if (error.response) { // response aya, means api hit hye
+        if (error.response.data.error) {
+          return thunkApi.rejectWithValue({
+            error: error.response.data.error
+          });
+        } else {
+          return thunkApi.rejectWithValue({ // response aya means api hit hye, func me erro
+            error: 'Network error'
+          });
+        }
+      } else {
+        return thunkApi.rejectWithValue({
+          error: 'Network error'
+        });
+      }
     }
   }
 );
@@ -184,9 +279,21 @@ export const DeleteProduct = createAsyncThunk(
       console.log('before calling  ', response.data);
       return response.data
     } catch (error) {
-      return thunkApi.rejectWithValue({
-        error: error.message
-      });
+      if (error.response) { // response aya, means api hit hye
+        if (error.response.data.error) {
+          return thunkApi.rejectWithValue({
+            error: error.response.data.error
+          });
+        } else {
+          return thunkApi.rejectWithValue({ // response aya means api hit hye, func me erro
+            error: 'Network error'
+          });
+        }
+      } else {
+        return thunkApi.rejectWithValue({
+          error: 'Network error'
+        });
+      }
     }
   }
 );
@@ -207,9 +314,21 @@ export const GetTopSellingProducts = createAsyncThunk(
 
       return response.data;
     } catch (error) {
-      return thunkApi.rejectWithValue({
-        error: error.message
-      });
+      if (error.response) { // response aya, means api hit hye
+        if (error.response.data.error) {
+          return thunkApi.rejectWithValue({
+            error: error.response.data.error
+          });
+        } else {
+          return thunkApi.rejectWithValue({ // response aya means api hit hye, func me erro
+            error: 'Network error'
+          });
+        }
+      } else {
+        return thunkApi.rejectWithValue({
+          error: 'Network error'
+        });
+      }
     }
   }
 );
@@ -280,6 +399,18 @@ const AdminProductSlice = createSlice({
       state.status = false;
       state.loader = false;
     },
+    [GetDataLength.fulfilled]: (state, action) => {
+      state.loader = false;
+      state.productsLength = action.payload;
+    },
+    [GetDataLength.pending]: (state) => {
+      state.loader = true;
+    },
+    [GetDataLength.rejected]: (state, { payload }) => {
+      state.loader = false;
+
+      state.productsLength = 0;
+    },
     [GetOrder.fulfilled]: (state, action) => {
       state.data = action.payload;
       state.loader = false;
@@ -291,8 +422,8 @@ const AdminProductSlice = createSlice({
       state.status = false;
     },
 
-    [GetOrder.rejected]: (state, action) => {
-      state.error = action.payload.error;
+    [GetOrder.rejected]: (state, { payload }) => {
+      state.error = payload.error;
       state.loader = false;
       state.status = false;
     },
@@ -305,11 +436,22 @@ const AdminProductSlice = createSlice({
       state.data.push(action.payload.product);
       state.addProductCanvas = false;
       state.loader = false;
-      state.error = 'product has been addedd';
+      notification.success({
+        message: 'Success',
+        description: 'product has been addedd',
+        type: 'success',
+        duration: 2
+      });
     },
 
-    [AddProduct.rejected]: (state, action) => {
-      state.error = action.payload.error;
+    [AddProduct.rejected]: (state, { payload }) => {
+      notification.error({
+        message: payload.error,
+        description: payload.error,
+        type: 'error',
+        duration: 2
+      });
+      state.error = payload.error;
       state.addProductCanvas = false;
       state.loader = false;
     },
@@ -319,24 +461,43 @@ const AdminProductSlice = createSlice({
     [ImportBulkProducts.fulfilled]: (state, action) => {
     },
 
-    [ImportBulkProducts.rejected]: (state, action) => {
+    [ImportBulkProducts.rejected]: (state, { payload }) => {
+      notification.error({
+        message: payload.error,
+        description: payload.error,
+        type: 'error',
+        duration: 2
+      });
     },
 
     [DeleteProduct.fulfilled]: (state, action) => {
-      console.log('in fulfilled,  ', action);
       state.modal = false;
       state.data = state.data.filter(
         (d) => d._id !== action.meta.arg._id
       );
       state.product = {};
       state.loader = false;
+      notification.success({
+        message: 'Success',
+        description: 'product has been Deleted',
+        type: 'success',
+        duration: 2
+      });
     },
 
     [DeleteProduct.pending]: (state, action) => {
+      state.loader = true;
     },
 
-    [DeleteProduct.rejected]: (state, action) => {
-      state.error = action.payload.error;
+    [DeleteProduct.rejected]: (state, { payload }) => {
+      state.error = payload.error;
+      notification.error({
+        message: payload.error,
+        description: payload.error,
+        type: 'error',
+        duration: 2
+      });
+      state.loader = true;
     },
 
     [EditProduct.fulfilled]: (state, action) => {
@@ -353,15 +514,30 @@ const AdminProductSlice = createSlice({
       state.offcanvas = false;
       state.data = updatedData;
       state.product = {};
+      state.loader = false;
+      notification.success({
+        message: 'Success',
+        description: 'product has been Edited',
+        type: 'success',
+        duration: 2
+      });
     },
 
     [EditProduct.pending]: (state, action) => {
+      state.loader = true;
     },
 
-    [EditProduct.rejected]: (state, action) => {
-      state.error = action.payload.error;
+    [EditProduct.rejected]: (state, { payload }) => {
+      notification.error({
+        message: payload.error,
+        description: payload.error,
+        type: 'error',
+        duration: 2
+      });
+      state.error = payload.error;
       state.product = {};
       state.offcanvas = false;
+      state.loader = false;
     },
 
     [GetTopSellingProducts.pending]: (state) => {
