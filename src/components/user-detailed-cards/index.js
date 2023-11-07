@@ -47,7 +47,7 @@ const UserDetailedCards = ({ singleCard }) => {
     updatedCard.size = selectedSize;
     console.log('updated card is   ', updatedCard);
     dispatch(AddToCart(updatedCard));
-    navigate('/shoppingBag');
+    navigate('/user/shoppingBag');
   };
 
   const toggleSize = (size) => {
@@ -213,7 +213,7 @@ const UserDetailedCards = ({ singleCard }) => {
                       addToCarts(singleCard);
                     }
                   : () => {
-                      navigate('/login');
+                      navigate('/auth/login');
                     }
               }
               value="Add to Cart"

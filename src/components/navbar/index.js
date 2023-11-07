@@ -108,7 +108,7 @@ const CustomNavbar = (props) => {
                   className="curson-pointer"
                   id='dropdown-autoclose-true'
                   onClick={ () => {
-                    naviagtion('/login');
+                    naviagtion('/auth/login');
                   }
                   }
                   src={Notification}
@@ -124,9 +124,9 @@ const CustomNavbar = (props) => {
                     className="curson-pointer"
                     onClick={() => {
                       if (!token) {
-                        naviagtion('/login');
+                        naviagtion('/auth/login');
                       } else {
-                        naviagtion('/shoppingBag');
+                        naviagtion('/user/shoppingBag');
                       }
                     }}
                     src={Bag}
@@ -157,7 +157,7 @@ const CustomNavbar = (props) => {
                   <>
                     <NavDropdown.Item
                       onClick={() => {
-                        naviagtion('/o');
+                        naviagtion('/user/o');
                       }}
                     >
                       Orders
@@ -179,7 +179,7 @@ const CustomNavbar = (props) => {
             : (
             <button
               onClick={() => {
-                naviagtion('/login');
+                naviagtion('/auth/login');
               }}
               style={{ textDecoration: 'none' }}
               type="button"

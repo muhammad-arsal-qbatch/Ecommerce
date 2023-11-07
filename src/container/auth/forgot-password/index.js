@@ -43,7 +43,7 @@ const ForgotPassword = () => {
   if (forgotPasswordStatus === true) {
     alert('An email has been sent to you for verification');
     dispatch(ClearError());
-    navigation('/login');
+    navigation('/auth/login');
   }
 
   return (
@@ -80,7 +80,7 @@ const ForgotPassword = () => {
             />
             <div className="form-base">
               <div className="form-base-2">
-                <FormBase text="No, I remember my password" route="Login" />
+                <FormBase text="No, I remember my password" route="auth/Login" />
               </div>
             </div>
           </Form>

@@ -1,77 +1,19 @@
-import PropTypes from 'prop-types';
+import { Route, Routes } from 'react-router-dom';
 
-import { Routes, Route } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import UserRoutes from './user';
+import AuthRoutes from './auth';
+import AdminRoutes from './admin';
+import HomePageRoutes from './homepage';
 
-import Login from '../container/auth/login';
-import ForgotPassword from '../container/auth/forgot-password';
-import NewPassword from '../container/auth/new-password';
-import Signup from '../container/auth/signup';
-
-import AdminProducts from '../container/admin/products';
-import AdminOrder from '../container/admin/orders';
-import AdminDashboard from '../container/admin/dashboard';
-
-import UserHomepage from '../container/user/homepage';
-import Orders from '../container/user/orders';
-import Cart from '../container/user/cart';
-import Checkout from '../container/user/checkout';
-
-import Layout from '../layout';
-
-import CustomNavbar from '../components/navbar';
-
-const CustomRoutes = () => {
-  const token = useSelector((state) => state.authentication.token);
-  const isAdmin = useSelector((state) => state.authentication.isAdmin);
-  if (token) {
-    return (
-      <>
-        {isAdmin
-          ? (
-          <Layout>
-            <Routes>
-              <Route path="/" element={<AdminDashboard />} />
-              <Route path="/ad-p" element={<AdminProducts />} />
-              <Route path="/ad-o" element={<AdminOrder />} />
-              <Route path="*" element={<AdminDashboard />} />
-            </Routes>
-          </Layout>
-            )
-          : (
-          <Layout showSidebar={false}>
-            <Routes>
-              <Route path="/" element={<UserHomepage />} />
-              <Route path="/shoppingBag" element={<Cart />} />
-              <Route path="/checkout" element={<Checkout />} />
-              <Route path="/o" element={<Orders />} />
-              <Route path="*" element={<UserHomepage />} />
-            </Routes>
-          </Layout>
-            )}
-      </>
-    );
-  } else {
-    return (
-      <>
-        <Routes>
-          <Route
-            path="/"
-            element={<UserHomepage cn={<CustomNavbar />} />}
-          />
-          <Route path="/login" element={<Login />} />
-          <Route path="/signup" element={<Signup />} />
-          <Route path="/forgotPassword" element={<ForgotPassword />} />
-          <Route path="/np" element={<NewPassword />} />
-          <Route path="*" element={<Login />} />
-        </Routes>
-      </>
-    );
-  }
-};
-
-CustomRoutes.propTypes = {
-  token: PropTypes.bool
-};
+const CustomRoutes = () => (
+  <Routes>
+    <Route path="/" element={<HomePageRoutes />} />
+    <Route path="/auth/*" element={<AuthRoutes />} />
+    <Route path="/admin/*" element={<AdminRoutes />} />
+    <Route path="/user/*" element={<UserRoutes />} />
+    <Route path="*" element={<div className="empty-state-page">Page Not Found</div>}
+    />
+  </Routes>
+);
 
 export default CustomRoutes;

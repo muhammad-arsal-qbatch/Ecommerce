@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import CustomDropDown from '../dropdown';
 import CustomInput from '../input-field';
 import { GetData } from '../../redux/slices/products';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 import './filterRectangle.css';
 
@@ -66,9 +66,7 @@ const FilterRectangle = () => {
       })
     );
   };
-  useEffect(() => {
 
-  }, [filterObject])
   const handleSort = (sort) => {
     const defaultSorting = Object.values(sort);
     let sortingObj = {};

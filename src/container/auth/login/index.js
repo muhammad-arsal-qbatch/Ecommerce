@@ -81,8 +81,8 @@ const Login = () => {
 
             <div className="form-base">
               <div className="form-base-2">
-                <FormBase text="Forgot password" route="forgotPassword" />
-                <FormBase text="I don't have an account" route="signup" />
+                <FormBase text="Forgot password" route="auth/forgotPassword" />
+                <FormBase text="I don't have an account" route="auth/signup" />
               </div>
             </div>
           </Form>

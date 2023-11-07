@@ -129,7 +129,7 @@ const Signup = () => {
 
             <div className="form-base">
               <div className="form-base-2">
-                <FormBase text="Already have an account!" route="login" />
+                <FormBase text="Already have an account!" route="auth/login" />
               </div>
             </div>
           </Form>

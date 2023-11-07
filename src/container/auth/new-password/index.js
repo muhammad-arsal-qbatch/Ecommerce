@@ -43,7 +43,7 @@ const NewPassword = () => {
   if (emailSentStatus) {
     alert('password reset successful');
     dispatch(ClearError());
-    navigation('/login');
+    navigation('/auth/login');
   }
 
   return (

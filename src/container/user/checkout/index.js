@@ -269,7 +269,7 @@ const Checkout = () => {
               <Image
                 style={{ cursor: 'pointer !important' }}
                 onClick={() => {
-                  navigation('/shoppingBag');
+                  navigation('/user/shoppingBag');
                 }}
                 src={LeftArrow}
               ></Image>

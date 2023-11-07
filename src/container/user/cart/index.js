@@ -34,7 +34,7 @@ const Cart = () => {
     if (shouldGoToCheckout) {
       alert('please add something to cart first');
     } else {
-      navigation('/checkout');
+      navigation('/user/checkout');
     }
   };
 
