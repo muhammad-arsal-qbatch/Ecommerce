@@ -19,7 +19,7 @@ export const PlaceOrder = createAsyncThunk(
   async (body, thunkApi) => {
     try {
       const selectedItems = body.filter((item) => item.selected === true);
-      const userId = localStorage.getItem('userId');
+      const userId = localStorage.getItem('_id');
       const userName = localStorage.getItem('userName');
       const finalItems = {};
       finalItems.userName = userName;
@@ -153,7 +153,7 @@ export const GetOrdersByUserId = createAsyncThunk(
   'ordersSlice/GetOrders',
   async (body, thunkApi) => {
     try {
-      body = localStorage.getItem('userId');
+      body = localStorage.getItem('_id');
       const state = thunkApi.getState();
       const response = await axios.get(
         `http://localhost:5000/orders/getOrders?userId=${body}`,

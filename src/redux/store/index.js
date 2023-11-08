@@ -15,7 +15,6 @@ import DashboardSlice from '../slices/dashboard';
 import NotificationSlice from '../slices/notification';
 
 const authFilter = filter('authentication', ['token', 'isAdmin']);
-console.log('\n\n', 'authFilter', authFilter);
 
 const authPersistConfig = {
   key: 'authentication',

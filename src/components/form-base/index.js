@@ -18,7 +18,7 @@ const FormBase = (props) => {
             navigation('/' + route);
           }}
         >
-          {route}
+          {route.split('/')[1]}
         </a>
       </p>
     </div>

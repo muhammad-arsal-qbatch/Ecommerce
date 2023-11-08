@@ -11,7 +11,7 @@ const CustomRoutes = () => (
     <Route path="/auth/*" element={<AuthRoutes />} />
     <Route path="/admin/*" element={<AdminRoutes />} />
     <Route path="/user/*" element={<UserRoutes />} />
-    <Route path="*" element={<div className="empty-state-page">Page Not Found</div>}
+    <Route path="*" element={<div>Page Not Found</div>}
     />
   </Routes>
 );

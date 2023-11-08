@@ -13,25 +13,20 @@ import { LogoutUser } from '../../redux/slices/auth';
 import { useNavigate } from 'react-router-dom';
 
 import userImage from '../../assets/images/user-image.png';
+import { ReadNotification } from '../../redux/slices/notification';
+
 import Bag from '../../assets/images/Bag.svg';
 import Notification from '../../assets/images/Notification.svg';
 
 import './navbar.css';
-import { useEffect } from 'react';
-import { GetNotifications, ReadNotification } from '../../redux/slices/notification';
-// import NotificationBox from '../notifications-box';
 
 const CustomNavbar = (props) => {
   const dispatch = useDispatch();
-  useEffect(() => {
-    dispatch(GetNotifications())
-  }, []);
-  // const [notificationsBox, setNotificationsBox] = useState(false);
 
   const notifications = useSelector((state) => state.notification?.notifications) || [];
   console.log('notifications for this user is  ', notifications);
 
-  const naviagtion = useNavigate();
+  const navigation = useNavigate();
   const token = useSelector((state) => state.authentication.token);
   const isAdmin = useSelector((state) => state.authentication.isAdmin);
 
@@ -40,7 +35,6 @@ const CustomNavbar = (props) => {
   );
 
   const cart = useSelector((state) => state.shoppingBag.cart);
-  const navigation = useNavigate();
 
   const logoutIt = () => {
     dispatch(LogoutUser());
@@ -52,7 +46,8 @@ const CustomNavbar = (props) => {
       <Container>
         <h2
           onClick={() => {
-            naviagtion('/');
+            console.log('sdasdasdasda\n\nfsdfsdfdsf');
+            navigation('/');
           }}
           className="ecom"
         >
@@ -108,7 +103,7 @@ const CustomNavbar = (props) => {
                   className="curson-pointer"
                   id='dropdown-autoclose-true'
                   onClick={ () => {
-                    naviagtion('/auth/login');
+                    navigation('/auth/login');
                   }
                   }
                   src={Notification}
@@ -124,9 +119,9 @@ const CustomNavbar = (props) => {
                     className="curson-pointer"
                     onClick={() => {
                       if (!token) {
-                        naviagtion('/auth/login');
+                        navigation('/auth/login');
                       } else {
-                        naviagtion('/user/shoppingBag');
+                        navigation('/user/shoppingBag');
                       }
                     }}
                     src={Bag}
@@ -157,7 +152,7 @@ const CustomNavbar = (props) => {
                   <>
                     <NavDropdown.Item
                       onClick={() => {
-                        naviagtion('/user/o');
+                        navigation('/user/orders');
                       }}
                     >
                       Orders
@@ -179,7 +174,7 @@ const CustomNavbar = (props) => {
             : (
             <button
               onClick={() => {
-                naviagtion('/auth/login');
+                navigation('/auth/login');
               }}
               style={{ textDecoration: 'none' }}
               type="button"

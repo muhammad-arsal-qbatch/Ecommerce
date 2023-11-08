@@ -14,6 +14,7 @@ import UserDetailedCards from '../../../components/user-detailed-cards';
 import ErrorModal from '../../../components/error-modal';
 
 import './userHomepage.css';
+import { GetNotifications } from '../../../redux/slices/notification';
 
 const UserHomepage = ({ cn }) => {
   const dispatch = useDispatch();
@@ -46,14 +47,16 @@ const UserHomepage = ({ cn }) => {
   useEffect(() => {
     console.log('limit and prodcuts length', limit, productsLength);
     if (limit - 10 < productsLength) {
+      console.log('i am not called');
       dispatch(GetData({ offset: 0, limit }));
     }
   }, [limit]);
 
   useEffect(() => {
-    dispatch(GetDataLength());
+    console.log('i am called');
     dispatch(GetData({ offset: 0, limit }));
-
+    dispatch(GetNotifications())
+    dispatch(GetDataLength());
     window.addEventListener('scroll', handleInifiniteScroll);
     return () => window.removeEventListener('scroll', handleInifiniteScroll);
   }, [])
@@ -94,7 +97,7 @@ const UserHomepage = ({ cn }) => {
               : (
             <>
               <div className="left-box">
-                {data.map((obj, index) => (
+                {data?.map((obj, index) => (
                   <UserCards
                     cardData={obj}
                     onClick={() => displayRightCard(obj._id)}

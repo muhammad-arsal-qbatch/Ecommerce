@@ -10,7 +10,7 @@ export const ReadNotification = createAsyncThunk('NotificationSlice/readNotifica
     const state = thunkApi.getState();
     try {
       console.log('body is  ', body);
-      const userId = state.authentication.currentUser.userId;
+      const userId = state.authentication.currentUser._id;
       body.userId = userId;
       console.log('body is ', body);
       // eslint-disable-next-line no-unused-vars
@@ -47,7 +47,7 @@ export const GetNotifications = createAsyncThunk('NotificationSlice/getNotificat
   async (_, thunkApi) => {
     try {
       const state = thunkApi.getState();
-      const userId = state.authentication.currentUser.userId;
+      const userId = state.authentication.currentUser._id || '';
       console.log('user id is , ', userId);
 
       const response = await axios.get('http://localhost:5000/notification/getNotifications', {

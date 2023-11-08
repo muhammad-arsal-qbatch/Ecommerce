@@ -68,9 +68,11 @@ const UserDetailedCards = ({ singleCard }) => {
       <div className="user-detailed-card-body">
         <div className="card-head">
           <Image
-            src={`http://localhost:5000/${
+            src= {singleCard.images[0]
+              ? `http://localhost:5000/${
               singleCard.images[largeImagesShow] || singleCard.images[0]
-            }`}
+            }`
+              : '' }
             className="card-image"
           ></Image>
           <div className="head-right">
@@ -105,7 +107,7 @@ const UserDetailedCards = ({ singleCard }) => {
                   </div>
                 ))}
               </div>
-              
+
             <div className="price-box">
               <span className="price-heading"> Price</span>
               <h4 className="price-text">${singleCard.price}</h4>

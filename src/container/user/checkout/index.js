@@ -326,7 +326,6 @@ const Checkout = () => {
               </div>
             </Row>
             <Row>
- 
                   {data.map((d, index) => (
                     <CartItems
                       showBin={false}

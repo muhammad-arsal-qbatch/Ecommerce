@@ -20,7 +20,7 @@ const Orders = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(GetOrders({ userId: currentUser.userId }));
+    dispatch(GetOrders({ userId: currentUser._id }));
   }, []);
 
   const headings = [

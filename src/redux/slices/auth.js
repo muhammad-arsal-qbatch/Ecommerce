@@ -201,7 +201,7 @@ const AuthSlice = createSlice({
       }
 
       state.currentUser = payload.user;
-      localStorage.setItem('userId', payload.user.userId);
+      localStorage.setItem('_id', payload.user._id);
       localStorage.setItem('userName', payload.user.name);
 
       state.error = '';
@@ -210,12 +210,12 @@ const AuthSlice = createSlice({
       console.log('payload is  ', payload);
       state.passwordResetStatus = false;
       state.emailSentStatus = false;
-      state.token = false;
+      state.token = '';
       state.isLoading = false;
       state.error = payload.error;
     },
     [LoginUser.pending]: (state, action) => {
-      state.token = false;
+      state.token = '';
       state.isLoading = true;
     },
     [SignupUser.fulfilled]: (state, { payload }) => {

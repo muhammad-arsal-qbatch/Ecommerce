@@ -12,6 +12,7 @@ import DashboardLineChart from '../../../components/line-chart'
 import '../../../layout/layout.css';
 import './adminDashboard.css';
 import Loader from '../../../components/loader';
+import { GetNotifications } from '../../../redux/slices/notification';
 
 const AdminDashboard = () => {
   const stats = useSelector((state) => state.adminDashboard.stats);
@@ -54,6 +55,7 @@ const AdminDashboard = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
+    dispatch(GetNotifications())
     dispatch(GetStats());
   }, []);
 

@@ -9,11 +9,17 @@ export const AddDeliveryAddress = createAsyncThunk(
   'ordersSlice/addDeliveryAddress',
   async (body, thunkApi) => {
     try {
-      const userId = localStorage.getItem('userId');
+      const state = thunkApi.getState();
+      const userId = localStorage.getItem('_id');
       body.userId = userId;
       const response = await axios.post(
         'http://localhost:5000/users/addDeliveryAddress',
-        body
+        body,
+        {
+          headers: {
+            Authorization: `Bearer ${state.authentication.token}`
+          }
+        }
       );
 
       // thunkApi.dispatch(UpdateCurrentUserDetails(response.data));
@@ -44,11 +50,17 @@ export const AddPaymentMethod = createAsyncThunk(
   'ordersSlice/addPaymentMethod',
   async (body, thunkApi) => {
     try {
-      const userId = localStorage.getItem('userId');
+      const state = thunkApi.getState();
+      const userId = localStorage.getItem('_id');
       body.userId = userId;
       const response = await axios.post(
         'http://localhost:5000/users/addPaymentMethod',
-        body
+        body,
+        {
+          headers: {
+            Authorization: `Bearer ${state.authentication.token}`
+          }
+        }
       );
 
       return response.data;
@@ -76,9 +88,15 @@ export const GetDeliveryAddress = createAsyncThunk(
   'ordersSlice/getDeliveryAddress',
   async (body, thunkApi) => {
     try {
-      const userId = localStorage.getItem('userId');
+      const state = thunkApi.getState();
+      const userId = localStorage.getItem('_id');
       const response = await axios.get(
-        `http://localhost:5000/users/getDelisveryAddress?userId=${userId}`
+        `http://localhost:5000/users/getDelisveryAddress?userId=${userId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${state.authentication.token}`
+          }
+        }
       );
       console.log('all delivery persons are ', response.data);
 
@@ -107,9 +125,15 @@ export const GetAllDeliveryAddress = createAsyncThunk(
   'ordersSlice/getAllDeliveryAddress',
   async (body, thunkApi) => {
     try {
-      const userId = localStorage.getItem('userId');
+      const state = thunkApi.getState();
+      const userId = localStorage.getItem('_id');
       const response = await axios.get(
-        `http://localhost:5000/users/getAllDeliveryAddress?userId=${userId}`
+        `http://localhost:5000/users/getAllDeliveryAddress?userId=${userId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${state.authentication.token}`
+          }
+        }
       );
 
       return response.data;
@@ -137,9 +161,15 @@ export const GetAllPaymentMethods = createAsyncThunk(
   'ordersSlice/getAllPaymentMethods',
   async (body, thunkApi) => {
     try {
-      const userId = localStorage.getItem('userId');
+      const state = thunkApi.getState();
+      const userId = localStorage.getItem('_id');
       const response = await axios.get(
-        `http://localhost:5000/users/getAllPaymentMethods?userId=${userId}`
+        `http://localhost:5000/users/getAllPaymentMethods?userId=${userId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${state.authentication.token}`
+          }
+        }
       );
 
       return response.data;
@@ -162,14 +192,21 @@ export const GetAllPaymentMethods = createAsyncThunk(
     }
   }
 );
+
 export const UpdateDeliveryPerson = createAsyncThunk(
   'ordersSlice/updateDeliveryPerson',
   async (body, thunkApi) => {
     try {
-      const userId = localStorage.getItem('userId');
+      const state = thunkApi.getState();
+      const userId = localStorage.getItem('_id');
       const response = await axios.put(
         'http://localhost:5000/users/updateDeliveryPerson',
-        { userId, body }
+        { userId, body },
+        {
+          headers: {
+            Authorization: `Bearer ${state.authentication.token}`
+          }
+        }
       );
       thunkApi.dispatch(UpdateCurrentUserDetails(response.data));
 
